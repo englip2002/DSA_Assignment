@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.Iterator;
 
 //Tan Eng Lip
 
-public class LinkedList<T> implements ListInterface<T>, Iterator<T> {
+public class LinkedList<T> implements ListInterface<T>, Iterator<T>, Serializable{
 
     private Node firstNode;
     private Node iterNext;
