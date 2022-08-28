@@ -18,7 +18,7 @@ public class Reservation {
         this.reservationStatus = null;
         cart = new Cart();
         reservationCount++;
-        reservationID=generareReservationID();
+        reservationID = generareReservationID();
     }
 
     public void checkOut() {
@@ -48,12 +48,13 @@ public class Reservation {
         return temp;
     }
 
-    public void reserveDetails(String contactNo, String serveLocation, int serveYear, int serveMonth, int serveDay, int serveHour, int serveMin) {
+    public void reserveDetails(String contactNo, String serveLocation, int serveYear, int serveMonth, int serveDay,
+            int serveHour, int serveMin) {
         this.contactNo = contactNo;
         this.serveLocation = serveLocation;
 
         serveTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        serveTime= LocalDateTime.of(serveYear, serveMonth, serveDay, serveHour, serveMin);
+        serveTime = LocalDateTime.of(serveYear, serveMonth, serveDay, serveHour, serveMin);
     }
 
     public boolean cancelReservation() {
@@ -65,28 +66,39 @@ public class Reservation {
         this.reservationStatus = status;
     }
 
-    public String generateBill(){
-        //format the bill
+    public String generateBill() {
+        // format the bill
+        String str = "";
+        str += account.toString() + "\n";
+        str += cart.toString();
+        str += cart.calculateTotal();
+        return str;
+    }
+
+    public String toString() {
+        // the format for reservation history
+        // reservationID, accountID, contactNo, reserveTime, serveTime, serveLocation,
+        // reservationStatus
+        String.format("%10s %10s %15s %15s %15s %20s %10s\n", reservationID, account.getAccountID(), contactNo,
+                reserveTime, serveTime, serveLocation, reservationStatus);
         return " ";
     }
 
-    public String toString(){
-        //the format for reservation history
-        return " ";
-    }
-
-    //getter
-    public Cart getCart(){
+    // getter
+    public Cart getCart() {
         return cart;
     }
 
-    private String generareReservationID(){
+    public int getReservationCount(){
+        return reservationCount;
+    }
+
+    private String generareReservationID() {
         return String.format("R%5d", IDcounter);
     }
 
-    //read reservation
+    // read reservation
 
-    //write reservation
+    // write reservation
 
-    
 }

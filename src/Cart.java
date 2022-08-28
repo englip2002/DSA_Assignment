@@ -18,8 +18,9 @@ public class Cart {
         foods.replace(modifyIndex, tempFood);
     }
 
-    public void deleteDish(int deleteDishIndex){
-        foods.remove(deleteDishIndex);
+    public void deleteFoodInCart(int deleteFoodIndex){
+        foods.remove(deleteFoodIndex);
+        itemCount--;
     }
 
     public int getItemCount(){
@@ -28,6 +29,22 @@ public class Cart {
 
     public ListInterface<FoodInCart> getFoods() {
         return foods;
+    }
+
+    public double calculateTotal(){
+        double total = 0;
+        for(int i =0;i<itemCount;i++){
+            total+=foods.getEntry(i).calculateSubtotal();
+        }
+        return total;
+    }
+
+    public String toString(){
+        String str="";
+        for(int i=0;i<itemCount;i++){
+            str+=String.format("%3d %s %3d %5.2lf\n", (i+1),foods.getEntry(i).toString(),foods.getEntry(i).getQuantity(),foods.getEntry(i).calculateSubtotal());
+        }
+        return str;
     }
 
 

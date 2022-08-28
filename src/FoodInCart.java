@@ -15,8 +15,12 @@ public class FoodInCart {
         return quantity;
     }
 
+    public double calculateSubtotal(){
+        return food.getPrice()*quantity;
+    }
+
     public String toString() {
-        return food.toString() + quantity;
+        return String.format("%10s %5d", food.getName(),quantity);
     }
 
 }
