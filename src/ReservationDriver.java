@@ -18,63 +18,95 @@ public class ReservationDriver {
         return str;
     }
 
-    public Reservation ReservationProcess(Account account) {
+    public void ReservationModule(Account account) {
+        // read file
+        FileHandler reservationFile = new FileHandler("Reservations.dat");
+        ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
+
+        int choice = 0;
         boolean dateValidity;
-        Reservation reservation;
+
         String contactNo, serveLocation;
         String serveDateString, serveTimeString;
 
-        int serveDay, serveMonth, serveYear, serveMin, serveHour;
         LocalDateTime serveTime = null;
         Scanner scanner = new Scanner(System.in);
 
-        if (account != null) {
-            reservation = new Reservation(account);
-            System.out.print("Please enter your contact No: ");
-            contactNo = scanner.nextLine();
-            System.out.print("Please enter your serve location: ");
-            serveLocation = scanner.nextLine();
+        System.out.println("Reservation Module");
+        System.out.println("========================");
+        System.out.println("1. Make Reservation for current account");
+        System.out.println("2. View all reservation history");
 
-            do {
-                dateValidity = true;
-                try {
-                    System.out.print("Enter reserve date (YYYY-MM-DD): ");
-                    serveDateString = scanner.next();
+        switch (choice) {
+            case 1:
+                Reservation reservation = new Reservation(account);
 
-                    System.out.print("Enter reserve time (HH:MM): ");
-                    serveTimeString = scanner.next();
+                //start input data
+                if (account != null) {
+                    do {
+                        System.out.print("Please enter your contact No (XXX-XXXXXXX): ");
+                        contactNo = scanner.nextLine();
+                    } while (contactNo.length() != 11);
 
-                    // formatting the entered and store in serveDateandTime
-                    serveTime = LocalDateTime.of(LocalDate.parse(serveDateString), LocalTime.parse(serveTimeString));
+                    System.out.print("Please enter your serve location: ");
+                    serveLocation = scanner.nextLine();
 
-                } catch (DateTimeParseException e) {
-                    dateValidity = false;
+                    do {
+                        dateValidity = true;
+                        try {
+                            System.out.print("Enter reserve date (YYYY-MM-DD): ");
+                            serveDateString = scanner.next();
+
+                            System.out.print("Enter reserve time (HH:MM): ");
+                            serveTimeString = scanner.next();
+
+                            // formatting the entered and store in serveDateandTime
+                            serveTime = LocalDateTime.of(LocalDate.parse(serveDateString),
+                                    LocalTime.parse(serveTimeString));
+
+                        } catch (DateTimeParseException e) {
+                            dateValidity = false;
+                        }
+
+                        // print error message
+
+                        if (dateValidity == false)
+                            System.out.println("Invalid Date Format! Please Re-enter.\n");
+
+                    } while (dateValidity == false);
+
+                    // input data into reservation
+                    reservation.reserveDetails(contactNo, serveLocation, serveTime);
+
+                    // print menu
+
+                    // let user to choose
+
+                    // store into cart
+
+                    // display cart
+
+                    // modify cart
+
+                    // confirm (print bill)
+
+                    scanner.close();
+                    // if confirmed, add into array and write into file, else discard
+                    reservationList.add(reservation);
+                    reservationFile.write(reservationList);
+
+                } else {
+                    scanner.close();
                 }
+            case 2:
 
-                // print error message
-
-                if (dateValidity == false)
-                    System.out.println("Invalid Date Format! Please Re-enter.\n");
-
-            } while (dateValidity == false);
-
-            //input data into reservation
-            reservation.reserveDetails(contactNo, serveLocation, serveTime);
-
-            //print menu
-
-            //let user to choose
-
-            //store into cart
-
-            //confirm (print bill)
-
-            scanner.close();
-            //return Reservation
-            return reservation;
-        } else {
-            scanner.close();
-            return null;
+                System.out.println(
+                        String.format("%10s %10s %15s %15s %15s %20s %10s\n", "reservationID", "AccountID", "ContactNo",
+                                "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
+                for (int i = 0; i < reservationList.getNumberOfEntries(); i++) {
+                    System.out.println(reservationList.getEntry(i).toString());
+                }
+                System.out.println("Total Number of Reservation: " + reservationList.getNumberOfEntries());
         }
     }
 }
