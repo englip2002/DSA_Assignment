@@ -99,7 +99,6 @@ public class ReservationDriver {
                     scanner.close();
                 }
             case 2:
-
                 System.out.println(
                         String.format("%10s %10s %15s %15s %15s %20s %10s\n", "reservationID", "AccountID", "ContactNo",
                                 "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));

@@ -1,25 +1,25 @@
 public class Cart {
-    private ListInterface<FoodInCart> foods;
+    private ListInterface<FoodInCart> foodsInCart;
     private int itemCount;
 
     public Cart(){
-        foods = new LinkedList<FoodInCart>();
+        foodsInCart = new LinkedList<FoodInCart>();
         itemCount=0;
     }
 
     public void addToCart(MenuItem food, int quantity){
         FoodInCart tempFood = new FoodInCart(food, quantity);
-        foods.add(tempFood);
+        foodsInCart.add(tempFood);
         itemCount++;
     }
 
     public void modifyCart(int modifyIndex, MenuItem modifiedFood, int modifiedQuantity){
         FoodInCart tempFood = new FoodInCart(modifiedFood, modifiedQuantity);
-        foods.replace(modifyIndex, tempFood);
+        foodsInCart.replace(modifyIndex, tempFood);
     }
 
     public void deleteFoodInCart(int deleteFoodIndex){
-        foods.remove(deleteFoodIndex);
+        foodsInCart.remove(deleteFoodIndex);
         itemCount--;
     }
 
@@ -28,13 +28,13 @@ public class Cart {
     }
 
     public ListInterface<FoodInCart> getFoods() {
-        return foods;
+        return foodsInCart;
     }
 
     public double calculateTotal(){
         double total = 0;
         for(int i =0;i<itemCount;i++){
-            total+=foods.getEntry(i).calculateSubtotal();
+            total+=foodsInCart.getEntry(i).calculateSubtotal();
         }
         return total;
     }
@@ -42,7 +42,7 @@ public class Cart {
     public String toString(){
         String str="";
         for(int i=0;i<itemCount;i++){
-            str+=String.format("%3d %s %3d %5.2lf\n", (i+1),foods.getEntry(i).toString(),foods.getEntry(i).getQuantity(),foods.getEntry(i).calculateSubtotal());
+            str+=String.format("%3d %s %3d %5.2lf\n", (i+1),foodsInCart.getEntry(i).toString(),foodsInCart.getEntry(i).getQuantity(),foodsInCart.getEntry(i).calculateSubtotal());
         }
         return str;
     }
