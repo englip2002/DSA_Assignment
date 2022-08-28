@@ -1,5 +1,4 @@
 //Tan Eng Lip
-//ss
 public interface ListInterface<T> {
 
     /**
