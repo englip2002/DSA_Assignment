@@ -15,11 +15,11 @@ import java.util.Scanner;
  */
 public class Menu {
 
-    //Properties
+    // Properties
     private SetInterface<Category> dishCategory;
     SetInterface<MenuItem> menuItem;
 
-    //Construtor
+    // Construtor
     public Menu() {
         dishCategory = new ArraySet<Category>();
     }
@@ -31,13 +31,13 @@ public class Menu {
     public void setDishCategory(ArraySet<Category> dishCategory) {
         this.dishCategory = dishCategory;
     }
-    
-    //To add the Cateory into the menu (Separate the category) 
-     public void addCategory(Category category) {
+
+    // To add the Cateory into the menu (Separate the category)
+    public void addCategory(Category category) {
         dishCategory.add(category);
     }
-    
-    //User add dish
+
+    // User add dish
     public boolean addDish(MenuItem dishItem) {
         if (dishItem.getDishCategory() == 'A') {
             dishCategory.getElement()[0].addDish(dishItem);
@@ -57,8 +57,8 @@ public class Menu {
 
     }
 
-    //Remove menu item
-     public boolean removeDish(MenuItem dishItem) {
+    // Remove menu item
+    public boolean removeDish(MenuItem dishItem) {
         if (dishItem.getDishCategory() == 'A') {
             dishCategory.getElement()[0].removeDish(dishItem);
             return true;
@@ -76,17 +76,17 @@ public class Menu {
         }
 
     }
-    
-    //modify (Category also got one modify method)
-     /*
-     Step 1 : Print category to user to choose
-     2: Print categoty der food
-     3: choose 
-     4: index 
+
+    // modify (Category also got one modify method)
+    /*
+     * Step 1 : Print category to user to choose
+     * 2: Print categoty der food
+     * 3: choose
+     * 4: index
      */
-     
-     public void DisplayMenuChoice(){
-        
+
+    public void DisplayMenuChoice() {
+
         System.out.println("Please select the categories: ");
         System.out.println("1. Appertizer");
         System.out.println("2. Main Course");
@@ -94,89 +94,86 @@ public class Menu {
         System.out.println("4. Dessert");
         System.out.print("Choice: ");
     }
-    
-    //Modify menu item
+
+    // Modify menu item
     public boolean ModifyMenuItem() {
-        DisplayMenuChoice();
-        
+        int userDishChoice;
         Scanner sc = new Scanner(System.in);
-        
+
+        DisplayMenuChoice();
         int choice = sc.nextInt();
-        
-        if(choice == 1) { //Print Appertizer dishes 
-            dishCategory.getElement()[0].getDishes().getElement()[0].ModifyMenuItem(); //menu item array
+        MenuItem modifiedMenu = new MenuItem();
+
+        if (choice == 1) { // Print Appertizer dishes
+            displayDish(0);
+            System.out.print("Enter your choice: ");
+            userDishChoice = sc.nextInt();
+            dishCategory.getElement()[0].ModifyMenuItem(modifiedMenu, userDishChoice);
         }
-            
-        }
-        
-//    
-    private void displayDish(SetInterface<Category> dishCategory){
-        for(int i = 0; i < dishCategory.getElement()[i].getCounter(); i++){
-                System.out.println(dishCategory.getElement()[i].getDishCategory().toString()); //Got problem
-            }
-    }
-    
-    public SetInterface<MenuItem> SearchMenuItem(MenuItem dishItem){
-        
+
+        sc.close();
+        return true;
+
     }
 
-    //Searching Menu item item binary Search? 
-    //Sorted or unsorted 
-//    public Set<MenuItem> searchItemByName(String dishName){
-//        for(int i = 0; i < menuItem.  )
-//    }
-    
-     
-     
-     
-     //Search by Name 
-     
+    private void displayDish(int categoryIndex) {
+        Category temp = dishCategory.getElement()[categoryIndex];
 
-    
+        for (int i = 0; i < temp.getDishes().getNumberOfEntries(); i++) {
+            System.out.println(temp.getDishes().getElement()[i].toString());
+        }
+    }
 
-    
-    
-    //Print the menu item 
-//Example: 
-//Main Course: //CategoryName()
-//
-//Dish ID           : MM0001
-//Dish Name         : Mushroom Chicken Chop Rice
-//Dish Price        : RM 8.50
-//Dish Description  : Chicken chop with mushroom sauce and white rice 
-//
-//::
-//
-//Beverage:
-//
-//Dish ID           : MB0001
-//Dish Name         : Ice Lemon Tea
-//Dish Price        : RM 5.50
-//Dish Description  : - 
-//
-//Appertizer:
-//
-//Dish ID           : MA0001
-//Dish Name         : Banana Ice Cream Boat
-//Dish Price        : RM 10.50
-//Dish Description  : 2 flavor of ice cream and chocolate biscuits 
+    public SetInterface<MenuItem> SearchMenuItem(MenuItem dishItem) {
+
+    }
+
+    // Searching Menu item item binary Search?
+    // Sorted or unsorted
+    // public Set<MenuItem> searchItemByName(String dishName){
+    // for(int i = 0; i < menuItem. )
+    // }
+
+    // Search by Name
+
+    // Print the menu item
+    // Example:
+    // Main Course: //CategoryName()
+    //
+    // Dish ID : MM0001
+    // Dish Name : Mushroom Chicken Chop Rice
+    // Dish Price : RM 8.50
+    // Dish Description : Chicken chop with mushroom sauce and white rice
+    //
+    // ::
+    //
+    // Beverage:
+    //
+    // Dish ID : MB0001
+    // Dish Name : Ice Lemon Tea
+    // Dish Price : RM 5.50
+    // Dish Description : -
+    //
+    // Appertizer:
+    //
+    // Dish ID : MA0001
+    // Dish Name : Banana Ice Cream Boat
+    // Dish Price : RM 10.50
+    // Dish Description : 2 flavor of ice cream and chocolate biscuits
     public String displayMenu() {
         String str = "";
         for (int i = 0; i < dishCategory.getNumberOfEntries(); i++) {
             if (dishCategory.getElement()[i].getCategoryName() == 'M') {
                 System.out.println("Main Course: \n");
-            }
-            else if(dishCategory.getElement()[i].getCategoryName() == 'A'){
+            } else if (dishCategory.getElement()[i].getCategoryName() == 'A') {
                 System.out.println("Appertizer: \n");
-            }
-            else if (dishCategory.getElement()[i].getCategoryName() == 'B') {
+            } else if (dishCategory.getElement()[i].getCategoryName() == 'B') {
                 System.out.println("Beverage: \n");
-            }
-            else {
+            } else {
                 System.out.println("Dessert: \n");
             }
             for (int j = 0; j < dishCategory.getElement()[i].getCounter(); j++) {
-                str += dishCategory.getElement()[i].getDishCategory().getElement()[j].toString() + "\n";
+                str += dishCategory.getElement()[i].getDishes().getElement()[j].toString() + "\n";
             }
         }
         return str;

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Assignment;
 
 /**
 Author: KONG ZHI LIN
@@ -115,18 +114,6 @@ public class ArraySet<T> implements SetInterface<T>{
             return true;
         }
         return false;
-    }
-    
-    @Override
-    public String toString(){
-        String out = "";
-        
-        for(int idx = 0; idx<numberOfEntries; idx++){
-            out += menuArray[idx] + " ";
-            
-        }
-        out += "\n";
-        return out;
     }
     
     @Override

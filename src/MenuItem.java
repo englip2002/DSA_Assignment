@@ -57,19 +57,19 @@ public class MenuItem {
         return dishCategory;
     }
     
-    public void setDishName(){
+    public void setDishName(String dishName){
         this.dishName = dishName;
     }
     
-    public void setDishPrice(){
+    public void setDishPrice(double dishPrice){
         this.dishPrice = dishPrice;
     }
     
-    public void setDishDescription(){
+    public void setDishDescription(String dishDescription){
         this.dishDescription = dishDescription;
     }
     
-    public void setDishCategory(){
+    public void setDishCategory(char dishCategory){
         this.dishCategory = dishCategory;
     }
     
@@ -85,10 +85,6 @@ public class MenuItem {
         }
         else 
             return String.format("D%5d", dishCounter);
-    }
-    
-    public boolean ModifyMenuItem(){
-        return true;
     }
     
     public String toString(){

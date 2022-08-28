@@ -11,10 +11,10 @@
 public class Category {
     private ArraySet<MenuItem> dishes;
     private char categoryName;
-    private static int counter = 0; 
-    
-    public Category(char categoryName){
-         this.categoryName = categoryName;
+    private static int counter = 0;
+
+    public Category(char categoryName) {
+        this.categoryName = categoryName;
         dishes = new ArraySet<MenuItem>();
     }
 
@@ -25,25 +25,31 @@ public class Category {
     public ArraySet<MenuItem> getDishes() {
         return dishes;
     }
-    
-     public void addDish(MenuItem dish){
+
+    public void addDish(MenuItem dish) {
         dishes.add(dish);
         counter++;
     }
-     
-     public void removeDish(MenuItem dish){
-         dishes.remove(dish);
-         counter--;
-     }
-     
-//      public void modifyDish(MenuItem dish){
-//          dishes.
-//      }
-     
-     public int getCounter(){
-         return counter;
-     }   
-     
-     
-    
+
+    public void removeDish(MenuItem dish) {
+        dishes.remove(dish);
+        counter--;
+    }
+
+    //index = index of dishes in category
+    //dish = new modified dishes
+    public boolean ModifyMenuItem(MenuItem dish, int index) {
+        dishes.remove(dishes.getElement()[index]);
+        dishes.add(dish);
+        return true;
+    }
+
+    // public void modifyDish(MenuItem dish){
+    // dishes.
+    // }
+
+    public int getCounter() {
+        return counter;
+    }
+
 }
