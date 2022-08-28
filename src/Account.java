@@ -65,11 +65,11 @@ public class Account {
     public String toAccountDetails() {
         String accountDetails = "Account ID: " + accountID + "\nName: " + getFullName() + "\nGender: " + gender + "\nDate of Birth: " + dob + "\nAccount Type: " + accountType + "\nReservation List: ";
         if (reservationList != null) {
-//            for (int i = 0; i < reservationList.getNumberOfEntries(); i++) {
-//                if (reservationList.getEntry(i).getAccount().getAccountID().matches(accountID)) {
-//                    accountDetails += reservationList.getEntry(i).getReservationID() + "\n";
-//                }
-//            }
+/*            for (int i = 0; i < reservationList.getNumberOfEntries(); i++) {
+                if (reservationList.getEntry(i).getAccount().getAccountID().matches(accountID)) {
+                    accountDetails += reservationList.getEntry(i).getReservationID() + "\n";
+                }
+            }*/
         } else {
             accountDetails += "No Reservation";
         }
