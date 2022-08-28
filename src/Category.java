@@ -1,44 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Assignment;
+
+/**
+ *
+ * @author User
+ */
 public class Category {
-    private String categoryName;
-    private ListInterface<MenuItem> menuCategory;
-    private static int count=0;
-
-    public Category(String categoryName){
-        this.categoryName=categoryName;
-        menuCategory=new LinkedList<MenuItem>();
+    private ArraySet<MenuItem> dishes;
+    private char categoryName;
+    private static int counter = 0; 
+    
+    public Category(char categoryName){
+         this.categoryName = categoryName;
+        dishes = new ArraySet<MenuItem>();
     }
 
-    public void addFood(MenuItem food){
-        menuCategory.add(food);
-        count++;
-    }
-
-    /**
-     * @return String return the categoryName
-     */
-    public String getCategoryName() {
+    public char getCategoryName() {
         return categoryName;
     }
 
-    /**
-     * @param categoryName the categoryName to set
-     */
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public ArraySet<MenuItem> getDishes() {
+        return dishes;
     }
-
-    /**
-     * @return ListInterface<MenuItem> return the menuCategory
-     */
-    public ListInterface<MenuItem> getMenuCategory() {
-        return menuCategory;
+    
+     public void addDish(MenuItem dish){
+        dishes.add(dish);
+        counter++;
     }
-
-    /**
-     * @param menuCategory the menuCategory to set
-     */
-    public void setMenuCategory(ListInterface<MenuItem> menuCategory) {
-        this.menuCategory = menuCategory;
-    }
-
+     
+     public void removeDish(MenuItem dish){
+         dishes.remove(dish);
+         counter--;
+     }
+     
+//      public void modifyDish(MenuItem dish){
+//          dishes.
+//      }
+     
+     public int getCounter(){
+         return counter;
+     }   
+     
+     
+    
 }
