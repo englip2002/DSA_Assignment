@@ -48,13 +48,12 @@ public class Reservation {
         return temp;
     }
 
-    public void reserveDetails(String contactNo, String serveLocation, int serveYear, int serveMonth, int serveDay,
-            int serveHour, int serveMin) {
+    public void reserveDetails(String contactNo, String serveLocation, LocalDateTime serveTime) {
         this.contactNo = contactNo;
         this.serveLocation = serveLocation;
 
         serveTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        serveTime = LocalDateTime.of(serveYear, serveMonth, serveDay, serveHour, serveMin);
+        this.serveTime = serveTime;
     }
 
     public boolean cancelReservation() {
