@@ -78,9 +78,9 @@ public class Reservation {
         // the format for reservation history
         // reservationID, accountID, contactNo, reserveTime, serveTime, serveLocation,
         // reservationStatus
-        String.format("%10s %10s %15s %15s %15s %20s %10s\n", reservationID, account.getAccountID(), contactNo,
+        return String.format("%10s %10s %15s %15s %15s %20s %10s\n", reservationID, account.getAccountID(), contactNo,
                 reserveTime, serveTime, serveLocation, reservationStatus);
-        return " ";
+        
     }
 
     // getter
@@ -92,12 +92,18 @@ public class Reservation {
         return reservationCount;
     }
 
+    public Account getAccount(){
+        return account;
+    }
+
+    public String getReservationID(){
+        return reservationID;
+    }
+
     private String generareReservationID() {
         return String.format("R%5d", IDcounter);
     }
 
-    // read reservation
 
-    // write reservation
 
 }
