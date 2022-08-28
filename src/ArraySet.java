@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Assignment;
 
 /**
 Author: KONG ZHI LIN
@@ -16,13 +17,13 @@ public class ArraySet<T> implements SetInterface<T>{
     private static final int arraySize = 50;
     
     //Class attribute
-    private T[] menuArray;
+    private T[] array;
     private int numberOfEntries;
     
     //Constructor 
     public ArraySet(){
         numberOfEntries = 0;
-        menuArray = (T[]) new Object[arraySize];
+        array = (T[]) new Object[arraySize];
     }
     
     @Override
@@ -34,13 +35,13 @@ public class ArraySet<T> implements SetInterface<T>{
         }
         
         //Setp 2: check if newElement is part of array 
-        for(T dish: menuArray){
+        for(T dish: array){
             if (dish == newElement)
                 return false; //if same means already exist in set (cannot add again)          
         }
         
         //Step 3: add Element to array 
-        menuArray[numberOfEntries] = newElement;
+        array[numberOfEntries] = newElement;
         numberOfEntries++;
         
          return true;
@@ -49,7 +50,7 @@ public class ArraySet<T> implements SetInterface<T>{
     @Override
      public boolean remove(T anElement) {
         for (int i = 0; i < numberOfEntries; i++) {
-            if (menuArray[i] == anElement) { //check if element exists
+            if (array[i] == anElement) { //check if element exists
                 removeGap(i+1); 
                 //remove last entires
                 numberOfEntries--;
@@ -66,7 +67,7 @@ public class ArraySet<T> implements SetInterface<T>{
         //check every element
         for (T item1 : (T[]) anotherSet.getElement()) {
             isSubset = false;
-            for (T item2 : menuArray) {
+            for (T item2 : array) {
                 if (item1 == item2) {
                     isSubset = true;
                 }
@@ -92,7 +93,7 @@ public class ArraySet<T> implements SetInterface<T>{
         SetInterface intersactionSet = new ArraySet<T>();
         //find the same element
         for (T item1 : (T[]) anotherSet.getElement()) {
-            for (T item2 : menuArray) {
+            for (T item2 : array) {
                 if (item1 == item2) 
                     intersactionSet.add(item1);
             }
@@ -110,7 +111,7 @@ public class ArraySet<T> implements SetInterface<T>{
     
     @Override
     public boolean isFull(){
-        if(numberOfEntries == menuArray.length){
+        if(numberOfEntries == array.length){
             return true;
         }
         return false;
@@ -118,7 +119,7 @@ public class ArraySet<T> implements SetInterface<T>{
     
     @Override
     public T[] getElement() {
-        return menuArray;
+        return array;
     }
     
     public int getNumberOfEntries(){
@@ -128,10 +129,10 @@ public class ArraySet<T> implements SetInterface<T>{
     
     private void expandArraySize(){
         
-        T[] tempArray = menuArray;
-        menuArray = (T[]) new Object[menuArray.length * 2];
+        T[] tempArray = array;
+        array = (T[]) new Object[array.length * 2];
         for(int i=0; i<tempArray.length; i++)
-            menuArray[i] = tempArray[i];
+            array[i] = tempArray[i];
     }
     
     //To move the element 1 place front 
@@ -141,7 +142,7 @@ public class ArraySet<T> implements SetInterface<T>{
         int lastIndex = numberOfEntries - 1;
 
         for (int index = removedIndex; index < lastIndex; index++) {
-          menuArray[index] = menuArray[index + 1];
+          array[index] = array[index + 1];
         }
     }
     

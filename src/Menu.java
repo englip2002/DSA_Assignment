@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Assignment;
 
 import java.util.Scanner;
 
@@ -14,7 +15,6 @@ import java.util.Scanner;
  *
  */
 public class Menu {
-
     // Properties
     private SetInterface<Category> dishCategory;
     SetInterface<MenuItem> menuItem;
@@ -77,64 +77,125 @@ public class Menu {
 
     }
 
-    // modify (Category also got one modify method)
-    /*
-     * Step 1 : Print category to user to choose
-     * 2: Print categoty der food
-     * 3: choose
-     * 4: index
-     */
-
-    public void DisplayMenuChoice() {
-
-        System.out.println("Please select the categories: ");
-        System.out.println("1. Appertizer");
-        System.out.println("2. Main Course");
-        System.out.println("3. Beverage");
-        System.out.println("4. Dessert");
-        System.out.print("Choice: ");
+   //to display a category menu for user
+    private void displayCategoryMenuChoice() {
+        
+            System.out.println("Please select the categories: ");
+            System.out.println("1. Appertizer");
+            System.out.println("2. Main Course");
+            System.out.println("3. Beverage");
+            System.out.println("4. Dessert");
+            System.out.print("Enetr your choice: ");
+        
+    }
+    
+    // this method us used to print and get input from user of the modify menu item detail
+    private MenuItem modifyMenuItemDetail(){
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Please enter new informations of dish: ");
+        System.out.print("Dish Category: ");
+        char newCategory = sc.next().charAt(0);
+        System.out.println("Dish Name: ");
+        String newName = sc.nextLine();
+        System.out.println("Dish Price: ");
+        double newPrice = sc.nextDouble();
+        System.out.println("Dish Description: ");
+        String newDescription = sc.nextLine();
+        
+         MenuItem modifiedMenu = new MenuItem(newCategory, newName, newPrice, newDescription);
+         
+         return modifiedMenu;
     }
 
     // Modify menu item
-    public boolean ModifyMenuItem() {
+    public boolean modifyMenuItem() {
         int userDishChoice;
         Scanner sc = new Scanner(System.in);
-
-        DisplayMenuChoice();
-        int choice = sc.nextInt();
         MenuItem modifiedMenu = new MenuItem();
 
-        if (choice == 1) { // Print Appertizer dishes
-            displayDish(0);
+        displayCategoryMenuChoice();
+        int userCategoryChoice = sc.nextInt();
+        
+        if (userCategoryChoice == 1) { // Print Appertizer dishes
+            System.out.println("Please select the dish you would like to modify: ");
+            displayMenuItem(userCategoryChoice- 1);
             System.out.print("Enter your choice: ");
             userDishChoice = sc.nextInt();
-            dishCategory.getElement()[0].ModifyMenuItem(modifiedMenu, userDishChoice);
+            modifiedMenu = modifyMenuItemDetail();
+            
+            String newID = modifiedMenu.getDishID();  //id how to store back??
+            dishCategory.getElement()[0].modifyMenuItem(modifiedMenu, userDishChoice);
+        }
+        else if (userCategoryChoice == 2) { 
+            System.out.println("Please select the dish you would like to modify: ");
+            displayMenuItem(userCategoryChoice- 1);
+            System.out.print("Enter your choice: ");
+            userDishChoice = sc.nextInt();
+            modifiedMenu = modifyMenuItemDetail();
+            
+            String newID = modifiedMenu.getDishID();  //id how to store back??
+            dishCategory.getElement()[1].modifyMenuItem(modifiedMenu, userDishChoice);
+        }
+        else if (userCategoryChoice == 3) {
+            System.out.println("Please select the dish you would like to modify: ");
+            displayMenuItem(userCategoryChoice- 1);
+            System.out.print("Enter your choice: ");
+            userDishChoice = sc.nextInt();
+            modifiedMenu = modifyMenuItemDetail();
+            
+            String newID = modifiedMenu.getDishID();  //id how to store back??
+            dishCategory.getElement()[2].modifyMenuItem(modifiedMenu, userDishChoice);
+        }
+        else if (userCategoryChoice == 4) {
+            System.out.println("Please select the dish you would like to modify: ");
+            displayMenuItem(userCategoryChoice- 1);
+            System.out.print("Enter your choice: ");
+            userDishChoice = sc.nextInt();
+            modifiedMenu = modifyMenuItemDetail();
+            
+            String newID = modifiedMenu.getDishID();  //id how to store back??
+            dishCategory.getElement()[3].modifyMenuItem(modifiedMenu, userDishChoice);
         }
 
         sc.close();
         return true;
 
     }
-
-    private void displayDish(int categoryIndex) {
+    
+    //To display specific category menu item
+    private void displayMenuItem(int categoryIndex) {
         Category temp = dishCategory.getElement()[categoryIndex];
 
         for (int i = 0; i < temp.getDishes().getNumberOfEntries(); i++) {
-            System.out.println(temp.getDishes().getElement()[i].toString());
+            System.out.println("1. " + temp.getDishes().getElement()[i].toString());
         }
     }
 
-    public SetInterface<MenuItem> SearchMenuItem(MenuItem dishItem) {
+    //Search method 
+    public boolean SearchMenuItem() {
         
+        Scanner sc = new Scanner(System.in);
+        
+        displayCategoryMenuChoice();
+        int userCategoryChice = sc.nextInt();
+        
+        System.out.print("Please enter the name of the dish: ");
+        String dishName = sc.nextLine();
+        
+        Category temp = dishCategory.getElement()[userCategoryChice - 1];
+        
+        for (int i = 0; i < temp.getDishes().getNumberOfEntries(); i++) {
+            if(temp.getDishes().getElement()[i].getDishName() == dishName){
+                System.out.println("Dish is found!!");
+                System.out.println(temp.getDishes().getElement()[i].toString());
+                return true;
+            }
+            
+        }
+       
+        return false;
     }
-
-    // Searching Menu item item binary Search?
-    // Sorted or unsorted
-    // public Set<MenuItem> searchItemByName(String dishName){
-    // for(int i = 0; i < menuItem. )
-    // }
-
-    // Search by Name
 
     // Print the menu item
     // Example:

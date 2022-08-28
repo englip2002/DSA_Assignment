@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Assignment;
 
 /**
  *
@@ -38,15 +39,11 @@ public class Category {
 
     //index = index of dishes in category
     //dish = new modified dishes
-    public boolean ModifyMenuItem(MenuItem dish, int index) {
-        dishes.remove(dishes.getElement()[index]);
+    public boolean modifyMenuItem(MenuItem dish, int index) {
+        dishes.remove(dishes.getElement()[index - 1]);
         dishes.add(dish);
         return true;
     }
-
-    // public void modifyDish(MenuItem dish){
-    // dishes.
-    // }
 
     public int getCounter() {
         return counter;
