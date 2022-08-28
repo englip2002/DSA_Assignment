@@ -1,13 +1,14 @@
+
 // ChiewHongKuang
+import java.io.Serializable;
 
 /**
  * A public class that implements the ADT dictionary by using hashing and
- * separate chaining to resolve collisions.
- * The dictionary is not sorted and has distinct search keys.
- * DEFAULT_SIZE (TABLE SIZE) = 101 == Prime Number
+ * separate chaining to resolve collisions. The dictionary is not sorted and has
+ * distinct search keys. DEFAULT_SIZE (TABLE SIZE) = 101 == Prime Number
  * MAX_LOAD_FACTOR (LAMBDA) = 0.9 < 1.0
  */
-public class HashedDictionary<K, V> implements DictionaryInterface<K, V> {
+public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serializable {
 
     private Node<K, V>[] hashTable;
     private int numberOfEntries;
@@ -228,11 +229,8 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V> {
 
     /**
      * A public method that use to get all the keys in the dictionary.
-     *
-     * @return: A list of String that consists of the keys in the dictionary.
      */
-    public K[] getKeys() {
-        K[] keys = null;
+    public void getKeys(K[] keys) {
         Node<K, V> currentNode = null;
         int j = 0;
         // STEP 1: Search through the hash table to find the Node Objects that consists of key.
@@ -245,14 +243,13 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V> {
                 currentNode = currentNode.next;
             }
         }
-        return keys;
     }
 
     /**
      * A private class that create Node Object to store the dictionary entity
      * and the pointer to the next Node Object.
      */
-    private class Node<S, T> {
+    private class Node<S, T> implements Serializable {
 
         private S key;
         private T value;

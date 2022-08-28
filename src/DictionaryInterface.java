@@ -1,9 +1,8 @@
-// ChiewHongKuang
 
+// ChiewHongKuang
 /**
  * An interface for the ADT dictionary having distinct search keys.
  */
-
 public interface DictionaryInterface<K, V> {
 
     /**

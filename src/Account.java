@@ -1,10 +1,9 @@
+
 // ChiewHongKuang
-
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Duration;
 
-public class Account {
+public class Account implements Serializable {
 
     private String accountID;
     private String password;
@@ -14,10 +13,10 @@ public class Account {
     private LocalDate dob;
     private String accountType;
     private boolean isLogin;
-    private LocalDateTime loginTime;
     private LinkedList<Reservation> reservationList;
     private static int noOfCustomer = 0;
     private static int noOfAdmin = 0;
+    private static int iDCount = 0;
 
     public Account(String accountID, String password, String firstName, String lastName, String gender, LocalDate dob, String accountType) {
         this.accountID = accountID;
@@ -28,13 +27,25 @@ public class Account {
         this.dob = dob;
         this.accountType = accountType;
         isLogin = false;
-        loginTime = null;
         reservationList = null;
         if (this.accountType.matches("Admin")) {
             noOfAdmin++;
         } else {
             noOfCustomer++;
         }
+        iDCount++;
+    }
+
+    public Account(String accountID, String password, String firstName, String lastName, String gender, LocalDate dob, String accountType, boolean isLogin, LinkedList<Reservation> reservationList) {
+        this.accountID = accountID;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.dob = dob;
+        this.accountType = accountType;
+        this.isLogin = isLogin;
+        this.reservationList = reservationList;
     }
 
     public String getAccountID() {
@@ -45,31 +56,62 @@ public class Account {
         return firstName + " " + lastName;
     }
 
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public boolean getIsLogin() {
+        return isLogin;
+    }
+
+    public LinkedList<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public static int getNoOfAdmin() {
+        return noOfAdmin;
+    }
+
+    public static void setNoOfAdmin(int newNoOfAdmin) {
+        noOfAdmin = newNoOfAdmin;
+    }
+
+    public static int getNoOfCustomer() {
+        return noOfCustomer;
+    }
+
+    public static void setNoOfCustomer(int newNoOfCustomer) {
+        noOfCustomer = newNoOfCustomer;
+    }
+
+    public static int getIDCount() {
+        return iDCount;
+    }
+
     public void logIn() {
         isLogin = true;
-        loginTime = LocalDateTime.now();
     }
 
-    public long logOut() {
-        return Duration.between(loginTime, LocalDateTime.now()).toMinutes();
+    public void logOut() {
+        isLogin = false;
     }
 
-    public void resetPassword(String newPassword) {
-        password = newPassword;
+    public boolean isAdmin() {
+        return accountType.matches("Admin");
     }
 
-    public boolean validateLogin(String inputPassword) {
+    public boolean validatePassword(String inputPassword) {
         return inputPassword.matches(password);
     }
 
     public String toAccountDetails() {
         String accountDetails = "Account ID: " + accountID + "\nName: " + getFullName() + "\nGender: " + gender + "\nDate of Birth: " + dob + "\nAccount Type: " + accountType + "\nReservation List: ";
         if (reservationList != null) {
-/*            for (int i = 0; i < reservationList.getNumberOfEntries(); i++) {
+            for (int i = 0; i < reservationList.getNumberOfEntries(); i++) {
                 if (reservationList.getEntry(i).getAccount().getAccountID().matches(accountID)) {
                     accountDetails += reservationList.getEntry(i).getReservationID() + "\n";
                 }
-            }*/
+            }
         } else {
             accountDetails += "No Reservation";
         }
