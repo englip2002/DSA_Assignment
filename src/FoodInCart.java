@@ -15,12 +15,12 @@ public class FoodInCart {
         return quantity;
     }
 
-    public double calculateSubtotal(){
-        return food.getDishPrice()*quantity;
+    public double calculateSubtotal() {
+        return food.getDishPrice() * quantity;
     }
 
     public String toString() {
-        return String.format("%10s %5d", food.getDishName(),quantity);
+        return String.format("%10s %5.2lf %5d", food.getDishName(), food.getDishPrice(), quantity);
     }
 
 }

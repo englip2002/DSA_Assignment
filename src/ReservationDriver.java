@@ -20,8 +20,9 @@ public class ReservationDriver {
 
     public void ReservationModule(Account account) {
         // read file
-        FileHandler reservationFile = new FileHandler("Reservations.dat");
-        ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
+        FileHandler<ListInterface<Reservation>> reservationFile = new FileHandler<ListInterface<Reservation>>(
+                "Reservations.dat");
+        ListInterface<Reservation> reservationList = (ListInterface<Reservation>) reservationFile.read();
 
         int choice = 0;
         boolean dateValidity;
@@ -40,6 +41,7 @@ public class ReservationDriver {
         switch (choice) {
             case 1:
                 Reservation reservation = new Reservation(account);
+                char confirmation = 'N';
 
                 // start input data
                 if (account != null) {
@@ -92,8 +94,10 @@ public class ReservationDriver {
 
                     scanner.close();
                     // if confirmed, add into array and write into file, else discard
-                    reservationList.add(reservation);
-                    reservationFile.write(reservationList);
+                    if (confirmation == 'Y') {
+                        reservationList.add(reservation);
+                        reservationFile.write(reservationList);
+                    }
 
                 } else {
                     scanner.close();
@@ -104,14 +108,14 @@ public class ReservationDriver {
                                 "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
 
                 // for each loop
-                for (Reservation reservation2 : reservationList) {
-                    reservation2.toString();
+                for (Reservation reserve : reservationList) {
+                    reserve.toString();
                 }
 
                 // for loop
                 // for (int i = 0; i < reservationList.getNumberOfEntries(); i++) {
 
-                //     System.out.println(reservationList.getEntry(i).toString());
+                // System.out.println(reservationList.getEntry(i).toString());
                 // }
 
                 System.out.println("Total Number of Reservation: " + reservationList.getNumberOfEntries());

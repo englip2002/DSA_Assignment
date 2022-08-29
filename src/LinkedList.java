@@ -3,15 +3,13 @@ import java.util.Iterator;
 
 //Tan Eng Lip
 
-public class LinkedList<T> implements ListInterface<T>, Serializable{
+public class LinkedList<T> implements ListInterface<T>, Serializable {
 
     private Node firstNode;
-    private Node iterNext;
     private int numberOfEntries;
 
     public LinkedList() {
         clear();
-        iterNext = firstNode;
     }
 
     @Override
@@ -173,11 +171,11 @@ public class LinkedList<T> implements ListInterface<T>, Serializable{
     // Iterator class
     private class LinkedListIterator implements Iterator<T> {
         private Node iterNode;
-        
+
         public LinkedListIterator() {
             iterNode = firstNode;
         }
-        
+
         @Override
         public boolean hasNext() {
             return iterNode != null;
@@ -189,13 +187,12 @@ public class LinkedList<T> implements ListInterface<T>, Serializable{
                 T output = iterNode.data;
                 iterNode = iterNode.next;
                 return output;
-            }
-            else {
+            } else {
                 return null;
             }
         }
     }
-    
+
     // Iterator
     @Override
     public Iterator<T> iterator() {

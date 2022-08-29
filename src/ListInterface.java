@@ -1,5 +1,5 @@
 //Tan Eng Lip
-public interface ListInterface<T> extends Iterable<T>{
+public interface ListInterface<T> extends Iterable<T> {
 
     /**
      * Task: Adds a new entry to the end of the list. Entries currently in the
@@ -16,11 +16,11 @@ public interface ListInterface<T> extends Iterable<T>{
      * position within the list. The list's size is increased by 1.
      *
      * @param newIndex an integer that specifies the desired position of the
-     * new entry
+     *                 new entry
      * @param newEntry the object to be added as a new entry
      * @return true if the addition is successful, or false if either the list
-     * is full, newPosition < 1, or
-     *          newPosition > getNumberOfEntries()+1
+     *         is full, newPosition < 1, or
+     *         newPosition > getNumberOfEntries()+1
      */
     public boolean add(int newIndex, T newEntry);
 
@@ -30,10 +30,10 @@ public interface ListInterface<T> extends Iterable<T>{
      * lower position within the list, and the list's size is decreased by 1.
      *
      * @param removeIndex an integer that indicates the position of the entry
-     * to be removed
+     *                    to be removed
      * @return a reference to the removed entry or null, if either the list was
-     * empty, givenPosition < 1, or
-     *          givenPosition > getNumberOfEntries()
+     *         empty, givenPosition < 1, or
+     *         givenPosition > getNumberOfEntries()
      */
     public T remove(int removeIndex);
 
@@ -46,11 +46,11 @@ public interface ListInterface<T> extends Iterable<T>{
      * Task: Replaces the entry at a given position in the list.
      *
      * @param newIndex an integer that indicates the position of the entry
-     * to be replaced
+     *                 to be replaced
      * @param newEntry the object that will replace the entry at the position
-     * givenPosition
+     *                 givenPosition
      * @return true if the replacement occurs, or false if either the list is
-     * empty, givenPosition < 1, or givenPosition > getNumberOfEntries()
+     *         empty, givenPosition < 1, or givenPosition > getNumberOfEntries()
      */
     public boolean replace(int newIndex, T newEntry);
 
@@ -58,9 +58,9 @@ public interface ListInterface<T> extends Iterable<T>{
      * Task: Retrieves the entry at a given position in the list.
      *
      * @param entryIndex an integer that indicates the position of the
-     * desired entry
+     *                   desired entry
      * @return a reference to the indicated entry or null, if either the list is
-     * empty, givenPosition < 1, or givenPosition > getNumberOfEntries()
+     *         empty, givenPosition < 1, or givenPosition > getNumberOfEntries()
      */
     public T getEntry(int entryIndex);
 
@@ -93,5 +93,4 @@ public interface ListInterface<T> extends Iterable<T>{
      */
     public boolean isFull();
 
-    
 }

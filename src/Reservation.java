@@ -104,6 +104,11 @@ public class Reservation {
         return String.format("R%5d", IDcounter);
     }
 
+    //setter 
+    public void setReservationStatus(String status){
+        this.reservationStatus=status;
+    }
+
 
 
 }
