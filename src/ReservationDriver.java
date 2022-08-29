@@ -41,7 +41,7 @@ public class ReservationDriver {
             case 1:
                 Reservation reservation = new Reservation(account);
 
-                //start input data
+                // start input data
                 if (account != null) {
                     do {
                         System.out.print("Please enter your contact No (XXX-XXXXXXX): ");
@@ -102,9 +102,18 @@ public class ReservationDriver {
                 System.out.println(
                         String.format("%10s %10s %15s %15s %15s %20s %10s\n", "reservationID", "AccountID", "ContactNo",
                                 "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
-                for (int i = 0; i < reservationList.getNumberOfEntries(); i++) {
-                    System.out.println(reservationList.getEntry(i).toString());
+
+                // for each loop
+                for (Reservation reservation2 : reservationList) {
+                    reservation2.toString();
                 }
+
+                // for loop
+                // for (int i = 0; i < reservationList.getNumberOfEntries(); i++) {
+
+                //     System.out.println(reservationList.getEntry(i).toString());
+                // }
+
                 System.out.println("Total Number of Reservation: " + reservationList.getNumberOfEntries());
         }
     }

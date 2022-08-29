@@ -1,5 +1,5 @@
 //Tan Eng Lip
-public interface ListInterface<T> {
+public interface ListInterface<T> extends Iterable<T>{
 
     /**
      * Task: Adds a new entry to the end of the list. Entries currently in the
@@ -92,4 +92,6 @@ public interface ListInterface<T> {
      * @return true if the list is full, or false if not
      */
     public boolean isFull();
+
+    
 }

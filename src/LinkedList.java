@@ -3,7 +3,7 @@ import java.util.Iterator;
 
 //Tan Eng Lip
 
-public class LinkedList<T> implements ListInterface<T>, Iterator<T>, Serializable{
+public class LinkedList<T> implements ListInterface<T>, Serializable{
 
     private Node firstNode;
     private Node iterNext;
@@ -170,23 +170,35 @@ public class LinkedList<T> implements ListInterface<T>, Iterator<T>, Serializabl
         return result;
     }
 
-    // iterator interface
-    public boolean hasNext() {
-        // return true if collection still has next member
-        // return false if not
-        return iterNext.next != null;
-    }
+    // Iterator class
+    private class LinkedListIterator implements Iterator<T> {
+        private Node iterNode;
+        
+        public LinkedListIterator() {
+            iterNode = firstNode;
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return iterNode != null;
+        }
 
-    public T next() {
-        Node temp;
-        // return current member of collection
-        if (hasNext()) {
-            temp = iterNext;
-            iterNext = iterNext.next;
-            return temp.data;
+        @Override
+        public T next() {
+            if (hasNext()) {
+                T output = iterNode.data;
+                iterNode = iterNode.next;
+                return output;
+            }
+            else {
+                return null;
+            }
         }
-        else {
-            return null;
-        }
+    }
+    
+    // Iterator
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
     }
 }
