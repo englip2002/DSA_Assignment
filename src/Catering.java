@@ -32,7 +32,7 @@ public class Catering {
                     do {
                         System.out.println("\nEAT 99 Catering System");
                         System.out.println("======================");
-                        System.out.println("Current Session: " + loginAccount.toString() + " (" + loginAccount.getAccountID() + ")");
+                        System.out.println("Current Session: " + loginAccount.getFullName() + " (" + loginAccount.getAccountID() + ")");
                         System.out.println("======================");
                         System.out.println("1. Account Module");
                         System.out.println("2. Menu Module");
@@ -126,7 +126,7 @@ public class Catering {
 
                             for (int i = 0; i < accountIDs.length; i++) {
                                 System.out.println("Account " + (i + 1));
-                                System.out.println(accountList.getValue(accountIDs[i]).toAccountDetails());
+                                System.out.println(accountList.getValue(accountIDs[i]).toString());
                             }
 
                             System.out.println("\nNumber of Admin: " + loginAccount.getNoOfAdmin());
@@ -137,7 +137,7 @@ public class Catering {
                     } else {
                         System.out.println("\nAccount Details");
                         System.out.println("===============");
-                        System.out.println(loginAccount.toAccountDetails());
+                        System.out.println(loginAccount.toString());
                     }
                     break;
                 case 2:
@@ -223,7 +223,7 @@ public class Catering {
 
                                 System.out.println("\nRegistered Account");
                                 System.out.println("==================");
-                                System.out.println(registeredAccount.toAccountDetails());
+                                System.out.println(registeredAccount.toString());
                             } else {
                                 System.out.print("Registration discarded!");
                             }
@@ -329,7 +329,7 @@ public class Catering {
                                     if (Character.toUpperCase(choice) == 'Y') {
                                         System.out.println("\nAccount Details (Before Edit)");
                                         System.out.println("=============================");
-                                        System.out.println(account.toAccountDetails());
+                                        System.out.println(account.toString());
 
                                         Account editAccount = new Account(accountID, password, firstName, lastName, gender, dob, accountType, account.getIsLogin(), account.getReservationList());
                                         accountList.add(editAccount.getAccountID(), editAccount);
@@ -337,7 +337,7 @@ public class Catering {
 
                                         System.out.println("\nAccount Details (After Edit)");
                                         System.out.println("============================");
-                                        System.out.println(editAccount.toAccountDetails());
+                                        System.out.println(editAccount.toString());
                                     } else {
                                         System.out.print("Edit discarded! ");
                                     }
@@ -391,7 +391,7 @@ public class Catering {
                                     if (account.validatePassword(inputPassword)) {
                                         System.out.println("\nAccount Details");
                                         System.out.println("===============");
-                                        System.out.println(account.toAccountDetails());
+                                        System.out.println(account.toString());
 
                                         System.out.print("Confirm to delete? (Y = yes, N = no) > ");
                                         choice = sc.next().charAt(0);
