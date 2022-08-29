@@ -35,17 +35,17 @@ public class Reservation {
         Cart sortedCart = new Cart();
         // get category then sort by using various array then append
         for (int i = 0; i < cart.getItemCount(); i++) {
-            cart.getFoods().getEntry(i);
+            cart.getFoodsInCart().getEntry(i);
         }
         return sortedCart;
     }
 
     public String displayCart() {
-        String temp = new String();
+        String str = "";
         for (int i = 0; i < cart.getItemCount(); i++) {
-            temp += cart.getFoods().getEntry(i).toString();
+            str += String.format("%3d %s\n", (i + 1), cart.getFoodsInCart().getEntry(i).toString());
         }
-        return temp;
+        return str;
     }
 
     public void reserveDetails(String contactNo, String serveLocation, LocalDateTime serveTime) {
@@ -80,7 +80,7 @@ public class Reservation {
         // reservationStatus
         return String.format("%10s %10s %15s %15s %15s %20s %10s\n", reservationID, account.getAccountID(), contactNo,
                 reserveTime, serveTime, serveLocation, reservationStatus);
-        
+
     }
 
     // getter
@@ -88,15 +88,15 @@ public class Reservation {
         return cart;
     }
 
-    public int getReservationCount(){
+    public int getReservationCount() {
         return reservationCount;
     }
 
-    public Account getAccount(){
+    public Account getAccount() {
         return account;
     }
 
-    public String getReservationID(){
+    public String getReservationID() {
         return reservationID;
     }
 
@@ -104,11 +104,9 @@ public class Reservation {
         return String.format("R%5d", IDcounter);
     }
 
-    //setter 
-    public void setReservationStatus(String status){
-        this.reservationStatus=status;
+    // setter
+    public void setReservationStatus(String status) {
+        this.reservationStatus = status;
     }
-
-
 
 }
