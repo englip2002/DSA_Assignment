@@ -33,7 +33,16 @@ public class MenuItem {
         this.dishName = dishName;
         this.dishPrice = dishPrice;
         this.dishDescription = dishDescription;
-        dishID = generateDishID();
+        this.dishID = generateDishID();
+        dishCounter++;
+    }
+
+    public MenuItem(String dishID, char dishCategory, String dishName, double dishPrice, String dishDescription){
+        this.dishCategory = dishCategory;
+        this.dishName = dishName;
+        this.dishPrice = dishPrice;
+        this.dishDescription = dishDescription;
+        this.dishID = dishID;
         dishCounter++;
     }
     
