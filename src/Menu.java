@@ -93,7 +93,7 @@ public class Menu {
 
     // this method us used to print and get input from user of the modify menu item
     // detail
-    private MenuItem modifyMenuItemDetail(int userCategoryChoice, int userDishChoice) {
+    private void modifyMenuItemDetail(int userCategoryChoice, int userDishChoice) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Please enter new informations of dish: ");
@@ -106,11 +106,12 @@ public class Menu {
         System.out.println("Dish Description: ");
         String newDescription = sc.nextLine();
 
-        String oldDishID = dishCategory.getElement()[userCategoryChoice].getDishes().getElement()[userDishChoice]
+        String oldDishID = dishCategory.getElement()[userCategoryChoice-1].getDishes().getElement()[userDishChoice-1]
                 .getDishID();
         MenuItem modifiedMenu = new MenuItem(oldDishID, newCategory, newName, newPrice, newDescription);
-
-        return modifiedMenu;
+        
+        //direct modify item
+        dishCategory.getElement()[userCategoryChoice-1].modifyMenuItem(modifiedMenu, userDishChoice-1);
     }
 
     // Modify menu item
@@ -127,37 +128,28 @@ public class Menu {
             displayMenuItem(userCategoryChoice - 1);
             System.out.print("Enter your choice: ");
             userDishChoice = sc.nextInt();
-            modifiedMenu = modifyMenuItemDetail(userCategoryChoice, userDishChoice);
-            String newID = modifiedMenu.getDishID(); // id how to store back??
+            modifyMenuItemDetail(userCategoryChoice, userDishChoice);
 
-            dishCategory.getElement()[0].modifyMenuItem(modifiedMenu, userDishChoice);
         } else if (userCategoryChoice == 2) {
             System.out.println("Please select the dish you would like to modify: ");
             displayMenuItem(userCategoryChoice - 1);
             System.out.print("Enter your choice: ");
             userDishChoice = sc.nextInt();
-            modifiedMenu = modifyMenuItemDetail(userDishChoice);
+            modifyMenuItemDetail(userCategoryChoice, userDishChoice);
 
-            String newID = modifiedMenu.getDishID(); // id how to store back??
-            dishCategory.getElement()[1].modifyMenuItem(modifiedMenu, userDishChoice);
         } else if (userCategoryChoice == 3) {
             System.out.println("Please select the dish you would like to modify: ");
             displayMenuItem(userCategoryChoice - 1);
             System.out.print("Enter your choice: ");
             userDishChoice = sc.nextInt();
-            modifiedMenu = modifyMenuItemDetail();
+            modifyMenuItemDetail(userCategoryChoice, userDishChoice);
 
-            String newID = modifiedMenu.getDishID(); // id how to store back??
-            dishCategory.getElement()[2].modifyMenuItem(modifiedMenu, userDishChoice);
         } else if (userCategoryChoice == 4) {
             System.out.println("Please select the dish you would like to modify: ");
             displayMenuItem(userCategoryChoice - 1);
             System.out.print("Enter your choice: ");
             userDishChoice = sc.nextInt();
-            modifiedMenu = modifyMenuItemDetail();
-
-            String newID = modifiedMenu.getDishID(); // id how to store back??
-            dishCategory.getElement()[3].modifyMenuItem(modifiedMenu, userDishChoice);
+            modifyMenuItemDetail(userCategoryChoice, userDishChoice);
         }
 
         sc.close();

@@ -127,5 +127,4 @@ public class Account implements Serializable {
     public int hashCode() {
         return Integer.parseInt(accountID.substring(1));
     }
-
 }
