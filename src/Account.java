@@ -104,7 +104,8 @@ public class Account implements Serializable {
         return inputPassword.matches(password);
     }
 
-    public String toAccountDetails() {
+    @Override
+    public String toString() {
         String accountDetails = "Account ID: " + accountID + "\nName: " + getFullName() + "\nGender: " + gender + "\nDate of Birth: " + dob + "\nAccount Type: " + accountType + "\nReservation List: ";
         if (reservationList != null) {
             for (int i = 0; i < reservationList.getNumberOfEntries(); i++) {
@@ -116,11 +117,6 @@ public class Account implements Serializable {
             accountDetails += "No Reservation";
         }
         return accountDetails;
-    }
-
-    @Override
-    public String toString() {
-        return getFullName();
     }
 
     @Override
