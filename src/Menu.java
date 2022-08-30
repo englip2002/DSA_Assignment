@@ -87,7 +87,7 @@ public class Menu {
 
     // this method us used to print and get input from user of the modify menu item
     // detail
-    public static void modifyMenuItemDetail(int userCategoryChoice, int userDishChoice, char newCategory,
+    public void modifyMenuItemDetail(int userCategoryChoice, int userDishChoice, char newCategory,
             String newName, double newPrice, String newDescription) {
 
         String oldDishID = menuCategory.getElement()[userCategoryChoice - 1].getMenuItems().getElement()[userDishChoice
@@ -100,9 +100,9 @@ public class Menu {
     }
 
     // Modify menu item
-    public static boolean modifyMenuItem(int userCategoryChoice) {
-        int userDishChoice;
-        MenuItem modifiedMenu = new MenuItem();
+    public boolean modifyMenuItem(int userCategoryChoice) {
+        // int userDishChoice;
+        // MenuItem modifiedMenu = new MenuItem();
 
         switch (userCategoryChoice) {
             case 1:
@@ -120,7 +120,7 @@ public class Menu {
     }
 
     // To display specific category menu item
-    public static void displayMenuItem(int categoryIndex) {
+    public void displayMenuItem(int categoryIndex) {
         Category temp = menuCategory.getElement()[categoryIndex];
 
         for (int i = 0; i < temp.getMenuItems().getNumberOfEntries(); i++) {
@@ -129,20 +129,12 @@ public class Menu {
     }
 
     // Search method
-    public boolean SearchMenuItem() {
+    public boolean SearchMenuItem(int userCategoryChoice, String menuItemName) {
 
-        Scanner sc = new Scanner(System.in);
-
-        displayCategoryMenuChoice();
-        int userCategoryChice = sc.nextInt();
-
-        System.out.print("Please enter the name of the dish: ");
-        String dishName = sc.nextLine();
-
-        Category temp = menuCategory.getElement()[userCategoryChice - 1];
+        Category temp = menuCategory.getElement()[userCategoryChoice - 1];
 
         for (int i = 0; i < temp.getMenuItems().getNumberOfEntries(); i++) {
-            if (temp.getMenuItems().getElement()[i].getDishName() == dishName) {
+            if (temp.getMenuItems().getElement()[i].getDishName() == menuItemName) {
                 System.out.println("Dish is found!!");
                 System.out.println(temp.getMenuItems().getElement()[i].toString());
                 return true;
