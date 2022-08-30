@@ -5,8 +5,6 @@
  */
 //package Assignment;
 
-import java.util.Scanner;
-
 // displayMenu(), sortMenuItem(), searchMenu(), 
 //modifyMenuItem(), addMenuItem(), removeMenuItem(), 
 //popularFood()  
