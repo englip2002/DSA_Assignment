@@ -12,6 +12,46 @@ public class MenuDriver {
 
         if (userChoice == 1) {
             // add item
+            char menuItemCategory = 'n';
+            String menuItemName;
+            double menuItemPrice;
+            String menuItemDescription;
+
+            int categoryChoice = 0;
+
+            // enter add category (display category choice)
+
+            do {
+                categoryChoice = scanner.nextInt();
+                // M = main course , B = beverage, A = Appertizer, D = Dessert
+                switch (categoryChoice) {
+                    case 1:
+                        menuItemCategory = 'M';
+                    case 2:
+                        menuItemCategory = 'B';
+                    case 3:
+                        menuItemCategory = 'A';
+                    case 4:
+                        menuItemCategory = 'D';
+                }
+            } while (categoryChoice < 1 && categoryChoice > 4);
+
+            // input data
+            System.out.print("Enter Menu Item Name: ");
+            menuItemName = scanner.nextLine();
+
+            System.out.print("Enter Menu Item Price: ");
+            menuItemPrice = scanner.nextDouble();
+
+            System.out.print("Enter Menu Item Description: ");
+            menuItemDescription = scanner.nextLine();
+
+            // pass into a temp menuItem
+            MenuItem temp = new MenuItem(menuItemCategory, menuItemName, menuItemPrice, menuItemDescription);
+            // pass to add
+
+            menu.addMenuItem(temp);
+
         } else if (userChoice == 2) {
             // remove item
         } else if (userChoice == 3) {
