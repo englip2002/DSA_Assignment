@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Assignment;
+//package Assignment;
 
 import java.util.Scanner;
-
-import Assignment.MenuItem;
 
 // displayMenu(), sortMenuItem(), searchMenu(), 
 //modifyMenuItem(), addMenuItem(), removeMenuItem(), 
@@ -18,151 +16,115 @@ import Assignment.MenuItem;
  */
 public class Menu {
     // Properties
-    private SetInterface<Category> dishCategory;
-    SetInterface<MenuItem> menuItem;
+    private SetInterface<Category> menuCategory;
 
     // Construtor
     public Menu() {
-        dishCategory = new ArraySet<Category>();
+        menuCategory = new ArraySet<Category>();
     }
 
-    public SetInterface<Category> getDishCategory() {
-        return dishCategory;
+    public SetInterface<Category> getMenuCategory() {
+        return menuCategory;
     }
 
-    public void setDishCategory(ArraySet<Category> dishCategory) {
-        this.dishCategory = dishCategory;
+    public void setMenuCategory(ArraySet<Category> menuCategory) {
+        this.menuCategory = menuCategory;
     }
 
-    // To add the Cateory into the menu (Separate the category)
+    // To add new Category of the menu
     public void addCategory(Category category) {
-        dishCategory.add(category);
+        menuCategory.add(category);
     }
 
-    // User add dish
-    public boolean addDish(MenuItem dishItem) {
-        if (dishItem.getDishCategory() == 'A') {
-            dishCategory.getElement()[0].addDish(dishItem);
-            return true;
-        } else if (dishItem.getDishCategory() == 'M') {
-            dishCategory.getElement()[1].addDish(dishItem);
-            return true;
-        } else if (dishItem.getDishCategory() == 'B') {
-            dishCategory.getElement()[2].addDish(dishItem);
-            return true;
-        } else if (dishItem.getDishCategory() == 'D') {
-            dishCategory.getElement()[3].addDish(dishItem);
-            return true;
-        } else {
-            return false;
+    // User add menu item inside the array
+    /*
+     * Fixed indexed for Different Category
+     * [0] == Appertizer
+     * [1] == Main Course
+     * [2] == Beverage
+     * [3] == Dessert
+     */
+    public boolean addMenuItem(MenuItem menuItem) {
+        switch (menuItem.getDishCategory()) {
+            case 'A':
+                menuCategory.getElement()[0].addMenuItem(menuItem);
+                return true;
+            case 'M':
+                menuCategory.getElement()[1].addMenuItem(menuItem);
+                return true;
+            case 'B':
+                menuCategory.getElement()[2].addMenuItem(menuItem);
+                return true;
+            case 'D':
+                menuCategory.getElement()[3].addMenuItem(menuItem);
+                return true;
+            default:
+                return false;
         }
 
     }
 
     // Remove menu item
-    public boolean removeDish(MenuItem dishItem) {
-        if (dishItem.getDishCategory() == 'A') {
-            dishCategory.getElement()[0].removeDish(dishItem);
-            return true;
-        } else if (dishItem.getDishCategory() == 'M') {
-            dishCategory.getElement()[1].removeDish(dishItem);
-            return true;
-        } else if (dishItem.getDishCategory() == 'B') {
-            dishCategory.getElement()[2].removeDish(dishItem);
-            return true;
-        } else if (dishItem.getDishCategory() == 'D') {
-            dishCategory.getElement()[3].removeDish(dishItem);
-            return true;
-        } else {
-            return false;
+    public boolean removeMenuItem(MenuItem menuItem) {
+        switch (menuItem.getDishCategory()) {
+            case 'A':
+                menuCategory.getElement()[0].removeMenuItem(menuItem);
+                return true;
+            case 'M':
+                menuCategory.getElement()[1].removeMenuItem(menuItem);
+                return true;
+            case 'B':
+                menuCategory.getElement()[2].removeMenuItem(menuItem);
+                return true;
+            case 'D':
+                menuCategory.getElement()[3].removeMenuItem(menuItem);
+                return true;
+            default:
+                return false;
         }
-
-    }
-
-    // to display a category menu for user
-    private void displayCategoryMenuChoice() {
-
-        System.out.println("Please select the categories: ");
-        System.out.println("1. Appertizer");
-        System.out.println("2. Main Course");
-        System.out.println("3. Beverage");
-        System.out.println("4. Dessert");
-        System.out.print("Enetr your choice: ");
 
     }
 
     // this method us used to print and get input from user of the modify menu item
     // detail
-    private void modifyMenuItemDetail(int userCategoryChoice, int userDishChoice) {
-        Scanner sc = new Scanner(System.in);
+    public static void modifyMenuItemDetail(int userCategoryChoice, int userDishChoice, char newCategory,
+            String newName, double newPrice, String newDescription) {
 
-        System.out.println("Please enter new informations of dish: ");
-        System.out.print("Dish Category: ");
-        char newCategory = sc.next().charAt(0);
-        System.out.println("Dish Name: ");
-        String newName = sc.nextLine();
-        System.out.println("Dish Price: ");
-        double newPrice = sc.nextDouble();
-        System.out.println("Dish Description: ");
-        String newDescription = sc.nextLine();
-
-        String oldDishID = dishCategory.getElement()[userCategoryChoice-1].getDishes().getElement()[userDishChoice-1]
+        String oldDishID = menuCategory.getElement()[userCategoryChoice - 1].getMenuItems().getElement()[userDishChoice
+                - 1]
                 .getDishID();
         MenuItem modifiedMenu = new MenuItem(oldDishID, newCategory, newName, newPrice, newDescription);
-        
-        //direct modify item
-        dishCategory.getElement()[userCategoryChoice-1].modifyMenuItem(modifiedMenu, userDishChoice-1);
+
+        // direct modify item
+        menuCategory.getElement()[userCategoryChoice - 1].modifyMenuItem(modifiedMenu, userDishChoice - 1);
     }
 
     // Modify menu item
-    public boolean modifyMenuItem() {
+    public static boolean modifyMenuItem(int userCategoryChoice) {
         int userDishChoice;
-        Scanner sc = new Scanner(System.in);
         MenuItem modifiedMenu = new MenuItem();
 
-        displayCategoryMenuChoice();
-        int userCategoryChoice = sc.nextInt();
+        switch (userCategoryChoice) {
+            case 1:
+                displayMenuItem(userCategoryChoice - 1);
+            case 2:
+                displayMenuItem(userCategoryChoice - 1);
+            case 3:
+                displayMenuItem(userCategoryChoice - 1);
+            case 4:
+                displayMenuItem(userCategoryChoice - 1);
 
-        if (userCategoryChoice == 1) { // Print Appertizer dishes
-            System.out.println("Please select the dish you would like to modify: ");
-            displayMenuItem(userCategoryChoice - 1);
-            System.out.print("Enter your choice: ");
-            userDishChoice = sc.nextInt();
-            modifyMenuItemDetail(userCategoryChoice, userDishChoice);
-
-        } else if (userCategoryChoice == 2) {
-            System.out.println("Please select the dish you would like to modify: ");
-            displayMenuItem(userCategoryChoice - 1);
-            System.out.print("Enter your choice: ");
-            userDishChoice = sc.nextInt();
-            modifyMenuItemDetail(userCategoryChoice, userDishChoice);
-
-        } else if (userCategoryChoice == 3) {
-            System.out.println("Please select the dish you would like to modify: ");
-            displayMenuItem(userCategoryChoice - 1);
-            System.out.print("Enter your choice: ");
-            userDishChoice = sc.nextInt();
-            modifyMenuItemDetail(userCategoryChoice, userDishChoice);
-
-        } else if (userCategoryChoice == 4) {
-            System.out.println("Please select the dish you would like to modify: ");
-            displayMenuItem(userCategoryChoice - 1);
-            System.out.print("Enter your choice: ");
-            userDishChoice = sc.nextInt();
-            modifyMenuItemDetail(userCategoryChoice, userDishChoice);
         }
-
-        sc.close();
         return true;
 
     }
 
     // To display specific category menu item
-    private void displayMenuItem(int categoryIndex) {
-        Category temp = dishCategory.getElement()[categoryIndex];
+    public static void displayMenuItem(int categoryIndex) {
+        Category temp = menuCategory.getElement()[categoryIndex];
 
-        for (int i = 0; i < temp.getDishes().getNumberOfEntries(); i++) {
-            System.out.println("1. " + temp.getDishes().getElement()[i].toString());
+        for (int i = 0; i < temp.getMenuItems().getNumberOfEntries(); i++) {
+            System.out.println("1. " + temp.getMenuItems().getElement()[i].toString());
         }
     }
 
@@ -177,12 +139,12 @@ public class Menu {
         System.out.print("Please enter the name of the dish: ");
         String dishName = sc.nextLine();
 
-        Category temp = dishCategory.getElement()[userCategoryChice - 1];
+        Category temp = menuCategory.getElement()[userCategoryChice - 1];
 
-        for (int i = 0; i < temp.getDishes().getNumberOfEntries(); i++) {
-            if (temp.getDishes().getElement()[i].getDishName() == dishName) {
+        for (int i = 0; i < temp.getMenuItems().getNumberOfEntries(); i++) {
+            if (temp.getMenuItems().getElement()[i].getDishName() == dishName) {
                 System.out.println("Dish is found!!");
-                System.out.println(temp.getDishes().getElement()[i].toString());
+                System.out.println(temp.getMenuItems().getElement()[i].toString());
                 return true;
             }
 
@@ -217,18 +179,18 @@ public class Menu {
     // Dish Description : 2 flavor of ice cream and chocolate biscuits
     public String displayMenu() {
         String str = "";
-        for (int i = 0; i < dishCategory.getNumberOfEntries(); i++) {
-            if (dishCategory.getElement()[i].getCategoryName() == 'M') {
+        for (int i = 0; i < menuCategory.getNumberOfEntries(); i++) {
+            if (menuCategory.getElement()[i].getCategoryName() == 'M') {
                 System.out.println("Main Course: \n");
-            } else if (dishCategory.getElement()[i].getCategoryName() == 'A') {
+            } else if (menuCategory.getElement()[i].getCategoryName() == 'A') {
                 System.out.println("Appertizer: \n");
-            } else if (dishCategory.getElement()[i].getCategoryName() == 'B') {
+            } else if (menuCategory.getElement()[i].getCategoryName() == 'B') {
                 System.out.println("Beverage: \n");
             } else {
                 System.out.println("Dessert: \n");
             }
-            for (int j = 0; j < dishCategory.getElement()[i].getCounter(); j++) {
-                str += dishCategory.getElement()[i].getDishes().getElement()[j].toString() + "\n";
+            for (int j = 0; j < menuCategory.getElement()[i].getCounter(); j++) {
+                str += menuCategory.getElement()[i].getMenuItems().getElement()[j].toString() + "\n";
             }
         }
         return str;

@@ -3,45 +3,45 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Assignment;
+//package Assignment;
 
 /**
  *
  * @author User
  */
 public class Category {
-    private ArraySet<MenuItem> dishes;
+    private ArraySet<MenuItem> menuItems;
     private char categoryName;
     private static int counter = 0;
 
     public Category(char categoryName) {
         this.categoryName = categoryName;
-        dishes = new ArraySet<MenuItem>();
+        menuItems = new ArraySet<MenuItem>();
     }
 
     public char getCategoryName() {
         return categoryName;
     }
 
-    public ArraySet<MenuItem> getDishes() {
-        return dishes;
+    public ArraySet<MenuItem> getMenuItems() {
+        return menuItems;
     }
 
-    public void addDish(MenuItem dish) {
-        dishes.add(dish);
+    public void addMenuItem(MenuItem menuItem) {
+        menuItems.add(menuItem);
         counter++;
     }
 
-    public void removeDish(MenuItem dish) {
-        dishes.remove(dish);
+    public void removeMenuItem(MenuItem menuItem) {
+        menuItems.remove(menuItem);
         counter--;
     }
 
-    //index = index of dishes in category
-    //dish = new modified dishes
-    public boolean modifyMenuItem(MenuItem dish, int index) {
-        dishes.remove(dishes.getElement()[index - 1]);
-        dishes.add(dish);
+    // index = index of dishes in category
+    // dish = new modified dishes
+    public boolean modifyMenuItem(MenuItem menuItem, int index) {
+        menuItems.remove(menuItems.getElement()[index - 1]);
+        menuItems.add(menuItem);
         return true;
     }
 
