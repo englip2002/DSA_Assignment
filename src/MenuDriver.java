@@ -7,12 +7,12 @@ public class MenuDriver {
         Scanner scanner = new Scanner(System.in);
         Menu menu = new Menu();
 
-        displayMenuTableChoice(1);
+        displayMenuTableChoice();
         int userChoice = scanner.nextInt();
 
         if (userChoice == 1) {
             // add item
-            char menuItemCategory = 'n';
+            char menuItemCategory = 'A';
             String menuItemName;
             double menuItemPrice;
             String menuItemDescription;
@@ -20,22 +20,31 @@ public class MenuDriver {
             int categoryChoice = 0;
 
             // enter add category (display category choice)
-
             do {
+                displayCategoryChoice();
                 categoryChoice = scanner.nextInt();
                 // M = main course , B = beverage, A = Appertizer, D = Dessert
                 switch (categoryChoice) {
                     case 1:
-                        menuItemCategory = 'M';
-                    case 2:
-                        menuItemCategory = 'B';
-                    case 3:
                         menuItemCategory = 'A';
+                        break;
+                    case 2:
+                        menuItemCategory = 'M';
+                        break;
+                    case 3:
+                        menuItemCategory = 'B';
+                        break;
                     case 4:
                         menuItemCategory = 'D';
+                        break;
+                    default:
+                        System.out.println("Invalid Input");
+                        break;
                 }
-            } while (categoryChoice < 1 && categoryChoice > 4);
+            } while (categoryChoice < 1 || categoryChoice > 4);
 
+            // clear buffer
+            scanner.nextLine();
             // input data
             System.out.print("Enter Menu Item Name: ");
             menuItemName = scanner.nextLine();
@@ -43,22 +52,26 @@ public class MenuDriver {
             System.out.print("Enter Menu Item Price: ");
             menuItemPrice = scanner.nextDouble();
 
+            // clear buffer
+            scanner.nextLine();
+
             System.out.print("Enter Menu Item Description: ");
             menuItemDescription = scanner.nextLine();
 
             // pass into a temp menuItem
             MenuItem temp = new MenuItem(menuItemCategory, menuItemName, menuItemPrice, menuItemDescription);
-            // pass to add
 
+            // pass to add
             menu.addMenuItem(temp);
 
         } else if (userChoice == 2) {
             // remove item
+
         } else if (userChoice == 3) {
             // display menu item
         } else if (userChoice == 4) {
             // modify menu item
-            displayMenuTableChoice(2);
+            displayCategoryChoice();
             int userCategoryChoice = scanner.nextInt();
 
             // Pass the user category choose
@@ -82,7 +95,7 @@ public class MenuDriver {
                     newDescription);
         } else if (userChoice == 5) {
             // Search menu items
-            displayMenuTableChoice(2);
+            displayCategoryChoice();
             int userCategoryChoice = scanner.nextInt();
 
             System.out.print("Please enter the name of the menu item: ");
@@ -94,37 +107,38 @@ public class MenuDriver {
             System.out.println("You had key in invalid number!!");
             System.out.print("Please enter your choice again: ");
             int userSecondChoice = scanner.nextInt();
-            displayMenuTableChoice(1);
+            displayMenuTableChoice();
         }
 
         scanner.close();
     }
 
     // to display a category menu for user
-    public static void displayMenuTableChoice(int userMenuTableChoice) {
+    public static void displayMenuTableChoice() {
 
-        switch (userMenuTableChoice) {
-            case 1:
-                System.out.println("           Menu         ");
-                System.out.println("------------------------");
-                System.out.println("1. Add Menu Item(s)");
-                System.out.println("2. Remove Menu Item(s)");
-                System.out.println("3. Display Menu Items(s)");
-                System.out.println("4. Modify Menu Item(s)");
-                System.out.println("5. Search Menu Items(s)");
-                System.out.print("Enter your choice(1-5): ");
-                break;
+        // Scanner scanner = new Scanner(System.in);
 
-            case 2:
-                System.out.println("Please select the categories: ");
-                System.out.println("1. Appertizer");
-                System.out.println("2. Main Course");
-                System.out.println("3. Beverage");
-                System.out.println("4. Dessert");
-                System.out.print("Enter your choice: ");
-                break;
-        }
+        System.out.println("           Menu         ");
+        System.out.println("------------------------");
+        System.out.println("1. Add Menu Item(s)");
+        System.out.println("2. Remove Menu Item(s)");
+        System.out.println("3. Display Menu Items(s)");
+        System.out.println("4. Modify Menu Item(s)");
+        System.out.println("5. Search Menu Items(s)");
+        System.out.print("Enter your choice(1-5): ");
 
     }
+
+    public static void displayCategoryChoice() {
+        System.out.print("\n");
+        System.out.println("Please select the categories: ");
+        System.out.println("1. Appertizer");
+        System.out.println("2. Main Course");
+        System.out.println("3. Beverage");
+        System.out.println("4. Dessert");
+        System.out.print("Enter your choice: ");
+    }
+
+    // public static void
 
 }
