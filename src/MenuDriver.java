@@ -6,6 +6,10 @@ public class MenuDriver {
         // SetInterface<Category> menu = new ArraySet<Category>();
         Scanner scanner = new Scanner(System.in);
         Menu menu = new Menu();
+        menu.addCategory(new Category('A'));
+        menu.addCategory(new Category('M'));
+        menu.addCategory(new Category('B'));
+        menu.addCategory(new Category('D'));
 
         displayMenuTableChoice();
         int userChoice = scanner.nextInt();

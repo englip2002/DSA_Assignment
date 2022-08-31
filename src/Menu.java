@@ -45,7 +45,8 @@ public class Menu {
     public void addMenuItem(MenuItem menuItem) {
         switch (menuItem.getDishCategory()) {
             case 'A':
-                menuCategory.getElement()[0].addMenuItem(menuItem);
+                Category temp = ((Category) menuCategory.getElementAtPos(0));
+                temp.addMenuItem(menuItem);
                 break;
             case 'M':
                 menuCategory.getElement()[1].addMenuItem(menuItem);

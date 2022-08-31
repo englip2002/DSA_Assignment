@@ -29,6 +29,8 @@ public interface SetInterface<T> {
     //To get the value from the menu set
     public T[] getElement();
     
+    
+    public T getElementAtPos(int pos);
     //Checks if the set contains e and return that elements (search) 
     //public T[] contains(T anElement);
 
