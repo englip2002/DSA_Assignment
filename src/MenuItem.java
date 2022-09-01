@@ -85,13 +85,13 @@ public class MenuItem {
 
     private String generateDishID() {
         if (menuItemCategory == 'A') {
-            return String.format("A%5d", dishCounter);
+            return String.format("A%05d", dishCounter);
         } else if (menuItemCategory == 'M') {
-            return String.format("M%5d", dishCounter);
+            return String.format("M%05d", dishCounter);
         } else if (menuItemCategory == 'B') {
-            return String.format("B%5d", dishCounter);
+            return String.format("B%05d", dishCounter);
         } else
-            return String.format("D%5d", dishCounter);
+            return String.format("D%05d", dishCounter);
     }
 
     public String toString() {

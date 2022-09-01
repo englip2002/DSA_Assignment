@@ -53,7 +53,7 @@ public class Category {
         String str = "";
         for (int i = 0; i < counter; i++) {
             MenuItem temp = menuItems.getElementAtPos(i);
-            str+=String.format("%10s %20s %30s %5.2lf\n",temp.getDishID(), temp.getDishName(),temp.getFoodDescription(),temp.getDishPrice());
+            str+=String.format("%-3d %-10s %-20s %-30s %-5.2f\n",(i+1),temp.getDishID(), temp.getDishName(),temp.getFoodDescription(),temp.getDishPrice());
         }
         return str;
     }

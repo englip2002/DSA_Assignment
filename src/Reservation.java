@@ -69,8 +69,10 @@ public class Reservation {
         // format the bill
         String str = "";
         str += account.toString() + "\n";
+        str+=String.format("%-5s %-10s %-10s %-10s %-10s\n", "No", "Dish Name",
+        "Dish Price", "Quantity", "Subtotal(RM)");
         str += cart.toString();
-        str += cart.calculateTotal();
+        str += String.format("%43.2f", cart.calculateTotal());
         return str;
     }
 
@@ -101,7 +103,7 @@ public class Reservation {
     }
 
     private String generareReservationID() {
-        return String.format("R%5d", IDcounter);
+        return String.format("R%05d", IDcounter);
     }
 
     // setter

@@ -20,7 +20,7 @@ public class FoodInCart {
     }
 
     public String toString() {
-        return String.format("%10s %5.2lf %5d", food.getDishName(), food.getDishPrice(), quantity);
+        return String.format("%-10s %-10.2f %-10d", food.getDishName(), food.getDishPrice(), quantity);
     }
 
 }
