@@ -70,9 +70,38 @@ public class MenuDriver {
 
         } else if (userChoice == 2) {
             // remove item
+            displayCategoryChoice();
+
+            char menuItemCategory;
+            int categoryChoice = 0;
+
+            // enter add category (display category choice)
+            do {
+                displayCategoryChoice();
+                categoryChoice = scanner.nextInt();
+                // M = main course , B = beverage, A = Appertizer, D = Dessert
+                switch (categoryChoice) {
+                    case 1:
+                        menuItemCategory = 'A';
+                        break;
+                    case 2:
+                        menuItemCategory = 'M';
+                        break;
+                    case 3:
+                        menuItemCategory = 'B';
+                        break;
+                    case 4:
+                        menuItemCategory = 'D';
+                        break;
+                    default:
+                        System.out.println("Invalid Input");
+                        break;
+                }
+            } while (categoryChoice < 1 || categoryChoice > 4);
 
         } else if (userChoice == 3) {
             // display menu item
+
         } else if (userChoice == 4) {
             // modify menu item
             displayCategoryChoice();
@@ -120,8 +149,6 @@ public class MenuDriver {
     // to display a category menu for user
     public static void displayMenuTableChoice() {
 
-        // Scanner scanner = new Scanner(System.in);
-
         System.out.println("           Menu         ");
         System.out.println("------------------------");
         System.out.println("1. Add Menu Item(s)");
@@ -142,7 +169,5 @@ public class MenuDriver {
         System.out.println("4. Dessert");
         System.out.print("Enter your choice: ");
     }
-
-    // public static void
 
 }
