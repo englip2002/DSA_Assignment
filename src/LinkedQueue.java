@@ -11,27 +11,25 @@ import java.util.List;
 public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
     // Class attributes
     private Node firstNode, lastNode;
-    
-    
+
     // Private Node class
     private class Node implements Serializable {
         private T data;
         private Node next;
-        
+
         // Node constructor
         public Node(T newEntry) {
             this.data = newEntry;
             this.next = null;
         }
     }
-    
-    
+
     // Constructors
     public LinkedQueue() {
         firstNode = null;
         lastNode = null;
     }
-    
+
     // Methods
     @Override
     public void enqueue(T newEntry) {
@@ -40,8 +38,7 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
             // Point firstNode and lastNode to the only node
             firstNode = newNode;
             lastNode = newNode;
-        }
-        else {
+        } else {
             // Append newNode to the end of the queue
             lastNode.next = newNode;
             lastNode = newNode;
@@ -54,16 +51,16 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
         if (isEmpty()) {
             return (T) "The LinkedQueue is empty, no data to dequeue. ";
         }
-        
+
         // Keep reference of the data to be returned
         T output = firstNode.data;
-        
+
         // Update firstNode (and lastNode if queue is empty after dequeue operation)
         firstNode = firstNode.next;
         if (isEmpty()) {
             lastNode = null;
         }
-        
+
         return output;
     }
 
@@ -74,7 +71,7 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
 
     @Override
     public boolean isEmpty() {
-        // Only check if firstNode is null because 
+        // Only check if firstNode is null because
         // if firstNode is null, then lastNode must also be null
         return firstNode == null;
     }
@@ -84,15 +81,15 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
         firstNode = null;
         lastNode = null;
     }
-    
+
     // Iterator class
     private class LinkedQueueIterator implements Iterator<T> {
         private Node iterNode;
-        
+
         public LinkedQueueIterator() {
             iterNode = firstNode;
         }
-        
+
         @Override
         public boolean hasNext() {
             return iterNode != null;
@@ -104,13 +101,12 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
                 T output = iterNode.data;
                 iterNode = iterNode.next;
                 return output;
-            }
-            else {
+            } else {
                 return null;
             }
         }
     }
-    
+
     // Iterator
     @Override
     public Iterator<T> iterator() {

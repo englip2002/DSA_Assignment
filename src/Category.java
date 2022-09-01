@@ -49,4 +49,13 @@ public class Category {
         return counter;
     }
 
+    public String toString() {
+        String str = "";
+        for (int i = 0; i < counter; i++) {
+            MenuItem temp = menuItems.getElementAtPos(i);
+            str+=String.format("%10s %20s %30s %5.2lf\n",temp.getDishID(), temp.getDishName(),temp.getFoodDescription(),temp.getDishPrice());
+        }
+        return str;
+    }
+
 }
