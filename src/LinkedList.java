@@ -143,7 +143,7 @@ public class LinkedList<T> implements ListInterface<T>, Serializable {
     }
 
     // inner class
-    private class Node {
+    private class Node implements Serializable{
 
         private T data;
         private Node next;

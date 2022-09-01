@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Reservation {
+public class Reservation implements Serializable{
     private String reservationID;
     private Account account;
     private LocalDateTime reserveTime;
@@ -11,7 +12,7 @@ public class Reservation {
     private String reservationStatus;
     private Cart cart;
     private static int reservationCount = 0;
-    private static int IDcounter = 0;
+    private static int IDcounter = 1;
 
     public Reservation(Account account) {
         this.account = account;
@@ -22,22 +23,8 @@ public class Reservation {
     }
 
     public void checkOut() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         reserveTime = LocalDateTime.now();
-        reserveTime.format(formatter);
-
         reservationStatus = "Pending Payment";
-
-        // append the data to txt file
-    }
-
-    public Cart sortCart() {
-        Cart sortedCart = new Cart();
-        // get category then sort by using various array then append
-        for (int i = 0; i < cart.getItemCount(); i++) {
-            cart.getFoodsInCart().getEntry(i);
-        }
-        return sortedCart;
     }
 
     public String displayCart() {
@@ -51,8 +38,6 @@ public class Reservation {
     public void reserveDetails(String contactNo, String serveLocation, LocalDateTime serveTime) {
         this.contactNo = contactNo;
         this.serveLocation = serveLocation;
-
-        serveTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.serveTime = serveTime;
     }
 
@@ -72,7 +57,7 @@ public class Reservation {
         str+=String.format("%-5s %-10s %-10s %-10s %-10s\n", "No", "Dish Name",
         "Dish Price", "Quantity", "Subtotal(RM)");
         str += cart.toString();
-        str += String.format("%43.2f", cart.calculateTotal());
+        str += String.format("Total: %36.2f", cart.calculateTotal());
         return str;
     }
 
@@ -80,8 +65,9 @@ public class Reservation {
         // the format for reservation history
         // reservationID, accountID, contactNo, reserveTime, serveTime, serveLocation,
         // reservationStatus
-        return String.format("%10s %10s %15s %15s %15s %20s %10s\n", reservationID, account.getAccountID(), contactNo,
-                reserveTime, serveTime, serveLocation, reservationStatus);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return String.format("%-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", reservationID, account.getAccountID(), contactNo,
+                reserveTime.format(formatter), serveTime.format(formatter), serveLocation, reservationStatus);
 
     }
 

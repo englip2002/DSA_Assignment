@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,7 +11,7 @@
  *
  * @author User
  */
-public class Category {
+public class Category implements Serializable{
     private ArraySet<MenuItem> menuItems;
     private char categoryName;
     private static int counter = 0;

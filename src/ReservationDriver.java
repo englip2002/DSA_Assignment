@@ -19,8 +19,8 @@ public class ReservationDriver {
         // reservation
         FileHandler reservationFile = new FileHandler("Reservations.dat");
         ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
-        System.out.println(reservationList.getEntry(0).toString());
-        
+        // System.out.println(reservationList.getEntry(0).toString());
+
         // menu
         FileHandler<Menu> menuFile = new FileHandler<Menu>("Menu.dat");
         // Menu menu = (Menu) menuFile.read();
@@ -47,7 +47,6 @@ public class ReservationDriver {
         int foodChoice = -1;
         int foodQuantity;
         Character cartContinue = 'N';
-        Character cartRemove = 'N';
         int cartRemovePosition;
 
         // remove
@@ -56,7 +55,8 @@ public class ReservationDriver {
         LocalDateTime serveTime = null;
         Scanner scanner = new Scanner(System.in);
         do {
-            System.out.println("Reservation Module");
+            reservationList = (ListInterface) reservationFile.read();
+            System.out.println("\nReservation Module");
             System.out.println("========================");
             System.out.println("1. Make Reservation for current account");
             System.out.println("2. View all reservation history");
@@ -71,8 +71,6 @@ public class ReservationDriver {
                 case 1:
                     Reservation reservation = new Reservation(account);
                     do {
-                        char confirmation = 'N';
-
                         System.out.println("\nReservation Process");
                         System.out.println("========================");
                         System.out.println("1. Enter reservation details");
@@ -217,6 +215,7 @@ public class ReservationDriver {
                                 scanner.nextLine();
                                 break;
                             case 5:
+                                // checkout
                                 // confirm (print bill)
                                 System.out.println("Bills");
                                 System.out.println("===========");
@@ -226,52 +225,78 @@ public class ReservationDriver {
                                 scanner.nextLine();
                                 scanner.nextLine();
 
+                                reservation.checkOut();
                                 // add into array and write into file, else discard
-                                reservationList.add(reservation);
-                                reservationFile.write(reservationList);
+                                if (reservationList == null) {
+                                    ListInterface<Reservation> temp = new LinkedList<Reservation>();
+                                    temp.add(reservation);
+                                    reservationFile.write(temp);
+
+                                } else {
+                                    reservationList.add(reservation);
+                                    reservationFile.write(reservationList);
+                                }
                                 break;
                         }
                     } while (reservationProcessChoice != 5);
                     break;
                 case 2:
-                    if (reservationList == null) {
+                    if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
                         System.out.println("No Reservation Stored!");
                         System.out.println("Press <Enter> to continue.");
                         scanner.nextLine();
                         scanner.nextLine();
                     } else {
-                        System.out.println(
-                                String.format("%10s %10s %15s %15s %15s %20s %10s\n", "reservationID", "AccountID",
+                        System.out.print(
+                                String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
+                                        "AccountID",
+                                        "ContactNo",
+                                        "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
+
+                        int i = 0;
+                        for (Reservation reserve : reservationList) {
+                            i++;
+                            System.out.print(String.format("%-3s %s", i, reserve.toString()));
+                        }
+                        System.out.println("Total Number of Reservation: " + reservationList.getNumberOfEntries());
+                        System.out.println("Press <Enter> to continue.");
+                        scanner.nextLine();
+                        scanner.nextLine();
+                    }
+                    break;
+                case 3:
+                    if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
+                        System.out.println("No Reservation Stored!");
+                        System.out.println("Press <Enter> to continue.");
+                        scanner.nextLine();
+                        scanner.nextLine();
+                    } else {
+                        System.out.print(
+                                String.format("%-3s %-15s %-15s %-15s %-15s %-20s %-20s %-10s\n", "No", "ReservationID",
+                                        "AccountID",
                                         "ContactNo",
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
 
                         // for each loop
+                        int i = 0;
                         for (Reservation reserve : reservationList) {
-                            reserve.toString();
+                            i++;
+                            System.out.print(String.format("%-3s %s", i, reserve.toString()));
                         }
 
-                        System.out.println("Total Number of Reservation: " + reservationList.getNumberOfEntries());
-                    }
-                    break;
-                case 3:
-                    System.out.println(
-                            String.format("%10s %10s %15s %15s %15s %20s %10s\n", "reservationID", "AccountID",
-                                    "ContactNo",
-                                    "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
+                        System.out.print("Please Enter your choice to remove (-1 to exit):");
+                        removeChoice = scanner.nextInt();
 
-                    // for each loop
-                    for (Reservation reserve : reservationList) {
-                        reserve.toString();
-                    }
-                    System.out.println("Please Enter your choice to remove (-1 to exit):");
-                    removeChoice = scanner.nextInt();
-
-                    if (removeChoice > reservationList.getNumberOfEntries() || removeChoice < 1) {
-                        System.out.println("Invalid Choice!");
-                    } else if (removeChoice == -1) {
-                        System.out.println("Exited!");
-                    } else {
-                        reservationList.remove(removeChoice - 1);
+                        if (removeChoice > reservationList.getNumberOfEntries() || removeChoice < 1) {
+                            System.out.println("Invalid Choice!");
+                        } else if (removeChoice == -1) {
+                            System.out.println("Exited!");
+                            System.out.println("Press <Enter> to continue.");
+                            scanner.nextLine();
+                        } else {
+                            reservationList.remove(removeChoice - 1);
+                            reservationFile.write(reservationList);
+                        }
                     }
                     break;
             }

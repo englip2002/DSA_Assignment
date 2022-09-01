@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,7 +14,7 @@
  * Author: KONG ZHI LIN Description: Store food and beverage
  *
  */
-public class Menu {
+public class Menu implements Serializable{
     // Properties
     private SetInterface<Category> menuCategory;
 

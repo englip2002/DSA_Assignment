@@ -1,4 +1,6 @@
-public class FoodInCart {
+import java.io.Serializable;
+
+public class FoodInCart implements Serializable{
     private MenuItem food;
     private int quantity;
 

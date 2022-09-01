@@ -1,4 +1,6 @@
-public class Cart {
+import java.io.Serializable;
+
+public class Cart implements Serializable{
     private ListInterface<FoodInCart> foodsInCart;
     private int itemCount;
 
