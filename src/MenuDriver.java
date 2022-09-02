@@ -1,3 +1,4 @@
+import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class MenuDriver {
@@ -72,35 +73,25 @@ public class MenuDriver {
             // remove item
             displayCategoryChoice();
 
-            char menuItemCategory;
             int categoryChoice = 0;
 
             // enter add category (display category choice)
-            do {
+            
                 displayCategoryChoice();
                 categoryChoice = scanner.nextInt();
-                // M = main course , B = beverage, A = Appertizer, D = Dessert
-                switch (categoryChoice) {
-                    case 1:
-                        menuItemCategory = 'A';
-                        break;
-                    case 2:
-                        menuItemCategory = 'M';
-                        break;
-                    case 3:
-                        menuItemCategory = 'B';
-                        break;
-                    case 4:
-                        menuItemCategory = 'D';
-                        break;
-                    default:
-                        System.out.println("Invalid Input");
-                        break;
-                }
-            } while (categoryChoice < 1 || categoryChoice > 4);
+
+                menu.displayMenuItemBasedCategory(categoryChoice);
+                System.out.println("Please select which dish you would like to remove!");
+                System.out.print("Enter your choice: ");
+                int userDishChoice = scanner.nextInt();
+
+                // MenuItem temp = 
+                
 
         } else if (userChoice == 3) {
             // display menu item
+
+            menu.displayMenu();
 
         } else if (userChoice == 4) {
             // modify menu item
@@ -108,7 +99,7 @@ public class MenuDriver {
             int userCategoryChoice = scanner.nextInt();
 
             // Pass the user category choose
-            menu.modifyMenuItem(userCategoryChoice);
+            menu.displayMenuItemBasedCategory(userCategoryChoice);
             // display the category dish at the modify method (menu class)
             System.out.println("Please select the dish you would like to modify! ");
             System.out.print("Enter your choice: ");

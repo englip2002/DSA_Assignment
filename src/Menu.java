@@ -108,7 +108,7 @@ public class Menu implements Serializable {
     }
 
     // Modify menu item
-    public boolean modifyMenuItem(int userCategoryChoice) {
+    public boolean displayMenuItemBasedCategory(int userCategoryChoice) {
         // int userDishChoice;
         // MenuItem modifiedMenu = new MenuItem();
 
