@@ -251,7 +251,7 @@ public class ReservationDriver1 {
                     } while (reservationProcessChoice != 5);
                     break;
                 case 2:
-                    if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
+                    if (Reservation.getReservationList() == null || Reservation.getReservationList().getNumberOfEntries() == 0) {
                         System.out.println("No Reservation Stored!");
                         System.out.println("Press <Enter> to continue.");
                         scanner.nextLine();

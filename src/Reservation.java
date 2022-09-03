@@ -113,9 +113,9 @@ public class Reservation implements Serializable {
         ls.add(this);
     }
 
-    public void removeReservation(){
-        for(int i=0;i<ls.getNumberOfEntries();i++){
-            if(reservationID.compareTo(ls.getEntry(i).getReservationID())==0){
+    public void removeReservation() {
+        for (int i = 0; i < ls.getNumberOfEntries(); i++) {
+            if (reservationID.compareTo(ls.getEntry(i).getReservationID()) == 0) {
                 ls.remove(i);
             }
         }
