@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-//import java.net.SocketTimeoutException;
-=======
->>>>>>> ef3f4797bd3a2cc79ad498d61bb190f93fdefb1c
 import java.util.Scanner;
 
 public class MenuDriver {
