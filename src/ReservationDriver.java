@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
@@ -52,6 +53,13 @@ public class ReservationDriver {
         // remove
         int removeChoice = -1;
 
+        // search
+        int searchChoice;
+        String searchDateString;
+        String searchName;
+        LocalDateTime searchTime = LocalDateTime.now();
+        boolean searchFlag = false;
+
         LocalDateTime serveTime = null;
         Scanner scanner = new Scanner(System.in);
         do {
@@ -61,7 +69,8 @@ public class ReservationDriver {
             System.out.println("1. Make Reservation for current account");
             System.out.println("2. View all reservation history");
             System.out.println("3. Remove Reservation");
-            System.out.println("4. Exit");
+            System.out.println("4. Search reservation");
+            System.out.println("5. Exit");
             do {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
@@ -77,15 +86,14 @@ public class ReservationDriver {
                         System.out.println("2. Enter food into cart");
                         System.out.println("3. Remove food from cart");
                         System.out.println("4. View Cart");
-                        System.out.println("5. Search reservation");
-                        System.out.println("6. CheckOut");
+                        System.out.println("5. CheckOut");
                         do {
                             System.out.print("Enter your choice: ");
                             reservationProcessChoice = scanner.nextInt();
                             if (reservationProcessChoice < 1 || reservationProcessChoice > 5) {
                                 System.out.println("Invalid Choice!");
                             }
-                        } while (reservationProcessChoice < 1 || reservationProcessChoice > 6);
+                        } while (reservationProcessChoice < 1 || reservationProcessChoice > 5);
 
                         switch (reservationProcessChoice) {
                             case 1:
@@ -215,10 +223,8 @@ public class ReservationDriver {
                                 scanner.nextLine();
                                 scanner.nextLine();
                                 break;
+
                             case 5:
-                                //Search by date, Name
-                                
-                            case 6:
                                 // checkout
                                 // confirm (print bill)
                                 System.out.println("Bills");
@@ -285,7 +291,7 @@ public class ReservationDriver {
                         int i = 0;
                         for (Reservation reserve : reservationList) {
                             i++;
-                            System.out.print(String.format("%-3s %s", i, reserve.toString()));
+                            System.out.print(String.format("%-3d %s", i, reserve.toString()));
                         }
 
                         System.out.print("Please Enter your choice to remove (-1 to exit):");
@@ -303,8 +309,131 @@ public class ReservationDriver {
                         }
                     }
                     break;
+                case 4:
+                    // Search by date, Name
+                    System.out.println("Search");
+                    System.out.println("===========");
+                    System.out.println("1. By Reserve Date");
+                    System.out.println("2. By Serve Date");
+                    System.out.println("3. By Name");
+                    do {
+                        System.out.print("Enter your choice: ");
+                        searchChoice = scanner.nextInt();
+                        if (searchChoice < 1 || searchChoice > 3) {
+                            System.out.println("Invalid Choice!");
+                        }
+                    } while (searchChoice < 1 || searchChoice > 3);
+
+                    if (searchChoice == 1) {
+                        do {
+                            dateValidity = true;
+                            try {
+                                System.out.print("Enter date (YYYY-MM-DD): ");
+                                searchDateString = scanner.next();
+
+                                // formatting the entered and store in serveDateandTime
+                                searchTime = LocalDateTime.of(LocalDate.parse(searchDateString),
+                                        LocalTime.now());
+
+                            } catch (DateTimeParseException e) {
+                                dateValidity = false;
+                            }
+
+                            // print error message
+                            if (dateValidity == false)
+                                System.out.println("Invalid Date Format! Please Re-enter.\n");
+
+                        } while (dateValidity == false);
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                        // print result
+                        searchFlag = false;
+                        int i = 0;
+                        System.out.println(
+                                String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
+                                        "AccountID",
+                                        "ContactNo",
+                                        "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
+                        for (Reservation reservations : reservationList) {
+                            if (reservations.getReserveDate().format(formatter)
+                                    .compareTo(searchTime.format(formatter)) == 0) {
+                                i++;
+                                System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                                searchFlag = true;
+                            }
+                        }
+                    } else if (searchChoice == 2) {
+                        do {
+                            dateValidity = true;
+                            try {
+                                System.out.print("Enter date (YYYY-MM-DD): ");
+                                searchDateString = scanner.next();
+
+                                // formatting the entered and store in serveDateandTime
+                                searchTime = LocalDateTime.of(LocalDate.parse(searchDateString),
+                                        LocalTime.now());
+
+                            } catch (DateTimeParseException e) {
+                                dateValidity = false;
+                            }
+
+                            // print error message
+                            if (dateValidity == false)
+                                System.out.println("Invalid Date Format! Please Re-enter.\n");
+
+                        } while (dateValidity == false);
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                        // print result
+                        searchFlag = false;
+                        int i = 0;
+                        System.out.println(
+                                String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
+                                        "AccountID",
+                                        "ContactNo",
+                                        "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
+
+                        for (Reservation reservations : reservationList) {
+                            if (reservations.getReserveDate().format(formatter)
+                                    .compareTo(searchTime.format(formatter)) == 0) {
+                                i++;
+                                System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                                searchFlag = true;
+                            }
+                        }
+                    } else if (choice == 3) {
+                        System.out.print("Enter Search Name: ");
+                        searchName = scanner.nextLine();
+
+                        // print result
+                        searchFlag = false;
+                        int i = 0;
+                        System.out.println(
+                                String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
+                                        "AccountID",
+                                        "ContactNo",
+                                        "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
+
+                        for (Reservation reservations : reservationList) {
+                            if (reservations.getAccount().getFullName().compareToIgnoreCase(searchName)==0) {
+                                i++;
+                                System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                                searchFlag = true;
+                            }
+                        }
+                    }
+
+                    if (searchFlag == false) {
+                        System.out.println("No Record Found!");
+                    }
+
+                    System.out.println("Press <Enter> to continue.");
+                    scanner.nextLine();
+                    scanner.nextLine();
             }
-        } while (choice != 4);
+        } while (choice != 5);
 
         // input to file when module end
         scanner.close();
