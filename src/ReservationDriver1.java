@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-public class ReservationDriver {
+public class ReservationDriver1 {
     public static void main(String[] args) {
         FileHandler<ListInterface<Reservation>> reservationFile = new FileHandler<ListInterface<Reservation>>(
                 "Reservations.dat");
@@ -20,7 +20,7 @@ public class ReservationDriver {
         // reservation
         Reservation reservation = new Reservation(account);
         FileHandler reservationFile = new FileHandler("Reservations.dat");
-        ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
+        Reservation.setReservationList((ListInterface)reservationFile.read());
         // System.out.println(reservationList.getEntry(0).toString());
 
         // menu
@@ -64,7 +64,7 @@ public class ReservationDriver {
         LocalDateTime serveTime = null;
         Scanner scanner = new Scanner(System.in);
         do {
-            reservationList = (ListInterface) reservationFile.read();
+            Reservation.setReservationList((ListInterface)reservationFile.read());
             System.out.println("\nReservation Module");
             System.out.println("========================");
             System.out.println("1. Make Reservation for current account");
@@ -237,14 +237,14 @@ public class ReservationDriver {
 
                                 reservation.checkOut();
                                 // add into array and write into file, else discard
-                                if (reservationList == null) {
+                                if (Reservation.getReservationList() == null) {
                                     ListInterface<Reservation> temp = new LinkedList<Reservation>();
                                     temp.add(reservation);
                                     reservationFile.write(temp);
 
                                 } else {
-                                    reservationList.add(reservation);
-                                    reservationFile.write(reservationList);
+                                    Reservation.getReservationList().add(reservation);
+                                    reservationFile.write(Reservation.getReservationList());
                                 }
                                 break;
                         }
