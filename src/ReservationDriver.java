@@ -77,14 +77,15 @@ public class ReservationDriver {
                         System.out.println("2. Enter food into cart");
                         System.out.println("3. Remove food from cart");
                         System.out.println("4. View Cart");
-                        System.out.println("5. CheckOut");
+                        System.out.println("5. Search reservation");
+                        System.out.println("6. CheckOut");
                         do {
                             System.out.print("Enter your choice: ");
                             reservationProcessChoice = scanner.nextInt();
                             if (reservationProcessChoice < 1 || reservationProcessChoice > 5) {
                                 System.out.println("Invalid Choice!");
                             }
-                        } while (reservationProcessChoice < 1 || reservationProcessChoice > 5);
+                        } while (reservationProcessChoice < 1 || reservationProcessChoice > 6);
 
                         switch (reservationProcessChoice) {
                             case 1:
@@ -215,6 +216,9 @@ public class ReservationDriver {
                                 scanner.nextLine();
                                 break;
                             case 5:
+                                //Search by date, Name
+                                
+                            case 6:
                                 // checkout
                                 // confirm (print bill)
                                 System.out.println("Bills");
