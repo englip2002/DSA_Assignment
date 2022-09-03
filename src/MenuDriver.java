@@ -4,25 +4,27 @@ import java.util.Scanner;
 public class MenuDriver {
     public static void main(String[] args) {
 
-        FileHandler<SetInterface<Menu>> menuFile = new FileHandler<SetInterface<Menu>>("Menu.dat");
+        FileHandler <Menu> menuFile = new FileHandler <Menu> ("Menu.dat");
 
         // SetInterface<Category> menu = new ArraySet<Category>();
         Scanner scanner = new Scanner(System.in);
         Menu menu = new Menu();
-        SetInterface<Menu> st = new ArraySet<>();
+        //SetInterface<Menu> st = new ArraySet<>();
         menu.addCategory(new Category('A'));
         menu.addCategory(new Category('M'));
         menu.addCategory(new Category('B'));
         menu.addCategory(new Category('D'));
 
-        // MenuItem[] menuItem = { new MenuItem('A', "French Fries", 5.00, "Hand cut wedges of Yukan Cold potatoes"),
-        //         new MenuItem('A', "Stuffed Mushrooms", 9.00, "Hand cut wedges of Yukan Cold potatoes"),
+        // MenuItem[] menuItem = { new MenuItem('A', "French Fries", 5.00, "Hand cut
+        // wedges of Yukan Cold potatoes"),
+        // new MenuItem('A', "Stuffed Mushrooms", 9.00, "Hand cut wedges of Yukan Cold
+        // potatoes"),
         // };
 
-        menu.addMenuItem(new MenuItem('A', "French Fries", 5.00, "Hand cut wedges of Yukan Cold potatoes"));
-        st.add(menu);
+        menu.classifyMenuItem(new MenuItem('A', "French Fries", 5.00, "Hand cut wedges of Yukan Cold potatoes"));
+        //st.add(menu);
 
-        menuFile.write(st);
+        menuFile.write(menu);
 
         displayMenuTableChoice();
         int userChoice = scanner.nextInt();
@@ -80,7 +82,7 @@ public class MenuDriver {
                 MenuItem temp = new MenuItem(menuItemCategory, menuItemName, menuItemPrice, menuItemDescription);
 
                 // pass to add
-                menu.addMenuItem(temp);
+                menu.classifyMenuItem(temp);
 
             } else if (userChoice == 2) {
                 // remove item

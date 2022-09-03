@@ -44,7 +44,7 @@ public class Menu implements Serializable {
      * [2] == Beverage
      * [3] == Dessert
      */
-    public boolean addMenuItem(MenuItem menuItem) {
+    public boolean classifyMenuItem(MenuItem menuItem) {
         switch (menuItem.getDishCategory()) {
             case 'A':
                 Category tempA = ((Category) menuCategory.getElementAtPos(0));

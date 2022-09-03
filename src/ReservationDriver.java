@@ -31,7 +31,7 @@ public class ReservationDriver {
         Category appertizer = new Category('A');
         menu.addCategory(appertizer);
         MenuItem cornSoup = new MenuItem('A', "Corn Soup", 2.3, "Good");
-        menu.addMenuItem(cornSoup);
+        menu.classifyMenuItem(cornSoup);
 
         int choice = 0;
         boolean dateValidity;
@@ -417,7 +417,7 @@ public class ReservationDriver {
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
 
                         for (Reservation reservations : reservationList) {
-                            if (reservations.getAccount().getFullName().compareToIgnoreCase(searchName)==0) {
+                            if (reservations.getAccount().getFullName().compareToIgnoreCase(searchName) == 0) {
                                 i++;
                                 System.out.println(String.format("%-3d %s", i, reservations.toString()));
                                 searchFlag = true;

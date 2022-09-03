@@ -42,7 +42,7 @@ public class Category implements Serializable{
     // index = index of dishes in category
     // dish = new modified dishes
     public boolean modifyMenuItem(MenuItem menuItem, int index) {
-        menuItems.remove(menuItems.getElement()[index - 1]);
+        menuItems.remove(menuItems.getElementAtPos(index -1));
         menuItems.add(menuItem);
         return true;
     }
