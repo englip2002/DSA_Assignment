@@ -14,7 +14,7 @@ import java.io.Serializable;
  * Author: KONG ZHI LIN Description: Store food and beverage
  *
  */
-public class Menu implements Serializable{
+public class Menu implements Serializable {
     // Properties
     private SetInterface<Category> menuCategory;
 
@@ -44,23 +44,26 @@ public class Menu implements Serializable{
      * [2] == Beverage
      * [3] == Dessert
      */
-    public void addMenuItem(MenuItem menuItem) {
+    public boolean addMenuItem(MenuItem menuItem) {
         switch (menuItem.getDishCategory()) {
             case 'A':
-                Category temp = ((Category) menuCategory.getElementAtPos(0));
-                temp.addMenuItem(menuItem);
-                break;
+                Category tempA = ((Category) menuCategory.getElementAtPos(0));
+                tempA.addMenuItem(menuItem);
+                return true;
             case 'M':
-                menuCategory.getElement()[1].addMenuItem(menuItem);
-                break;
+                Category tempM = ((Category) menuCategory.getElementAtPos(1));
+                tempM.addMenuItem(menuItem);
+                return true;
             case 'B':
-                menuCategory.getElement()[2].addMenuItem(menuItem);
-                break;
+                Category tempB = ((Category) menuCategory.getElementAtPos(2));
+                tempB.addMenuItem(menuItem);
+                return true;
             case 'D':
-                menuCategory.getElement()[3].addMenuItem(menuItem);
-                break;
+                Category tempD = ((Category) menuCategory.getElementAtPos(3));
+                tempD.addMenuItem(menuItem);
+                return true;
             default:
-                break;
+                return false;
 
         }
 
@@ -70,16 +73,20 @@ public class Menu implements Serializable{
     public boolean removeMenuItem(MenuItem menuItem) {
         switch (menuItem.getDishCategory()) {
             case 'A':
-                menuCategory.getElement()[0].removeMenuItem(menuItem);
+                Category tempA = ((Category) menuCategory.getElementAtPos(0));
+                tempA.removeMenuItem(menuItem);
                 return true;
             case 'M':
-                menuCategory.getElement()[1].removeMenuItem(menuItem);
+                Category tempM = ((Category) menuCategory.getElementAtPos(1));
+                tempM.removeMenuItem(menuItem);
                 return true;
             case 'B':
-                menuCategory.getElement()[2].removeMenuItem(menuItem);
+                Category tempB = ((Category) menuCategory.getElementAtPos(2));
+                tempB.removeMenuItem(menuItem);
                 return true;
             case 'D':
-                menuCategory.getElement()[3].removeMenuItem(menuItem);
+                Category tempD = ((Category) menuCategory.getElementAtPos(3));
+                tempD.removeMenuItem(menuItem);
                 return true;
             default:
                 return false;
@@ -92,17 +99,16 @@ public class Menu implements Serializable{
     public void modifyMenuItemDetail(int userCategoryChoice, int userDishChoice, char newCategory,
             String newName, double newPrice, String newDescription) {
 
-        String oldDishID = menuCategory.getElement()[userCategoryChoice - 1].getMenuItems().getElement()[userDishChoice
-                - 1]
-                .getDishID();
+        String oldDishID = menuCategory.getElementAtPos(userCategoryChoice - 1).getMenuItems()
+                .getElementAtPos(userDishChoice - 1).getDishID();
         MenuItem modifiedMenu = new MenuItem(oldDishID, newCategory, newName, newPrice, newDescription);
 
         // direct modify item
-        menuCategory.getElement()[userCategoryChoice - 1].modifyMenuItem(modifiedMenu, userDishChoice - 1);
+        menuCategory.getElementAtPos(userCategoryChoice - 1).modifyMenuItem(modifiedMenu, userDishChoice - 1);
     }
 
     // Modify menu item
-    public boolean modifyMenuItem(int userCategoryChoice) {
+    public boolean displayMenuItemBasedCategory(int userCategoryChoice) {
         // int userDishChoice;
         // MenuItem modifiedMenu = new MenuItem();
 
@@ -123,22 +129,22 @@ public class Menu implements Serializable{
 
     // To display specific category menu item
     public void displayMenuItem(int categoryIndex) {
-        Category temp = menuCategory.getElement()[categoryIndex];
+        Category temp = menuCategory.getElementAtPos(categoryIndex);
 
         for (int i = 0; i < temp.getMenuItems().getNumberOfEntries(); i++) {
-            System.out.println("1. " + temp.getMenuItems().getElement()[i].toString());
+            System.out.println("1. " + temp.getMenuItems().getElementAtPos(i).toString());
         }
     }
 
     // Search method
     public boolean SearchMenuItem(int userCategoryChoice, String menuItemName) {
 
-        Category temp = menuCategory.getElement()[userCategoryChoice - 1];
+        Category temp = menuCategory.getElementAtPos(userCategoryChoice - 1);
 
         for (int i = 0; i < temp.getMenuItems().getNumberOfEntries(); i++) {
-            if (temp.getMenuItems().getElement()[i].getDishName() == menuItemName) {
+            if (temp.getMenuItems().getElementAtPos(i).getDishName() == menuItemName) {
                 System.out.println("Dish is found!!");
-                System.out.println(temp.getMenuItems().getElement()[i].toString());
+                System.out.println(temp.getMenuItems().getElementAtPos(i).toString());
                 return true;
             }
 
@@ -174,17 +180,17 @@ public class Menu implements Serializable{
     public String displayMenu() {
         String str = "";
         for (int i = 0; i < menuCategory.getNumberOfEntries(); i++) {
-            if (menuCategory.getElement()[i].getCategoryName() == 'M') {
+            if (menuCategory.getElementAtPos(i).getCategoryName() == 'M') {
                 System.out.println("Main Course: \n");
-            } else if (menuCategory.getElement()[i].getCategoryName() == 'A') {
+            } else if (menuCategory.getElementAtPos(i).getCategoryName() == 'A') {
                 System.out.println("Appertizer: \n");
-            } else if (menuCategory.getElement()[i].getCategoryName() == 'B') {
+            } else if (menuCategory.getElementAtPos(i).getCategoryName() == 'B') {
                 System.out.println("Beverage: \n");
             } else {
                 System.out.println("Dessert: \n");
             }
-            for (int j = 0; j < menuCategory.getElement()[i].getCounter(); j++) {
-                str += menuCategory.getElement()[i].getMenuItems().getElement()[j].toString() + "\n";
+            for (int j = 0; j < menuCategory.getElementAtPos(i).getCounter(); j++) {
+                str += menuCategory.getElementAtPos(i).getMenuItems().getElementAtPos(j).toString() + "\n";
             }
         }
         return str;

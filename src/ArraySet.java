@@ -122,8 +122,9 @@ public class ArraySet<T> implements SetInterface<T> {
         return array;
     }
     
-    public T getElementAtPos(int pos) {
-        return array[pos];
+    @Override
+    public T getElementAtPos(int indexNo) {
+        return array[indexNo];
     }
 
     public int getNumberOfEntries() {

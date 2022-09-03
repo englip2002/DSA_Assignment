@@ -30,7 +30,7 @@ public interface SetInterface<T> {
     public T[] getElement();
     
     
-    public T getElementAtPos(int pos);
+    public T getElementAtPos(int indexNo);
     //Checks if the set contains e and return that elements (search) 
     //public T[] contains(T anElement);
 

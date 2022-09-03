@@ -1,3 +1,4 @@
+import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class MenuDriver {
@@ -70,16 +71,35 @@ public class MenuDriver {
 
         } else if (userChoice == 2) {
             // remove item
+            displayCategoryChoice();
+
+            int categoryChoice = 0;
+
+            // enter add category (display category choice)
+            
+                displayCategoryChoice();
+                categoryChoice = scanner.nextInt();
+
+                menu.displayMenuItemBasedCategory(categoryChoice);
+                System.out.println("Please select which dish you would like to remove!");
+                System.out.print("Enter your choice: ");
+                int userDishChoice = scanner.nextInt();
+
+                // MenuItem temp = 
+                
 
         } else if (userChoice == 3) {
             // display menu item
+
+            menu.displayMenu();
+
         } else if (userChoice == 4) {
             // modify menu item
             displayCategoryChoice();
             int userCategoryChoice = scanner.nextInt();
 
             // Pass the user category choose
-            menu.modifyMenuItem(userCategoryChoice);
+            menu.displayMenuItemBasedCategory(userCategoryChoice);
             // display the category dish at the modify method (menu class)
             System.out.println("Please select the dish you would like to modify! ");
             System.out.print("Enter your choice: ");
@@ -120,8 +140,6 @@ public class MenuDriver {
     // to display a category menu for user
     public static void displayMenuTableChoice() {
 
-        // Scanner scanner = new Scanner(System.in);
-
         System.out.println("           Menu         ");
         System.out.println("------------------------");
         System.out.println("1. Add Menu Item(s)");
@@ -142,7 +160,5 @@ public class MenuDriver {
         System.out.println("4. Dessert");
         System.out.print("Enter your choice: ");
     }
-
-    // public static void
 
 }

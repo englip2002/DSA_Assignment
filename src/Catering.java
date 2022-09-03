@@ -8,7 +8,11 @@ public class Catering {
 
         // Login Account ID: AC00000, Password: admin
         FileHandler accountsFile = new FileHandler("Accounts.dat");
-        DictionaryInterface<String, Account> accountList = (DictionaryInterface) accountsFile.read();
+        DictionaryInterface<String, Account> accountList = new HashedDictionary<>();
+        Account admin = new Account("AC00000", "admin", "EAT 99", "ADMIN", "Other", LocalDate.of(2022, 9, 1), "Admin");
+        accountList.add(admin.getAccountID(), admin);
+        accountsFile.write(accountList);
+        accountList = (DictionaryInterface) accountsFile.read();
         Scanner sc = new Scanner(System.in);
         Account loginAccount = null;
         int selection;
