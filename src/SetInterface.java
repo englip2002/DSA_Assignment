@@ -5,6 +5,8 @@
  */
 //package Assignment;
 
+import java.util.Iterator;
+
 /**
 Author: KONG ZHI LIN
 Set ADT Specification:
@@ -26,11 +28,12 @@ public interface SetInterface<T> {
     //Check the menu is full or not
     boolean isFull();
     
-    //To get the value from the menu set
+    //To get the array from the menu set
     public T[] getElement();
     
     
     public T getElementAtPos(int indexNo);
+
     //Checks if the set contains e and return that elements (search) 
     //public T[] contains(T anElement);
 
@@ -43,6 +46,8 @@ public interface SetInterface<T> {
     public SetInterface intersection(SetInterface anotherSet);
     
     public int getNumberOfEntries();
+
+    public Iterator<T> iterator();
 
     //difference(S, T)  // Returns the difference of set S and set T
     //public 

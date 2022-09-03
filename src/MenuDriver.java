@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-//import java.net.SocketTimeoutException;
-=======
->>>>>>> ef3f4797bd3a2cc79ad498d61bb190f93fdefb1c
+
 import java.util.Scanner;
 
 public class MenuDriver {
@@ -9,14 +6,23 @@ public class MenuDriver {
 
         FileHandler<SetInterface<Menu>> menuFile = new FileHandler<SetInterface<Menu>>("Menu.dat");
 
-
         // SetInterface<Category> menu = new ArraySet<Category>();
         Scanner scanner = new Scanner(System.in);
         Menu menu = new Menu();
+        SetInterface<Menu> st = new ArraySet<>();
         menu.addCategory(new Category('A'));
         menu.addCategory(new Category('M'));
         menu.addCategory(new Category('B'));
         menu.addCategory(new Category('D'));
+
+        // MenuItem[] menuItem = { new MenuItem('A', "French Fries", 5.00, "Hand cut wedges of Yukan Cold potatoes"),
+        //         new MenuItem('A', "Stuffed Mushrooms", 9.00, "Hand cut wedges of Yukan Cold potatoes"),
+        // };
+
+        menu.addMenuItem(new MenuItem('A', "French Fries", 5.00, "Hand cut wedges of Yukan Cold potatoes"));
+        st.add(menu);
+
+        menuFile.write(st);
 
         displayMenuTableChoice();
         int userChoice = scanner.nextInt();
@@ -97,9 +103,9 @@ public class MenuDriver {
             } else if (userChoice == 3) {
 
                 // read file when starting
-        // reservation
-        FileHandler reservationFile = new FileHandler("Reservations.dat");
-        ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
+                // reservation
+                FileHandler reservationFile = new FileHandler("Reservations.dat");
+                ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
 
                 // display menu item
                 menu = (Menu) menuFile.read();

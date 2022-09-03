@@ -5,12 +5,15 @@
  */
 //package Assignment;
 
+import java.io.Serializable;
+import java.util.Iterator;
+
 /**
  * Author: KONG ZHI LIN
  * Implementer class for ADT MenuInterface
  **/
 
-public class ArraySet<T> implements SetInterface<T> {
+public class ArraySet<T> implements SetInterface<T>, Serializable {
 
     // Constant
     // To set the array size as 50
@@ -147,6 +150,33 @@ public class ArraySet<T> implements SetInterface<T> {
 
         for (int index = removedIndex; index < lastIndex; index++) {
             array[index] = array[index + 1];
+        }
+    }
+
+    
+    @Override
+    public Iterator<T> iterator() {
+        return new SetIterator();
+    }
+
+    //inner class
+    private class SetIterator implements Iterator<T>{
+
+        int currentIndex;
+
+        public SetIterator() {
+            currentIndex = 0;
+        }
+        @Override
+        public boolean hasNext() {
+            return currentIndex < numberOfEntries;
+        }
+
+        @Override
+        public T next() {
+            T result = array[currentIndex];
+            currentIndex++;
+            return result;
         }
     }
 
