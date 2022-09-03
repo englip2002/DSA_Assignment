@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -11,14 +12,12 @@ public class Reservation implements Serializable{
     private String serveLocation;
     private String reservationStatus;
     private Cart cart;
-    private static int reservationCount = 0;
     private static int IDcounter = 1;
 
     public Reservation(Account account) {
         this.account = account;
         this.reservationStatus = null;
         cart = new Cart();
-        reservationCount++;
         reservationID = generareReservationID();
     }
 
@@ -39,11 +38,6 @@ public class Reservation implements Serializable{
         this.contactNo = contactNo;
         this.serveLocation = serveLocation;
         this.serveTime = serveTime;
-    }
-
-    public boolean cancelReservation() {
-        reservationCount--;
-        return true;
     }
 
     public void changeReservationStatus(String status) {
@@ -76,10 +70,6 @@ public class Reservation implements Serializable{
         return cart;
     }
 
-    public int getReservationCount() {
-        return reservationCount;
-    }
-
     public Account getAccount() {
         return account;
     }
@@ -87,6 +77,15 @@ public class Reservation implements Serializable{
     public String getReservationID() {
         return reservationID;
     }
+
+    public LocalDateTime getReserveDate(){
+        return reserveTime;
+    }
+
+    public LocalDateTime getServeDate(){
+        return serveTime;
+    }
+
 
     private String generareReservationID() {
         return String.format("R%05d", IDcounter);
