@@ -8,11 +8,11 @@ public class Catering {
 
         // Login Account ID: AC00000, Password: admin
         FileHandler accountsFile = new FileHandler("Accounts.dat");
-        DictionaryInterface<String, Account> accountList = new HashedDictionary<>();
+        MapInterface<String, Account> accountList = new HashMap<>();
         Account admin = new Account("AC00000", "admin", "EAT 99", "ADMIN", "Other", LocalDate.of(2022, 9, 1), "Admin");
-        accountList.add(admin.getAccountID(), admin);
+        accountList.put(admin.getAccountID(), admin);
         accountsFile.write(accountList);
-        accountList = (DictionaryInterface) accountsFile.read();
+        accountList = (MapInterface) accountsFile.read();
         Scanner sc = new Scanner(System.in);
         Account loginAccount = null;
         int selection;
@@ -91,7 +91,7 @@ public class Catering {
         sc.close();
     }
 
-    public static void accountModule(Account loginAccount, DictionaryInterface<String, Account> accountList) {
+    public static void accountModule(Account loginAccount, MapInterface<String, Account> accountList) {
 
         FileHandler accountsFile = new FileHandler("Accounts.dat");
         Scanner sc = new Scanner(System.in);
@@ -119,14 +119,14 @@ public class Catering {
             switch (selection) {
                 case 1:
                     // Display Account Details
-                    accountList = (DictionaryInterface) accountsFile.read();
+                    accountList = (MapInterface) accountsFile.read();
                     if (loginAccount.isAdmin()) {
                         System.out.println("\nAccounts Details");
                         System.out.println("================");
 
                         if (accountList.getSize() > 0) {
                             String[] accountIDs = new String[accountList.getSize()];
-                            ((HashedDictionary) accountList).getKeys(accountIDs);
+                            ((HashMap) accountList).getKeys(accountIDs);
 
                             for (int i = 0; i < accountIDs.length; i++) {
                                 System.out.println("Account " + (i + 1));
@@ -222,7 +222,7 @@ public class Catering {
                             if (Character.toUpperCase(choice) == 'Y') {
                                 String accountID = String.format("AC%05d", Account.getIDCount());
                                 Account registeredAccount = new Account(accountID, password, firstName, lastName, gender, dob, accountType);
-                                accountList.add(registeredAccount.getAccountID(), registeredAccount);
+                                accountList.put(registeredAccount.getAccountID(), registeredAccount);
                                 accountsFile.write(accountList);
 
                                 System.out.println("\nRegistered Account");
@@ -336,7 +336,7 @@ public class Catering {
                                         System.out.println(account.toString());
 
                                         Account editAccount = new Account(accountID, password, firstName, lastName, gender, dob, accountType, account.getIsLogin(), account.getReservationList());
-                                        accountList.add(editAccount.getAccountID(), editAccount);
+                                        accountList.put(editAccount.getAccountID(), editAccount);
                                         accountsFile.write(accountList);
 
                                         System.out.println("\nAccount Details (After Edit)");
