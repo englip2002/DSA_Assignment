@@ -38,8 +38,7 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
         }
 
         // Setp 2: check if newElement is part of array
-        for (T each : array) {
-            if (each == newElement)
+        if(contains(newElement)){
                 return false; // if same means already exist in set (cannot add again)
         }
 
@@ -50,6 +49,7 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
         return true;
     }
 
+    @Override
     public boolean contains(T item) {
 
         for (T each : array)
