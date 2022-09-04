@@ -62,7 +62,7 @@ public class AccountClient {
 
                 for (int i = 0; i < accountIDs.length; i++) {
                     System.out.println("Account " + (i + 1));
-                    System.out.println(Account.getAccountList().getValue(accountIDs[i]).toString());
+                    System.out.println(Account.getAccountList().getValue(accountIDs[i]).displayAccount());
                 }
 
                 System.out.println("\nNumber of Admin: " + Account.getNoOfAdmin());
@@ -73,7 +73,7 @@ public class AccountClient {
         } else {
             System.out.println("\nAccount Details");
             System.out.println("===============");
-            System.out.println(loginAccount.toString());
+            System.out.println(loginAccount.displayAccount());
         }
     }
 
@@ -162,7 +162,7 @@ public class AccountClient {
 
                     System.out.println("\nRegistered Account");
                     System.out.println("==================");
-                    System.out.println(registeredAccount.toString());
+                    System.out.println(registeredAccount.displayAccount());
                 } else {
                     System.out.print("Registration discarded!");
                 }
@@ -271,7 +271,7 @@ public class AccountClient {
                         if (Character.toUpperCase(choice) == 'Y') {
                             System.out.println("\nAccount Details (Before Edit)");
                             System.out.println("=============================");
-                            System.out.println(account.toString());
+                            System.out.println(account.displayAccount());
 
                             Account editAccount = new Account(accountID, password, firstName, lastName, gender, dob, accountType, account.getIsLogin(), account.getReservationList());
                             editAccount.addAccount();
@@ -279,7 +279,7 @@ public class AccountClient {
 
                             System.out.println("\nAccount Details (After Edit)");
                             System.out.println("============================");
-                            System.out.println(editAccount.toString());
+                            System.out.println(editAccount.displayAccount());
                         } else {
                             System.out.print("Edit discarded! ");
                         }
@@ -337,7 +337,7 @@ public class AccountClient {
                         if (account.validatePassword(inputPassword)) {
                             System.out.println("\nAccount Details");
                             System.out.println("===============");
-                            System.out.println(account.toString());
+                            System.out.println(account.displayAccount());
 
                             System.out.print("Confirm to delete? (Y = yes, N = no) > ");
                             choice = sc.next().charAt(0);

@@ -113,8 +113,8 @@ public class Account implements Serializable {
         return inputPassword.matches(password);
     }
 
-    public void displayAccount() {
-        System.out.println(toString());
+    public String displayAccount() {
+        return toString();
     }
 
     public void addAccount() {
