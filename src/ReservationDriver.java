@@ -356,8 +356,7 @@ public class ReservationDriver {
                                         "ContactNo",
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
                         for (Reservation reservations : reservationList) {
-                            if (reservations.getReserveDate().format(formatter)
-                                    .compareTo(searchTime.format(formatter)) == 0) {
+                            if (reservations.getReserveDate().format(formatter).compareTo(searchTime.format(formatter)) == 0) {
                                 i++;
                                 System.out.println(String.format("%-3d %s", i, reservations.toString()));
                                 searchFlag = true;

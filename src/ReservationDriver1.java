@@ -264,11 +264,11 @@ public class ReservationDriver1 {
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
 
                         int i = 0;
-                        for (Reservation reserve : reservationList) {
+                        for (Reservation reserve : Reservation.getReservationList()) {
                             i++;
                             System.out.print(String.format("%-3s %s", i, reserve.toString()));
                         }
-                        System.out.println("Total Number of Reservation: " + reservationList.getNumberOfEntries());
+                        System.out.println("Total Number of Reservation: " + Reservation.getReservationList().getNumberOfEntries());
                         System.out.println("Press <Enter> to continue.");
                         scanner.nextLine();
                         scanner.nextLine();
