@@ -17,6 +17,7 @@ public class Account implements Serializable {
     private static int noOfCustomer = 0;
     private static int noOfAdmin = 0;
     private static int iDCount = 0;
+    private static MapInterface<String, Account> accountList;
 
     public Account(String accountID, String password, String firstName, String lastName, String gender, LocalDate dob, String accountType) {
         this.accountID = accountID;
@@ -88,6 +89,14 @@ public class Account implements Serializable {
         return iDCount;
     }
 
+    public static MapInterface<String, Account> getAccountList() {
+        return accountList;
+    }
+
+    public static void setAccountList(MapInterface<String, Account> acctList) {
+        accountList = acctList;
+    }
+
     public void logIn() {
         isLogin = true;
     }
@@ -102,6 +111,18 @@ public class Account implements Serializable {
 
     public boolean validatePassword(String inputPassword) {
         return inputPassword.matches(password);
+    }
+
+    public void displayAccount() {
+        System.out.println(toString());
+    }
+
+    public void addAccount() {
+        accountList.put(accountID, this);
+    }
+
+    public Account removeAccount() {
+        return accountList.remove(accountID);
     }
 
     @Override

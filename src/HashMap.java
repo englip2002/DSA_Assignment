@@ -3,37 +3,40 @@
 import java.io.Serializable;
 
 /**
- * A public class that implements the ADT dictionary by using hashing and
- * separate chaining to resolve collisions. The dictionary is not sorted and has
- * distinct search keys. DEFAULT_SIZE (TABLE SIZE) = 101 == Prime Number
- * MAX_LOAD_FACTOR (LAMBDA) = 0.9 < 1.0
+ * A public class that implements the ADT Map / Dictionary by using hashing and
+ * separate chaining to resolve collisions.The dictionary is not sorted and has
+ * distinct search keys.DEFAULT_SIZE (TABLE SIZE) = 101 == Prime Number
+ * MAX_LOAD_FACTOR (LAMBDA) = 0.9 < 1.0 @
+ *
+ * @param <K> Key Object.
+ * @param <V> Value Object
  */
-public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serializable {
+public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
 
     private Node<K, V>[] hashTable;
     private int numberOfEntries;
     private static final int DEFAULT_SIZE = 101;
     private static final double MAX_LOAD_FACTOR = 0.9;
 
-    public HashedDictionary() {
+    public HashMap() {
         this(DEFAULT_SIZE);
     }
 
-    public HashedDictionary(int tableSize) {
+    public HashMap(int tableSize) {
         hashTable = new Node[getPrime(tableSize)];
         numberOfEntries = 0;
     }
 
     /**
-     * A public method that inherited from the DictionaryInterface to add a pair
-     * of dictionary entity by the given key and given value.
+     * A public method that inherited from the MapInterface to add a pair of
+     * dictionary entries by the given key and given value.
      *
-     * @param key: The given key.
-     * @param value: The given value.
-     * @return: The old value of the given key if the key is previously defined.
+     * @param key The given key.
+     * @param value The given value.
+     * @return The old value of the given key if the key is previously defined.
      */
     @Override
-    public V add(K key, V value) {
+    public V put(K key, V value) {
         V oldValue = null;
         // STEP 1: If the hash table is overloaded, perform rehashing.
         if (isTableOverloaded()) {
@@ -41,7 +44,7 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
         }
         // STEP 2: Hash the key given to obtain its hash index.
         int i = hashing(key);
-        // STEP 3: If the hash index is empty, add the pair of dictionary entity by the given key and the given value.
+        // STEP 3: If the hash index is empty, add the pair of dictionary entries by the given key and the given value.
         if (hashTable[i] == null) {
             hashTable[i] = new Node(key, value);
             // STEP 4: Increase the number pair of dictionary entities.
@@ -57,7 +60,7 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
                 }
                 currentNode = currentNode.next;
             }
-            // STEP 6: If the given key is distinct, add the pair of dictionary entity by the given key and the given value.
+            // STEP 6: If the given key is distinct, add the pair of dictionary entries by the given key and the given value.
             if (isDistinct) {
                 currentNode = new Node(key, value);
                 // STEP 7: Increase the number pair of dictionary entities.
@@ -72,11 +75,11 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     }
 
     /**
-     * A public method that inherited from the DictionaryInterface to remove the
-     * dictionary entity by the given key.
+     * A public method that inherited from the MapInterface to remove the
+     * dictionary entries by the given key.
      *
-     * @param key: The given key.
-     * @return: An removed value that corresponding to the key given, null if no
+     * @param key The given key.
+     * @return An removed value that corresponding to the key given, null if no
      * value has been removed.
      */
     @Override
@@ -111,11 +114,11 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     }
 
     /**
-     * A public method that inherited from the DictionaryInterface to get the
-     * value corresponding to the key given.
+     * A public method that inherited from the MapInterface to get the value
+     * corresponding to the key given.
      *
-     * @param key: The key given.
-     * @return: An value that corresponding to the key given, null if no value.
+     * @param key The key given.
+     * @return An value that corresponding to the key given, null if no value.
      */
     @Override
     public V getValue(K key) {
@@ -136,11 +139,35 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     }
 
     /**
-     * A public method that inherited from the DictionaryInterface to verify
-     * whether the given key has a corresponding value.
+     * A public method that inherited from the MapInterface to get all the keys
+     * in the dictionary.
      *
-     * @param key: The key given.
-     * @return: True if the key has a corresponding value, False if not.
+     * @return A set of keys of the dictionary entries.
+     */
+    @Override
+    public K[] keySet() {
+        K[] keys = (K[]) new Object[numberOfEntries];
+        Node<K, V> currentNode = null;
+        int j = 0;
+        // STEP 1: Search through the hash table to find the Node Objects that consists of key.
+        for (Node<K, V> each : hashTable) {
+            currentNode = each;
+            // STEP 2: Search through the Node Object chain to find the Node Objects that consists of key.
+            while (currentNode != null) {
+                keys[j] = currentNode.key;
+                j++;
+                currentNode = currentNode.next;
+            }
+        }
+        return keys;
+    }
+
+    /**
+     * A public method that inherited from the MapInterface to verify whether
+     * the given key has a corresponding value.
+     *
+     * @param key The key given.
+     * @return True if the key has a corresponding value, False if not.
      */
     @Override
     public boolean contains(K key) {
@@ -148,10 +175,10 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     }
 
     /**
-     * A public method that inherited from the DictionaryInterface to verify
-     * whether the hash table is empty.
+     * A public method that inherited from the MapInterface to verify whether
+     * the hash table is empty.
      *
-     * @return: True if the number pair of dictionary entities is 0, False if
+     * @return True if the number pair of dictionary entities is 0, False if
      * not.
      */
     @Override
@@ -160,10 +187,10 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     }
 
     /**
-     * A public method that inherited from the DictionaryInterface to verify
-     * whether the hash table is full.
+     * A public method that inherited from the MapInterface to verify whether
+     * the hash table is full.
      *
-     * @return: Always False because the nature of the separate chaining hash
+     * @return Always False because the nature of the separate chaining hash
      * dictionary.
      */
     @Override
@@ -172,10 +199,10 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     }
 
     /**
-     * A public method that inherited from the DictionaryInterface to get the
-     * number pair of dictionary entities.
+     * A public method that inherited from the MapInterface to get the number
+     * pair of dictionary entities.
      *
-     * @return: An integer value that represents the number of dictionary
+     * @return An integer value that represents the number of dictionary
      * entities.
      */
     @Override
@@ -184,8 +211,8 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     }
 
     /**
-     * A public method that inherited from the DictionaryInterface to reset the
-     * hashed dictionary.
+     * A public method that inherited from the MapInterface to reset the hashed
+     * dictionary.
      */
     @Override
     public final void clear() {
@@ -195,9 +222,9 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
 
     /**
      * A public method that inherited from String class to produce a string with
-     * every pair of dictionary entity.
+     * every pair of dictionary entries.
      *
-     * @return: A String object with the format of { key1=value1, key2=value2,
+     * @return A String object with the format of { key1=value1, key2=value2,
      * ..., keyN=valueN }.
      */
     @Override
@@ -228,25 +255,7 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     }
 
     /**
-     * A public method that use to get all the keys in the dictionary.
-     */
-    public void getKeys(K[] keys) {
-        Node<K, V> currentNode = null;
-        int j = 0;
-        // STEP 1: Search through the hash table to find the Node Objects that consists of key.
-        for (Node<K, V> each : hashTable) {
-            currentNode = each;
-            // STEP 2: Search through the Node Object chain to find the Node Objects that consists of key.
-            while (currentNode != null) {
-                keys[j] = currentNode.key;
-                j++;
-                currentNode = currentNode.next;
-            }
-        }
-    }
-
-    /**
-     * A private class that create Node Object to store the dictionary entity
+     * A private class that create Node Object to store the dictionary entries
      * and the pointer to the next Node Object.
      */
     private class Node<S, T> implements Serializable {
@@ -272,8 +281,8 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
      * A utility method to perform hashing based on the hash code of the key
      * given.
      *
-     * @param key: The key given.
-     * @return: An integer value that represents the hash index generated.
+     * @param key The key given.
+     * @return An integer value that represents the hash index generated.
      */
     private int hashing(K key) {
         //STEP 1: Produce the remainder of the key hash code with hash table length as the hash index.
@@ -288,8 +297,8 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     /**
      * A utility method to verify loads of the hash table.
      *
-     * @return: True if the average number of dictionary entries per Node
-     * Objects chain is larger than the maximum load factor, False if not.
+     * @return True if the average number of dictionary entries per Node Objects
+     * chain is larger than the maximum load factor, False if not.
      */
     private boolean isTableOverloaded() {
         return numberOfEntries / hashTable.length > MAX_LOAD_FACTOR;
@@ -309,7 +318,7 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
         for (int i = 0; i < oldTable.length; ++i) {
             Node<K, V> currentNode = oldTable[i];
             while (currentNode != null) {
-                add(currentNode.key, currentNode.value);
+                put(currentNode.key, currentNode.value);
                 currentNode = currentNode.next;
             }
         }
@@ -318,8 +327,8 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
     /**
      * A utility method to verify whether the given integer is a prime number.
      *
-     * @param integer: The integer value given.
-     * @return: True if the integer given is a prime number, False if not.
+     * @param integer The integer value given.
+     * @return True if the integer given is a prime number, False if not.
      */
     private boolean isPrime(int integer) {
         // STEP 1: Prime number is large than 1.
@@ -339,9 +348,9 @@ public class HashedDictionary<K, V> implements DictionaryInterface<K, V>, Serial
      * A utility method to obtain the next prime number given the integer lower
      * boundary.
      *
-     * @param integer: The integer value that represents the lower boundary of
+     * @param integer The integer value that represents the lower boundary of
      * the next prime number.
-     * @return: The next prime number after the lower boundary given.
+     * @return The next prime number after the lower boundary given.
      */
     private int getPrime(int integer) {
         // STEP 1: If the integer is even number or 2, increase 1 become odd number.
