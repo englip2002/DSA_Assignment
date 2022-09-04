@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> 1cf7fe85599431296d48142670e55e087c490764
 import java.util.Scanner;
 
 public class MenuDriver {
@@ -18,21 +15,26 @@ public class MenuDriver {
         menu.addCategory(new Category('B'));
         menu.addCategory(new Category('D'));
 
-        // MenuItem[] menuItem = { new MenuItem('A', "French Fries", 5.00, "Hand cut
-        // wedges of Yukan Cold potatoes"),
-        // new MenuItem('A', "Stuffed Mushrooms", 9.00, "Hand cut wedges of Yukan Cold
-        // potatoes"),
-        // };
-
-        menu.classifyMenuItem(new MenuItem('A', "French Fries", 5.00, "Hand cut wedges of Yukan Cold potatoes"));
-        //st.add(menu);
+    
+        //Initialized some menu items inside to the menu 
+        menu.classifyMenuItem(new MenuItem('A', "French Fries", 5.00, "Hand cut wedges of Yukan Cold potatoes."));
+        menu.classifyMenuItem(new MenuItem('A', "Stuffed Mushrooms", 9.00, "Mushrooms caps baked with a filling cheese."));
+        menu.classifyMenuItem(new MenuItem('M', "Spaghetti Marinara", 15.50, "Spaghetti with seafood and tomato sauce."));
+        menu.classifyMenuItem(new MenuItem('M', "Pork Rib", 30.80, "BBQ Pork Rib, homemmade fies and green salad."));
+        menu.classifyMenuItem(new MenuItem('B', "Ice Lemon Tea", 6.90, "Tea with few slices lemon."));
+        menu.classifyMenuItem(new MenuItem('B', "Long Black", 10.50, "2 shots of espresso and hot water."));
+        menu.classifyMenuItem(new MenuItem('D', "Cheese Cake", 9.50, "Cheese cake with burnt and topped with caramel chocolate curls."));
+        menu.classifyMenuItem(new MenuItem('D', "Lime Pie", 10.80, "Targy custard with graham crocker crust."));
+        
 
         menuFile.write(menu);
+
+        //menu.displayMenu(); //Cannot display
 
         displayMenuTableChoice();
         int userChoice = scanner.nextInt();
 
-        do {
+        
             if (userChoice == 1) {
                 // add item
                 char menuItemCategory = 'A';
@@ -66,8 +68,12 @@ public class MenuDriver {
                     }
                 } while (categoryChoice < 1 || categoryChoice > 4);
 
+
+                System.out.println("\n");
+
                 // clear buffer
                 scanner.nextLine();
+                
                 // input data
                 System.out.print("Enter Menu Item Name: ");
                 menuItemName = scanner.nextLine();
@@ -81,11 +87,15 @@ public class MenuDriver {
                 System.out.print("Enter Menu Item Description: ");
                 menuItemDescription = scanner.nextLine();
 
+                System.out.print("\n");
+
                 // pass into a temp menuItem
                 MenuItem temp = new MenuItem(menuItemCategory, menuItemName, menuItemPrice, menuItemDescription);
 
                 // pass to add
                 menu.classifyMenuItem(temp);
+
+                menu.displayMenuItem(categoryChoice -1);
 
             } else if (userChoice == 2) {
                 // remove item
@@ -98,12 +108,21 @@ public class MenuDriver {
                 displayCategoryChoice();
                 categoryChoice = scanner.nextInt();
 
+                System.out.print("\n");
+
                 menu.displayMenuItemBasedCategory(categoryChoice);
                 System.out.println("Please select which dish you would like to remove!");
                 System.out.print("Enter your choice: ");
                 int userDishChoice = scanner.nextInt();
 
-                // MenuItem temp =
+                char menuCategory;
+                String menuName, menuDescription;
+                double menuPrice;
+
+                menuCategory = 
+
+                MenuItem temp = new MenuItem()
+
 
             } else if (userChoice == 3) {
 
@@ -158,8 +177,12 @@ public class MenuDriver {
                 displayMenuTableChoice();
             }
 
+            System.out.println("Do you want to continue('N' to exit): ");
+            char continueChoice = scanner.nextLine().charAt(0);
+
+
             scanner.close();
-        } while (userChoice < 1 || userChoice > 6);
+        
     }
 
     // to display a category menu for user
@@ -184,6 +207,14 @@ public class MenuDriver {
         System.out.println("3. Beverage");
         System.out.println("4. Dessert");
         System.out.print("Enter your choice: ");
+    }
+
+    public static MenuItem getRemovMenuItem(int menuItemIndex){
+        MenuItem menuItem = new MenuItem();
+
+        for(int i = 0; i < )
+
+        return menuItem;
     }
 
 }

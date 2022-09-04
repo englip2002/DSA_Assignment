@@ -36,7 +36,7 @@ public class Menu implements Serializable {
         menuCategory.add(category);
     }
 
-    // User add menu item inside the array
+    // To classify the new menu goes in to which category item inside the array
     /*
      * Fixed indexed for Different Category
      * [0] == Appertizer
@@ -109,9 +109,6 @@ public class Menu implements Serializable {
 
     // Modify menu item
     public boolean displayMenuItemBasedCategory(int userCategoryChoice) {
-        // int userDishChoice;
-        // MenuItem modifiedMenu = new MenuItem();
-
         switch (userCategoryChoice) {
             case 1:
                 displayMenuItem(userCategoryChoice - 1);
@@ -132,7 +129,7 @@ public class Menu implements Serializable {
         Category temp = menuCategory.getElementAtPos(categoryIndex);
 
         for (int i = 0; i < temp.getMenuItems().getNumberOfEntries(); i++) {
-            System.out.println("1. " + temp.getMenuItems().getElementAtPos(i).toString());
+            System.out.println( i+1 + ". " + temp.getMenuItems().getElementAtPos(i).toString());
         }
     }
 

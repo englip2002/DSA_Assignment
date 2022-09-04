@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Author: KONG ZHI LIN
  * Description: Store food and beverage
  */
-public class MenuItem implements Serializable{
+public class MenuItem implements Serializable {
 
     // Properties
     private char menuItemCategory; // M = main course , B = beverage, A = Appertizer, D = Dessert
@@ -39,7 +39,8 @@ public class MenuItem implements Serializable{
         dishCounter++;
     }
 
-    public MenuItem(String menuItemID, char menuItemCategory, String menuItemName, double menuItemPrice, String menuItemDescription) {
+    public MenuItem(String menuItemID, char menuItemCategory, String menuItemName, double menuItemPrice,
+            String menuItemDescription) {
         this.menuItemCategory = menuItemCategory;
         this.menuItemName = menuItemName;
         this.menuItemPrice = menuItemPrice;
@@ -97,10 +98,10 @@ public class MenuItem implements Serializable{
     }
 
     public String toString() {
-        return  "Dish ID           : " + menuItemID + "\n" +
-                "Dish Name         : " + menuItemName + "\n" +
-                "Dish Price        : " + menuItemPrice + "\n" +
-                "Dish Description  : " + menuItemDescription + "\n";
+        return "Dish ID           : " + menuItemID + "\n" +
+                "   Dish Name         : " + menuItemName + "\n" +
+                "   Dish Price        : " + menuItemPrice + "\n" +
+                "   Dish Description  : " + menuItemDescription + "\n";
     }
 
 }
