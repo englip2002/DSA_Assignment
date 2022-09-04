@@ -117,8 +117,8 @@ public class Account implements Serializable {
         return toString();
     }
 
-    public void addAccount() {
-        accountList.put(accountID, this);
+    public Account addAccount() {
+        return accountList.put(accountID, this);
     }
 
     public Account removeAccount() {
