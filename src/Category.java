@@ -11,53 +11,43 @@ import java.io.Serializable;
  *
  * @author User
  */
-public class Category implements Serializable{
-    private ArraySet<MenuItem> menuItems;
-    private char categoryName;
-    private static int counter = 0;
+public class Category implements Serializable {
+    private SetInterface<MenuItem> menuItems;
+    private char categoryID;
+    private String categoryName;
 
-    public Category(char categoryName) {
+    public Category(char categoryID, String categoryName) {
+        this.categoryID = categoryID;
         this.categoryName = categoryName;
         menuItems = new ArraySet<MenuItem>();
     }
 
-    public char getCategoryName() {
+    public String getCategoryName(){
         return categoryName;
     }
 
-    public ArraySet<MenuItem> getMenuItems() {
+    public char getCategoryID() {
+        return categoryID;
+    }
+
+    public SetInterface<MenuItem> getMenuItems() {
         return menuItems;
     }
 
-    public void addMenuItem(MenuItem menuItem) {
+    public void addToCategory(MenuItem menuItem) {
         menuItems.add(menuItem);
-        counter++;
     }
 
-    public void removeMenuItem(MenuItem menuItem) {
+    public void removeFromCategory(MenuItem menuItem) {
         menuItems.remove(menuItem);
-        counter--;
     }
 
     // index = index of dishes in category
     // dish = new modified dishes
     public boolean modifyMenuItem(MenuItem menuItem, int index) {
-        menuItems.remove(menuItems.getElementAtPos(index -1));
+        menuItems.remove(menuItems.getElementAtPos(index - 1));
         menuItems.add(menuItem);
         return true;
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public String toString() {
-        String str = "";
-        for (int i = 0; i < counter; i++) {
-            MenuItem temp = menuItems.getElementAtPos(i);
-            str+=String.format("%-3d %-10s %-20s %-30s %-5.2f\n",(i+1),temp.getDishID(), temp.getDishName(),temp.getFoodDescription(),temp.getDishPrice());
-        }
-        return str;
     }
 
 }

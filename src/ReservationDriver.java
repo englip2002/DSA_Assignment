@@ -32,7 +32,7 @@ public class ReservationDriver {
         Category appertizer = new Category('A');
         menu.addCategory(appertizer);
         MenuItem cornSoup = new MenuItem('A', "Corn Soup", 2.3, "Good");
-        menu.classifyMenuItem(cornSoup);
+        menu.addMenuItem(cornSoup);
 
         int choice = 0;
         boolean dateValidity;
@@ -356,7 +356,8 @@ public class ReservationDriver {
                                         "ContactNo",
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
                         for (Reservation reservations : reservationList) {
-                            if (reservations.getReserveDate().format(formatter).compareTo(searchTime.format(formatter)) == 0) {
+                            if (reservations.getReserveDate().format(formatter)
+                                    .compareTo(searchTime.format(formatter)) == 0) {
                                 i++;
                                 System.out.println(String.format("%-3d %s", i, reservations.toString()));
                                 searchFlag = true;

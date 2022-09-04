@@ -44,23 +44,23 @@ public class Menu implements Serializable {
      * [2] == Beverage
      * [3] == Dessert
      */
-    public boolean classifyMenuItem(MenuItem menuItem) {
+    public boolean addMenuItem(MenuItem menuItem) {
         switch (menuItem.getDishCategory()) {
             case 'A':
                 Category tempA = ((Category) menuCategory.getElementAtPos(0));
-                tempA.addMenuItem(menuItem);
+                tempA.addToCategory(menuItem);
                 return true;
             case 'M':
                 Category tempM = ((Category) menuCategory.getElementAtPos(1));
-                tempM.addMenuItem(menuItem);
+                tempM.addToCategory(menuItem);
                 return true;
             case 'B':
                 Category tempB = ((Category) menuCategory.getElementAtPos(2));
-                tempB.addMenuItem(menuItem);
+                tempB.addToCategory(menuItem);
                 return true;
             case 'D':
                 Category tempD = ((Category) menuCategory.getElementAtPos(3));
-                tempD.addMenuItem(menuItem);
+                tempD.addToCategory(menuItem);
                 return true;
             default:
                 return false;
@@ -74,19 +74,19 @@ public class Menu implements Serializable {
         switch (menuItem.getDishCategory()) {
             case 'A':
                 Category tempA = ((Category) menuCategory.getElementAtPos(0));
-                tempA.removeMenuItem(menuItem);
+                tempA.removeFromCategory(menuItem);
                 return true;
             case 'M':
                 Category tempM = ((Category) menuCategory.getElementAtPos(1));
-                tempM.removeMenuItem(menuItem);
+                tempM.removeFromCategory(menuItem);
                 return true;
             case 'B':
                 Category tempB = ((Category) menuCategory.getElementAtPos(2));
-                tempB.removeMenuItem(menuItem);
+                tempB.removeFromCategory(menuItem);
                 return true;
             case 'D':
                 Category tempD = ((Category) menuCategory.getElementAtPos(3));
-                tempD.removeMenuItem(menuItem);
+                tempD.removeFromCategory(menuItem);
                 return true;
             default:
                 return false;
@@ -107,29 +107,13 @@ public class Menu implements Serializable {
         menuCategory.getElementAtPos(userCategoryChoice - 1).modifyMenuItem(modifiedMenu, userDishChoice - 1);
     }
 
-    // Modify menu item
-    public boolean displayMenuItemBasedCategory(int userCategoryChoice) {
-        switch (userCategoryChoice) {
-            case 1:
-                displayMenuItem(userCategoryChoice - 1);
-            case 2:
-                displayMenuItem(userCategoryChoice - 1);
-            case 3:
-                displayMenuItem(userCategoryChoice - 1);
-            case 4:
-                displayMenuItem(userCategoryChoice - 1);
-
-        }
-        return true;
-
-    }
-
     // To display specific category menu item
     public void displayMenuItem(int categoryIndex) {
         Category temp = menuCategory.getElementAtPos(categoryIndex);
 
         for (int i = 0; i < temp.getMenuItems().getNumberOfEntries(); i++) {
-            System.out.println( i+1 + ". " + temp.getMenuItems().getElementAtPos(i).toString());
+            System.out.println("Dish " + (i + 1) + " :");
+            System.out.println(temp.getMenuItems().getElementAtPos(i).toString());
         }
     }
 
@@ -149,6 +133,8 @@ public class Menu implements Serializable {
 
         return false;
     }
+
+   
 
     // Print the menu item
     // Example:
@@ -174,22 +160,17 @@ public class Menu implements Serializable {
     // Dish Name : Banana Ice Cream Boat
     // Dish Price : RM 10.50
     // Dish Description : 2 flavor of ice cream and chocolate biscuits
-    public String displayMenu() {
+    public String toString() {
         String str = "";
+
         for (int i = 0; i < menuCategory.getNumberOfEntries(); i++) {
-            if (menuCategory.getElementAtPos(i).getCategoryName() == 'M') {
-                System.out.println("Main Course: \n");
-            } else if (menuCategory.getElementAtPos(i).getCategoryName() == 'A') {
-                System.out.println("Appertizer: \n");
-            } else if (menuCategory.getElementAtPos(i).getCategoryName() == 'B') {
-                System.out.println("Beverage: \n");
-            } else {
-                System.out.println("Dessert: \n");
-            }
-            for (int j = 0; j < menuCategory.getElementAtPos(i).getCounter(); j++) {
-                str += menuCategory.getElementAtPos(i).getMenuItems().getElementAtPos(j).toString() + "\n";
+            Category category = menuCategory.getElementAtPos(i);
+            str += category.getCategoryName() + " :\n\n";
+            for (int j = 0; j < category.getMenuItems().getNumberOfEntries(); j++) {
+                str += category.getMenuItems().getElementAtPos(j).toString() + "\n";
             }
         }
+
         return str;
     }
 

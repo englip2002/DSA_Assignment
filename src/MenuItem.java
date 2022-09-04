@@ -88,20 +88,20 @@ public class MenuItem implements Serializable {
 
     private String generateDishID() {
         if (menuItemCategory == 'A') {
-            return String.format("A%05d", dishCounter);
+            return String.format("MA%05d", dishCounter);
         } else if (menuItemCategory == 'M') {
-            return String.format("M%05d", dishCounter);
+            return String.format("MM%05d", dishCounter);
         } else if (menuItemCategory == 'B') {
-            return String.format("B%05d", dishCounter);
+            return String.format("MB%05d", dishCounter);
         } else
-            return String.format("D%05d", dishCounter);
+            return String.format("MD%05d", dishCounter);
     }
 
     public String toString() {
-        return "Dish ID           : " + menuItemID + "\n" +
-                "   Dish Name         : " + menuItemName + "\n" +
-                "   Dish Price        : " + menuItemPrice + "\n" +
-                "   Dish Description  : " + menuItemDescription + "\n";
+        return  "Dish ID           : " + menuItemID + "\n" +
+                "Dish Name         : " + menuItemName + "\n" +
+                "Dish Price        : " + menuItemPrice + "\n" +
+                "Dish Description  : " + menuItemDescription + "\n";
     }
 
 }

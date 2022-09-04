@@ -34,7 +34,7 @@ public interface SetInterface<T> {
     public T getElementAtPos(int indexNo);
 
     // Checks if the set contains e and return that elements (search)
-    // public T[] contains(T anElement);
+    public boolean contains(T anElement);
 
     // Recommended drink and food under its beverage categories
     public boolean checkSubset(SetInterface anotherSet);
