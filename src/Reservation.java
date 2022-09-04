@@ -1,9 +1,8 @@
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Reservation implements Serializable{
+public class Reservation implements Serializable {
     private String reservationID;
     private Account account;
     private LocalDateTime reserveTime;
@@ -13,6 +12,7 @@ public class Reservation implements Serializable{
     private String reservationStatus;
     private Cart cart;
     private static int IDcounter = 1;
+    private static ListInterface<Reservation> ls = new LinkedList<Reservation>();
 
     public Reservation(Account account) {
         this.account = account;
@@ -48,8 +48,8 @@ public class Reservation implements Serializable{
         // format the bill
         String str = "";
         str += account.toString() + "\n";
-        str+=String.format("%-5s %-10s %-10s %-10s %-10s\n", "No", "Dish Name",
-        "Dish Price", "Quantity", "Subtotal(RM)");
+        str += String.format("%-5s %-10s %-10s %-10s %-10s\n", "No", "Dish Name",
+                "Dish Price", "Quantity", "Subtotal(RM)");
         str += cart.toString();
         str += String.format("Total: %36.2f", cart.calculateTotal());
         return str;
@@ -60,7 +60,8 @@ public class Reservation implements Serializable{
         // reservationID, accountID, contactNo, reserveTime, serveTime, serveLocation,
         // reservationStatus
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return String.format("%-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", reservationID, account.getAccountID(), contactNo,
+        return String.format("%-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", reservationID, account.getAccountID(),
+                contactNo,
                 reserveTime.format(formatter), serveTime.format(formatter), serveLocation, reservationStatus);
 
     }
@@ -78,14 +79,13 @@ public class Reservation implements Serializable{
         return reservationID;
     }
 
-    public LocalDateTime getReserveDate(){
+    public LocalDateTime getReserveDate() {
         return reserveTime;
     }
 
-    public LocalDateTime getServeDate(){
+    public LocalDateTime getServeDate() {
         return serveTime;
     }
-
 
     private String generareReservationID() {
         return String.format("R%05d", IDcounter);
@@ -94,6 +94,31 @@ public class Reservation implements Serializable{
     // setter
     public void setReservationStatus(String status) {
         this.reservationStatus = status;
+    }
+
+    // new
+    public static ListInterface<Reservation> getReservationList() {
+        if (ls != null) {
+            return ls;
+        } else {
+            return null;
+        }
+    }
+
+    public static void setReservationList(ListInterface<Reservation> list) {
+        ls = list;
+    }
+
+    public void addReservation() {
+        ls.add(this);
+    }
+
+    public void removeReservation() {
+        for (int i = 0; i < ls.getNumberOfEntries(); i++) {
+            if (reservationID.compareTo(ls.getEntry(i).getReservationID()) == 0) {
+                ls.remove(i);
+            }
+        }
     }
 
 }

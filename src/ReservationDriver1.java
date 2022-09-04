@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-public class ReservationDriver {
+public class ReservationDriver1 {
     public static void main(String[] args) {
         FileHandler<ListInterface<Reservation>> reservationFile = new FileHandler<ListInterface<Reservation>>(
                 "Reservations.dat");
@@ -20,7 +20,7 @@ public class ReservationDriver {
         // reservation
         Reservation reservation = new Reservation(account);
         FileHandler reservationFile = new FileHandler("Reservations.dat");
-        ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
+        Reservation.setReservationList((ListInterface)reservationFile.read());
         // System.out.println(reservationList.getEntry(0).toString());
 
         // menu
@@ -32,7 +32,7 @@ public class ReservationDriver {
         Category appertizer = new Category('A');
         menu.addCategory(appertizer);
         MenuItem cornSoup = new MenuItem('A', "Corn Soup", 2.3, "Good");
-        menu.classifyMenuItem(cornSoup);
+        menu.addMenuItem(cornSoup);
 
         int choice = 0;
         boolean dateValidity;
@@ -64,7 +64,7 @@ public class ReservationDriver {
         LocalDateTime serveTime = null;
         Scanner scanner = new Scanner(System.in);
         do {
-            reservationList = (ListInterface) reservationFile.read();
+            Reservation.setReservationList((ListInterface)reservationFile.read());
             System.out.println("\nReservation Module");
             System.out.println("========================");
             System.out.println("1. Make Reservation for current account");
@@ -237,21 +237,21 @@ public class ReservationDriver {
 
                                 reservation.checkOut();
                                 // add into array and write into file, else discard
-                                if (reservationList == null) {
+                                if (Reservation.getReservationList() == null) {
                                     ListInterface<Reservation> temp = new LinkedList<Reservation>();
                                     temp.add(reservation);
                                     reservationFile.write(temp);
 
                                 } else {
-                                    reservationList.add(reservation);
-                                    reservationFile.write(reservationList);
+                                    Reservation.getReservationList().add(reservation);
+                                    reservationFile.write(Reservation.getReservationList());
                                 }
                                 break;
                         }
                     } while (reservationProcessChoice != 5);
                     break;
                 case 2:
-                    if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
+                    if (Reservation.getReservationList() == null || Reservation.getReservationList().getNumberOfEntries() == 0) {
                         System.out.println("No Reservation Stored!");
                         System.out.println("Press <Enter> to continue.");
                         scanner.nextLine();
@@ -264,11 +264,11 @@ public class ReservationDriver {
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
 
                         int i = 0;
-                        for (Reservation reserve : reservationList) {
+                        for (Reservation reserve : Reservation.getReservationList()) {
                             i++;
                             System.out.print(String.format("%-3s %s", i, reserve.toString()));
                         }
-                        System.out.println("Total Number of Reservation: " + reservationList.getNumberOfEntries());
+                        System.out.println("Total Number of Reservation: " + Reservation.getReservationList().getNumberOfEntries());
                         System.out.println("Press <Enter> to continue.");
                         scanner.nextLine();
                         scanner.nextLine();
@@ -356,7 +356,8 @@ public class ReservationDriver {
                                         "ContactNo",
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
                         for (Reservation reservations : reservationList) {
-                            if (reservations.getReserveDate().format(formatter).compareTo(searchTime.format(formatter)) == 0) {
+                            if (reservations.getReserveDate().format(formatter)
+                                    .compareTo(searchTime.format(formatter)) == 0) {
                                 i++;
                                 System.out.println(String.format("%-3d %s", i, reservations.toString()));
                                 searchFlag = true;
@@ -416,7 +417,7 @@ public class ReservationDriver {
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
 
                         for (Reservation reservations : reservationList) {
-                            if (reservations.getAccount().getFullName().compareToIgnoreCase(searchName) == 0) {
+                            if (reservations.getAccount().getFullName().compareToIgnoreCase(searchName)==0) {
                                 i++;
                                 System.out.println(String.format("%-3d %s", i, reservations.toString()));
                                 searchFlag = true;
