@@ -19,7 +19,7 @@ public class MenuDriver {
         menu.addMenuItem(new MenuItem('A', "French Fries", 5.00, "Hand cut wedges of Yukan Cold potatoes."));
         menu.addMenuItem(
                 new MenuItem('A', "Stuffed Mushrooms", 9.00, "Mushrooms caps baked with a filling cheese."));
-        menu.addMenuItem(
+                menu.addMenuItem(
                 new MenuItem('M', "Spaghetti Marinara", 15.50, "Spaghetti with seafood and tomato sauce."));
         menu.addMenuItem(new MenuItem('M', "Pork Rib", 30.80, "BBQ Pork Rib, homemmade fies and green salad."));
         menu.addMenuItem(new MenuItem('B', "Ice Lemon Tea", 6.90, "Tea with few slices lemon."));
@@ -158,8 +158,13 @@ public class MenuDriver {
             System.out.print("Dish Description: ");
             String newDescription = scanner.nextLine();
 
-            menu.modifyMenuItemDetail(userCategoryChoice, userDishChoice, newCategory, newName, newPrice,
-                    newDescription);
+            Category category = ((Category) menu.getMenuCategory().getElementAtPos(categoryChoice - 1));
+            MenuItem menuItemID = category.getMenuItems().getElementAtPos(userDishChoice - 1).;
+
+            menu.addMenuItem(new MenuItem(,newCategory, newName, newPrice, newDescription));
+
+            // menu.modifyMenuItemDetail(userCategoryChoice, userDishChoice, newCategory, newName, newPrice,
+            //         newDescription);
 
             System.out.println(menu.toString());
 

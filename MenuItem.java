@@ -104,5 +104,16 @@ public class MenuItem {
                "Dish Description  : " + dishDescription + "\n";
     }
     
+    @Override
+    public boolean equals(Object obj){
+        System.out.println("B2");
+        if(obj instanceof Category){
+            if(dishID.equals(((MenuItem) obj).getCategoryID())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

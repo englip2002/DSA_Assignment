@@ -38,10 +38,11 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
         }
 
         // Setp 2: check if newElement is part of array
-        if(contains(newElement)){
-                return false; // if same means already exist in set (cannot add again)
+        // if (!isEmpty()) {
+        if (contains(newElement)) {
+            return false; // if same means already exist in set (cannot add again)
         }
-
+        // }
         // Step 3: add Element to array
         array[numberOfEntries] = newElement;
         numberOfEntries++;
@@ -52,10 +53,12 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
     @Override
     public boolean contains(T item) {
 
-        for (T each : array)
-            if(each.equals(item))
+        for (int i = 0; i < numberOfEntries; i++) {
+            if (array[i].equals(item)){
                 return true;
-
+            }
+            
+        }
         return false;
     }
 
@@ -133,7 +136,7 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
     public T[] getElement() {
         return array;
     }
-    
+
     @Override
     public T getElementAtPos(int indexNo) {
         return array[indexNo];
@@ -162,20 +165,20 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
         }
     }
 
-    
     @Override
     public Iterator<T> iterator() {
         return new SetIterator();
     }
 
-    //inner class
-    private class SetIterator implements Iterator<T>{
+    // inner class
+    private class SetIterator implements Iterator<T> {
 
         int currentIndex;
 
         public SetIterator() {
             currentIndex = 0;
         }
+
         @Override
         public boolean hasNext() {
             return currentIndex < numberOfEntries;

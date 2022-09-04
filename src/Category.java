@@ -50,4 +50,15 @@ public class Category implements Serializable {
         return true;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        
+        if(obj instanceof Category){
+            if(categoryID == ((Category) obj).getCategoryID()){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
