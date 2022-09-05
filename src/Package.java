@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Iterator;
 
 /**
  * Author: KONG ZHI LIN
@@ -119,8 +120,10 @@ public class Package implements Serializable {
 
     // Havent complete
     public String toString() {
-        return "Package ID: " + packageID + "\n" +
-                "Package Name: " + packageName + "\n";
+        return "Package ID           : " + packageID + "\n" +
+                "Package Name         : " + packageName + "\n" +
+                "Package Price        :" + packagePrice + "\n" +
+                "Package Description  : " + packageDescription;
     }
 
 }

@@ -58,12 +58,47 @@ public class MenuManager {
 
     // Assign menu item to package
     public void addMenuItemToPackage() {
+
+        Iterator iterator = packageSet.iterator();
+
         System.out.println("\n");
 
+        //Display package first see the user want add menu items into which package
+        System.out.println(displayPackage());
+        System.out.println("\n");
+        System.out.println("Please select the package that you want to add menu item: ");
+        int inputPackageChoice = scanner.nextInt();
+
+        //Search pacakge in existing package arraySet
+        // while (iterator.hasNext()){
+
+        // }
+
+        System.out.println(displayMenuItems());
+
+        System.out.println("\n");
+        System.out.println("Please select the menu item you would like to add into the package: ");
+        int inputMenuItemChoice = scanner.nextInt();
     }
 
     public String displayMenuItems() {
-        return "";
+        String str = "";
+
+        for (int i = 0; i < menuItemSet.getNumberOfEntries(); i++) {
+            System.out.println("Menu Item" + (i + 1) + ":");
+            str += menuItemSet.getElementAtPos(i).toString();
+        }
+        return str;
+    }
+
+    public String displayPackage() {
+        String str = "";
+
+        for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
+            System.out.println("Pacakge" +(i + 1) + ":");
+            str += packageSet.getElementAtPos(i).toString();
+        }
+        return str;
     }
 
 }

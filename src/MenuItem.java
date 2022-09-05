@@ -3,6 +3,7 @@
  * Author: KONG ZHI LIN
  * Description: Store food and beverage (menuItems)
  */
+import java.util.Iterator;
 
 public class MenuItem {
     // Class Attributes
