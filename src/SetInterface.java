@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-//package Assignment;
-
-import java.util.Iterator;
 
 /**
  * Author: KONG ZHI LIN
  * Set ADT Specification:
- * Description : To store the values of the menu in set collection
- * Objective: To build a menu for user viewing (add, remove, modify)
+ * Description : To use the Set Algorithm and it is an interface which do not have any implementation part
+ * Objective: Set data is unique which means do not appear duplicate data and can be resuable by any implementor
  **/
+
+//Use the concept of iterator to loop through the set 
+import java.util.Iterator;
 
 public interface SetInterface<T> {
 
@@ -23,32 +18,30 @@ public interface SetInterface<T> {
     public boolean remove(T anElement);
 
     // Check the adt is empty or not
-    boolean isEmpty();
+    public boolean isEmpty();
 
     // Check adt is full or not
-    boolean isFull();
+    public boolean isFull();
 
-    // To get the array
-    public T[] getElement();
-
-    public T getElementAtPos(int indexNo);
-
-    // Checks if the set contains e and return that elements (search)
+    // Checks if the set contains e and return that element
     public boolean contains(T anElement);
 
-    // Recommended drink and food under its beverage categories
-    public boolean checkSubset(SetInterface anotherSet);
+    // To get the whole set
+    public T[] getElement();
+
+    // To get the specific element of the data
+    public T getElementAtPos(int indexNo);
 
     //
-    public void union(SetInterface anotherSet);
+    public boolean checkSubset(SetInterface<T> anotherSet);
 
-    public SetInterface intersection(SetInterface anotherSet);
+    //
+    public void union(SetInterface<T> anotherSet);
+
+    public SetInterface intersection(SetInterface<T> anotherSet);
 
     public int getNumberOfEntries();
 
     public Iterator<T> iterator();
-
-    // difference(S, T) // Returns the difference of set S and set T
-    // public
 
 }
