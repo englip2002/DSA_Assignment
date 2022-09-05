@@ -38,7 +38,7 @@ public interface SetInterface<T> {
     //
     public void union(SetInterface<T> anotherSet);
 
-    public SetInterface intersection(SetInterface<T> anotherSet);
+    public SetInterface<T> intersection(SetInterface<T> anotherSet);
 
     public int getNumberOfEntries();
 
