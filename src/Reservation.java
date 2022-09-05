@@ -10,14 +10,13 @@ public class Reservation implements Serializable {
     private String contactNo;
     private String serveLocation;
     private String reservationStatus;
-    private Cart cart;
+    private ListInterface<FoodInCart> foodInCart;
     private static int IDcounter = 1;
-    private static ListInterface<Reservation> ls = new LinkedList<Reservation>();
 
     public Reservation(Account account) {
         this.account = account;
         this.reservationStatus = null;
-        cart = new Cart();
+        foodInCart = new LinkedList<FoodInCart>();
         reservationID = generareReservationID();
     }
 
@@ -28,8 +27,8 @@ public class Reservation implements Serializable {
 
     public String displayCart() {
         String str = "";
-        for (int i = 0; i < cart.getItemCount(); i++) {
-            str += String.format("%3d %s\n", (i + 1), cart.getFoodsInCart().getEntry(i).toString());
+        for (int i = 0; i < foodInCart.getNumberOfEntries(); i++) {
+            str += String.format("%3d %s\n", (i + 1), foodInCart.getEntry(i).toString());
         }
         return str;
     }
@@ -47,11 +46,15 @@ public class Reservation implements Serializable {
     public String generateBill() {
         // format the bill
         String str = "";
+        double total = 0;
         str += account.toString() + "\n";
         str += String.format("%-5s %-10s %-10s %-10s %-10s\n", "No", "Dish Name",
                 "Dish Price", "Quantity", "Subtotal(RM)");
-        str += cart.toString();
-        str += String.format("Total: %36.2f", cart.calculateTotal());
+        for (int i = 0; i < foodInCart.getNumberOfEntries(); i++) {
+            str += foodInCart.getEntry(i).toString();
+            total += foodInCart.getEntry(i).calculateSubtotal();
+        }
+        str += String.format("Total: %36.2f", total);
         return str;
     }
 
@@ -67,8 +70,8 @@ public class Reservation implements Serializable {
     }
 
     // getter
-    public Cart getCart() {
-        return cart;
+    public ListInterface<FoodInCart> getFoodInCart() {
+        return foodInCart;
     }
 
     public Account getAccount() {
@@ -94,31 +97,6 @@ public class Reservation implements Serializable {
     // setter
     public void setReservationStatus(String status) {
         this.reservationStatus = status;
-    }
-
-    // new
-    public static ListInterface<Reservation> getReservationList() {
-        if (ls != null) {
-            return ls;
-        } else {
-            return null;
-        }
-    }
-
-    public static void setReservationList(ListInterface<Reservation> list) {
-        ls = list;
-    }
-
-    public void addReservation() {
-        ls.add(this);
-    }
-
-    public void removeReservation() {
-        for (int i = 0; i < ls.getNumberOfEntries(); i++) {
-            if (reservationID.compareTo(ls.getEntry(i).getReservationID()) == 0) {
-                ls.remove(i);
-            }
-        }
     }
 
 }
