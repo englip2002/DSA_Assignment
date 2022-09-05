@@ -8,7 +8,7 @@ public interface ListInterface<T> extends Iterable<T> {
      * @param newEntry the object to be added as a new entry
      * @return true if the addition is successful, or false if the list is full
      */
-    public boolean add(T newEntry);
+    public void add(T newEntry);
 
     /**
      * Task: Adds a new entry at a specified position within the list. Entries

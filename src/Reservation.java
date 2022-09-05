@@ -39,10 +39,6 @@ public class Reservation implements Serializable {
         this.serveTime = serveTime;
     }
 
-    public void changeReservationStatus(String status) {
-        this.reservationStatus = status;
-    }
-
     public String generateBill() {
         // format the bill
         String str = "";
