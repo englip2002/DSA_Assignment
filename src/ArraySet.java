@@ -170,13 +170,18 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
     }
 
     public String toString() {
+
+        String outputStr = "";
+
         if (array.length < 1) {
-            return "";
+            outputStr = "";
         }
 
-        // Still in considering
+        for(int i = 0; i < numberOfEntries; i++){
+            outputStr += array[i] + "\n";
+        }
 
-        return "";
+        return outputStr;
     }
 
     // Iterator override

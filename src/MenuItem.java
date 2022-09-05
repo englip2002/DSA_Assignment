@@ -1,107 +1,82 @@
-import java.io.Serializable;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-//package Assignment;
 
 /**
  * Author: KONG ZHI LIN
- * Description: Store food and beverage
+ * Description: Store food and beverage (menuItems)
  */
-public class MenuItem implements Serializable {
 
-    // Properties
-    private char menuItemCategory; // M = main course , B = beverage, A = Appertizer, D = Dessert
+public class MenuItem {
+    // Class Attributes
+    private String menuItemCategory; // Appertizer, Main course, Beverage, Dessert
     private String menuItemName;
     private String menuItemID;
-    private double menuItemPrice;
     private String menuItemDescription;
-    private static int dishCounter = 1; // Number to improve the index
+    private static int menuItemCounter = 1; // Number to improve the index
 
     // Constructor
     public MenuItem() {
-        this.menuItemCategory = ' ';
+        this.menuItemCategory = "";
         this.menuItemName = "";
-        this.menuItemPrice = 0.0;
         this.menuItemDescription = "";
-        this.menuItemID = "";
+        this.menuItemCounter = 1;
     }
 
-    public MenuItem(char menuItemCategory, String menuItemName, double menuItemPrice, String menuItemDescription) {
+    public MenuItem(String menuItemCategory, String menuItemName, String menuItemDescription) {
         this.menuItemCategory = menuItemCategory;
         this.menuItemName = menuItemName;
-        this.menuItemPrice = menuItemPrice;
         this.menuItemDescription = menuItemDescription;
         this.menuItemID = generateDishID();
-        dishCounter++;
-    }
-
-    public MenuItem(String menuItemID, char menuItemCategory, String menuItemName, double menuItemPrice,
-            String menuItemDescription) {
-        this.menuItemCategory = menuItemCategory;
-        this.menuItemName = menuItemName;
-        this.menuItemPrice = menuItemPrice;
-        this.menuItemDescription = menuItemDescription;
-        this.menuItemID = menuItemID;
-        dishCounter++;
+        menuItemCounter++;
     }
 
     // Accessors & Mutators
-    public String getDishName() {
-        return menuItemName;
-    }
-
-    public double getDishPrice() {
-        return menuItemPrice;
-    }
-
-    public String getFoodDescription() {
-        return menuItemDescription;
-    }
-
-    public char getDishCategory() {
+    public String getMenuItemCategory() {
         return menuItemCategory;
     }
 
-    public String getDishID() {
+    public String getMenuItemID() {
         return menuItemID;
     }
 
-    public void setDishName(String dishName) {
-        this.menuItemName = dishName;
+    public String getMenuItemName() {
+        return menuItemName;
     }
 
-    public void setDishPrice(double dishPrice) {
-        this.menuItemPrice = dishPrice;
+    public String getMenuItemDescription() {
+        return menuItemDescription;
     }
 
-    public void setDishDescription(String dishDescription) {
-        this.menuItemDescription = dishDescription;
+    public static int getMenuItemCounter() {
+        return menuItemCounter;
     }
 
-    public void setDishCategory(char dishCategory) {
-        this.menuItemCategory = dishCategory;
+    public void setMenuItemCategory(String menuItemCategory) {
+        this.menuItemCategory = menuItemCategory;
+    }
+
+    public void setMenuItemID(String menuItemID) {
+        this.menuItemID = menuItemID;
+    }
+
+    public void setMenuItemName(String menuItemName) {
+        this.menuItemName = menuItemName;
+    }
+
+    public void setMenuItemDescription(String menuItemDescription) {
+        this.menuItemDescription = menuItemDescription;
     }
 
     private String generateDishID() {
-        if (menuItemCategory == 'A') {
-            return String.format("MA%05d", dishCounter);
-        } else if (menuItemCategory == 'M') {
-            return String.format("MM%05d", dishCounter);
-        } else if (menuItemCategory == 'B') {
-            return String.format("MB%05d", dishCounter);
-        } else
-            return String.format("MD%05d", dishCounter);
-    }
 
-    public String toString() {
-        return  "Dish ID           : " + menuItemID + "\n" +
-                "Dish Name         : " + menuItemName + "\n" +
-                "Dish Price        : " + menuItemPrice + "\n" +
-                "Dish Description  : " + menuItemDescription + "\n";
+        if (menuItemCategory.charAt(0) == 'A') {
+            return String.format("A%5d", menuItemCounter);
+        } else if (menuItemCategory.charAt(0) == 'M') {
+            return String.format("M%5d", menuItemCounter);
+        } else if (menuItemCategory.charAt(0) == 'B') {
+            return String.format("B%5d", menuItemCounter);
+        } else {
+            return String.format("D%5d", menuItemCounter);
+        }
+
     }
 
 }
