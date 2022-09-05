@@ -24,7 +24,7 @@ public class MenuItem {
         this.menuItemCategory = menuItemCategory;
         this.menuItemName = menuItemName;
         this.menuItemDescription = menuItemDescription;
-        this.menuItemID = generateDishID();
+        this.menuItemID = generateMenuItemID();
         menuItemCounter++;
     }
 
@@ -65,7 +65,7 @@ public class MenuItem {
         this.menuItemDescription = menuItemDescription;
     }
 
-    private String generateDishID() {
+    private String generateMenuItemID() {
 
         if (menuItemCategory.charAt(0) == 'A') {
             return String.format("A%5d", menuItemCounter);
@@ -77,6 +77,34 @@ public class MenuItem {
             return String.format("D%5d", menuItemCounter);
         }
 
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        if (obj instanceof MenuItem) {
+            if (menuItemID == ((MenuItem) obj).getMenuItemID()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String toString() {
+        return "Menu Item ID           : " + menuItemID + "\n" +
+                "Menu Item Name         : " + menuItemName + "\n" +
+                "Menu Item Description  : " + menuItemDescription + "\n";
     }
 
 }

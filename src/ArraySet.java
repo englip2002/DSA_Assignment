@@ -177,7 +177,7 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
             outputStr = "";
         }
 
-        for(int i = 0; i < numberOfEntries; i++){
+        for (int i = 0; i < numberOfEntries; i++) {
             outputStr += array[i] + "\n";
         }
 

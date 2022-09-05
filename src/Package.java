@@ -14,27 +14,45 @@ public class Package implements Serializable {
     private String packageID;
     private String packageName;
     private double packagePrice;
+    private String packageDescription;
+    private static int packageCounter = 1;
     private SetInterface<MenuItem> menuPackage; // To store the menuItem in the array set of menuPackage
 
     // Constructor
     public Package() {
-        this.packageID = packageID;
-        this.packageName = packageName;
-        this.packagePrice = packagePrice;
+        this.packageID = "";
+        this.packageName = "";
+        this.packagePrice = 0;
+        this.packageDescription = "";
         this.menuPackage = new ArraySet<>();
     }
 
-    public Package(String packageName, double packagePrice, SetInterface<MenuItem> menuPackage) {
+    public Package(String packageName, double packagePrice, String packageDescription) {
         this.packageName = packageName;
         this.packagePrice = packagePrice;
-        this.menuPackage = menuPackage;
+        this.packageID = generatePackageID();
+        this.packageDescription = packageDescription;
+        packageCounter++;
     }
 
-    public Package(String packageID, String packageName, double packagePrice, SetInterface<MenuItem> menuPackage) {
+    public Package(String packageName, double packagePrice, SetInterface<MenuItem> menuPackage,
+            String packageDescription) {
+        this.packageName = packageName;
+        this.packagePrice = packagePrice;
+        this.packageID = generatePackageID();
+        this.packageDescription = packageDescription;
+        this.menuPackage = menuPackage;
+        packageCounter++;
+    }
+
+    public Package(String packageID, String packageName, double packagePrice, SetInterface<MenuItem> menuPackage,
+            String packageDescription) {
         this.packageID = packageID;
         this.packageName = packageName;
         this.packagePrice = packagePrice;
+        this.packageDescription = packageDescription;
         this.menuPackage = menuPackage;
+        packageCounter++;
     }
 
     public String getPackageID() {
@@ -69,6 +87,12 @@ public class Package implements Serializable {
     // entity class
     public void addMenuItemToPackage(MenuItem menuItem) {
         menuPackage.add(menuItem);
+    }
+
+    private String generatePackageID() {
+
+        return String.format("MP%5d", packageCounter);
+
     }
 
     @Override

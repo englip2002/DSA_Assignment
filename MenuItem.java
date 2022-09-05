@@ -1,119 +1,110 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Assignment;
 
 /**
- Author: KONG ZHI LIN
- Description: Store food and beverage 
+ * Author: KONG ZHI LIN
+ * Description: Store food and beverage (menuItems)
  */
+
 public class MenuItem {
-    
-    //Properties
-    private char dishCategory; //M = main course , B = beverage, A = Appertizer, D = Dessert
-    private String dishName;
-    private String dishID; 
-    private double dishPrice;
-    private String dishDescription;
-    private static int dishCounter = 1; //  Number to improve the index
-    
-    //Constructor
-    public MenuItem(){
-        this.dishCategory = ' ';
-        this.dishName = "";
-        this.dishPrice = 0.0;
-        this.dishDescription = "";
-        this.dishID = "";
-    }
-    
-    public MenuItem(char dishCategory, String dishName, double dishPrice, String dishDescription){
-        this.dishCategory = dishCategory;
-        this.dishName = dishName;
-        this.dishPrice = dishPrice;
-        this.dishDescription = dishDescription;
-        this.dishID = generateDishID();
-        dishCounter++;
+    // Class Attributes
+    private String menuItemCategory; // Appertizer, Main course, Beverage, Dessert
+    private String menuItemName;
+    private String menuItemID;
+    private String menuItemDescription;
+    private static int menuItemCounter = 1; // Number to improve the index
+
+    // Constructor
+    public MenuItem() {
+        this.menuItemCategory = "";
+        this.menuItemName = "";
+        this.menuItemDescription = "";
+        this.menuItemCounter = 1;
     }
 
-    public MenuItem(String dishID, char dishCategory, String dishName, double dishPrice, String dishDescription){
-        this.dishCategory = dishCategory;
-        this.dishName = dishName;
-        this.dishPrice = dishPrice;
-        this.dishDescription = dishDescription;
-        this.dishID = dishID;
-        dishCounter++;
-    }
-    
-    //Accessors & Mutators 
-    
-     public String getDishName(){
-        return dishName;
-    }
-    
-    public double getDishPrice(){
-        return dishPrice;
-    }
-    
-    public String getFoodDescription(){
-        return dishDescription;
-    }
-    
-    public char getDishCategory(){
-        return dishCategory;
+    public MenuItem(String menuItemCategory, String menuItemName, String menuItemDescription) {
+        this.menuItemCategory = menuItemCategory;
+        this.menuItemName = menuItemName;
+        this.menuItemDescription = menuItemDescription;
+        this.menuItemID = generateMenuItemID();
+        menuItemCounter++;
     }
 
-    public String getDishID() {
-        return dishID;
+    // Accessors & Mutators
+    public String getMenuItemCategory() {
+        return menuItemCategory;
     }
-    
-    public void setDishName(String dishName){
-        this.dishName = dishName;
+
+    public String getMenuItemID() {
+        return menuItemID;
     }
-    
-    public void setDishPrice(double dishPrice){
-        this.dishPrice = dishPrice;
+
+    public String getMenuItemName() {
+        return menuItemName;
     }
-    
-    public void setDishDescription(String dishDescription){
-        this.dishDescription = dishDescription;
+
+    public String getMenuItemDescription() {
+        return menuItemDescription;
     }
-    
-    public void setDishCategory(char dishCategory){
-        this.dishCategory = dishCategory;
+
+    public static int getMenuItemCounter() {
+        return menuItemCounter;
     }
-    
-    private String generateDishID(){
-        switch (dishCategory) {
-            case 'A':
-                return String.format("A%5d", dishCounter);
-            case 'M':
-                return String.format("M%5d", dishCounter);
-            case 'B':
-                return String.format("B%5d", dishCounter);
-            default:
-                return String.format("D%5d", dishCounter);
+
+    public void setMenuItemCategory(String menuItemCategory) {
+        this.menuItemCategory = menuItemCategory;
+    }
+
+    public void setMenuItemID(String menuItemID) {
+        this.menuItemID = menuItemID;
+    }
+
+    public void setMenuItemName(String menuItemName) {
+        this.menuItemName = menuItemName;
+    }
+
+    public void setMenuItemDescription(String menuItemDescription) {
+        this.menuItemDescription = menuItemDescription;
+    }
+
+    private String generateMenuItemID() {
+
+        if (menuItemCategory.charAt(0) == 'A') {
+            return String.format("A%5d", menuItemCounter);
+        } else if (menuItemCategory.charAt(0) == 'M') {
+            return String.format("M%5d", menuItemCounter);
+        } else if (menuItemCategory.charAt(0) == 'B') {
+            return String.format("B%5d", menuItemCounter);
+        } else {
+            return String.format("D%5d", menuItemCounter);
         }
+
     }
-    
-    public String toString(){
-        return "Dish ID           : " + dishID + "\n" +
-               "Dish Name         : " + dishName + "\n" + 
-               "Dish Price        : " + dishPrice + "\n" + 
-               "Dish Description  : " + dishDescription + "\n";
-    }
-    
+
     @Override
-    public boolean equals(Object obj){
-        System.out.println("B2");
-        if(obj instanceof Category){
-            if(dishID.equals(((MenuItem) obj).getCategoryID())){
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        if (obj instanceof MenuItem) {
+            if (menuItemID == ((MenuItem) obj).getMenuItemID()) {
                 return true;
             }
         }
         return false;
     }
 
+    public String toString() {
+        return "Menu Item ID           : " + menuItemID + "\n" +
+                "Menu Item Name         : " + menuItemName + "\n" +
+                "Menu Item Description  : " + menuItemDescription + "\n";
+    }
 
 }
