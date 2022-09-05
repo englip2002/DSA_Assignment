@@ -126,4 +126,17 @@ public class Package implements Serializable {
                 "Package Description  : " + packageDescription;
     }
 
+    // i add a method to print the item in the package
+    public String printMenuItem() {
+        String str = "";
+        str += String.format("%-3s %-10s %-20s %-30s", "No",
+                "Dish ID", "Dish Name", "Dish Description");
+        for (int i = 0; i < menuPackage.getNumberOfEntries(); i++) {
+            MenuItem temp = menuPackage.getElementAtPos(i);
+            str += String.format("%-3s %-10s %-20s %-30s\n", (i + 1), temp.getMenuItemID(), temp.getMenuItemName(),
+                    temp.getMenuItemDescription());
+        }
+        return str;
+    }
+
 }

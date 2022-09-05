@@ -10,6 +10,7 @@ public class Reservation implements Serializable {
     private String contactNo;
     private String serveLocation;
     private String reservationStatus;
+    private Package choosenPackage;
     private ListInterface<FoodInCart> foodInCart;
     private static int IDcounter = 1;
 
@@ -42,15 +43,14 @@ public class Reservation implements Serializable {
     public String generateBill() {
         // format the bill
         String str = "";
-        double total = 0;
         str += account.toString() + "\n";
-        str += String.format("%-5s %-10s %-10s %-10s %-10s\n", "No", "Dish Name",
-                "Dish Price", "Quantity", "Subtotal(RM)");
+        str += choosenPackage.getPackageName()+"\n";
+        str += String.format("%-5s %-10s %-10s\n", "No", "Dish Name",
+             "Quantity");
         for (int i = 0; i < foodInCart.getNumberOfEntries(); i++) {
             str += foodInCart.getEntry(i).toString();
-            total += foodInCart.getEntry(i).calculateSubtotal();
         }
-        str += String.format("Total: %36.2f", total);
+        str += String.format("Total: %36.2f", choosenPackage.getPackagePrice());
         return str;
     }
 
@@ -86,6 +86,9 @@ public class Reservation implements Serializable {
         return serveTime;
     }
 
+    public Package getChoosenPackage(){
+        return choosenPackage;
+    }
     private String generareReservationID() {
         return String.format("R%05d", IDcounter);
     }
@@ -93,6 +96,10 @@ public class Reservation implements Serializable {
     // setter
     public void setReservationStatus(String status) {
         this.reservationStatus = status;
+    }
+
+    public void setPackageChoice(Package packageChoice){
+        this.choosenPackage=packageChoice;
     }
 
 }
