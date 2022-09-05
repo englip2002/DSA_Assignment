@@ -14,7 +14,7 @@ public class LinkedList<T> implements ListInterface<T>, Serializable {
 
     @Override
     // add new value to last index
-    public boolean add(T newEntry) {
+    public void add(T newEntry) {
         Node newNode = new Node(newEntry);
         if (isEmpty()) {
             firstNode = newNode;
@@ -23,7 +23,6 @@ public class LinkedList<T> implements ListInterface<T>, Serializable {
             currentNode.next = newNode;
         }
         numberOfEntries++;
-        return true;
     }
 
     @Override
