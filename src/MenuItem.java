@@ -104,6 +104,7 @@ public class MenuItem {
 
     public String toString() {
         return "Menu Item ID           : " + menuItemID + "\n" +
+                "Menu Category          : " + menuItemCategory + "\n" +
                 "Menu Item Name         : " + menuItemName + "\n" +
                 "Menu Item Description  : " + menuItemDescription + "\n";
     }

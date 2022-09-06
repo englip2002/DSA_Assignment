@@ -6,10 +6,10 @@
  */
 
 import java.util.Scanner;
-
+import java.io.Serializable;
 import java.util.Iterator;
 
-public class MenuManager {
+public class MenuManager implements Serializable {
 
     // Class Attributes
     // Individual and separate package array set
@@ -54,6 +54,66 @@ public class MenuManager {
     public void removePackage() {
         System.out.println("\n");
 
+        System.out.println("\t  REMOVE PACKAGE: ");
+        System.out.println("\t=========================");
+
+        // Step 1: Display the package
+        System.out.println(displayPackage());
+
+        scanner.nextLine();
+
+        // Step 2: Let user to choose which package to remove
+        System.out.print("Please enter Pacakge ID that you want remove: ");
+        String inputRemovePackageID = scanner.nextLine();
+
+        scanner.nextLine();
+
+        //Use a temporay object to store that remove particular object
+        Package temp = searchSpecificPackageByID(inputRemovePackageID);
+
+        packageSet.remove(temp);
+    }
+
+    public void addNewMenuItem() {
+        System.out.println("\n");
+        System.out.println("\t  ADD NEW MENU ITEM: ");
+        System.out.println("\t==========================");
+        System.out.println("Please enter menu item name: ");
+        String inputMenuItemName = scanner.nextLine();
+        // Clear buffer
+        scanner.nextLine();
+        System.out.println("Please enter menu item category: ");
+        String inputMenuItemCategory = scanner.nextLine();
+        // Clear buffer
+        scanner.nextLine();
+
+        System.out.println("Please enter menu item descriptions: ");
+        String inputMenuItemDescription = scanner.nextLine();
+
+        // Create new package information and add into the packageSet
+        menuItemSet.add(new MenuItem(inputMenuItemCategory, inputMenuItemName, inputMenuItemDescription)); 
+    }
+
+    public void removeMenuItem() {
+        System.out.println("\n");
+
+        System.out.println("\t  REMOVE PACKAGE: ");
+        System.out.println("\t=========================");
+
+        // Step 1: Display the menu items
+        System.out.println(displayMenuItems());
+
+        scanner.nextLine();
+
+        // Step 2: Let user to choose which menu item to remove
+        System.out.print("Please enter Menu Item ID that you want remove: ");
+        String inputRemoveMenuItemID = scanner.nextLine();
+
+        scanner.nextLine();
+
+        MenuItem temp = searchSpecificMenuItemByID(inputRemoveMenuItemID);
+
+        menuItemSet.remove(temp);
     }
 
     // Assign menu item to package
@@ -63,22 +123,39 @@ public class MenuManager {
 
         System.out.println("\n");
 
-        //Display package first see the user want add menu items into which package
+        // Display package first see the user want add menu items into which package
         System.out.println(displayPackage());
         System.out.println("\n");
-        System.out.println("Please select the package that you want to add menu item: ");
-        int inputPackageChoice = scanner.nextInt();
 
-        //Search pacakge in existing package arraySet
-        // while (iterator.hasNext()){
+        scanner.nextLine();
+        System.out.println("Please enter the package ID that you want to add menu item: ");
+        String inputPackageID = scanner.nextLine();
 
-        // }
+        scanner.nextLine();
 
-        System.out.println(displayMenuItems());
+       Package pckg = searchSpecificPackageByID(inputPackageID);
 
-        System.out.println("\n");
-        System.out.println("Please select the menu item you would like to add into the package: ");
-        int inputMenuItemChoice = scanner.nextInt();
+        // Search pacakge in existing package arraySet
+        if(packageSet.contains(pckg)){
+            System.out.println(displayMenuItems());
+
+            System.out.println("\n");
+            System.out.println("Please enter the menu item ID you would like to add into the package: ");
+            String inputMenuItemID = scanner.nextLine();
+
+            MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
+
+            if(menuItemSet.contains(menuItem)){
+                pckg.addMenuItemToPackage(menuItem);
+            }
+            else{
+                System.out.println("The package does not exist!");
+            }
+        }
+        else{
+            System.out.println("The package does not exist!");
+        }
+       
     }
 
     public String displayMenuItems() {
@@ -95,10 +172,37 @@ public class MenuManager {
         String str = "";
 
         for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
-            System.out.println("Pacakge" +(i + 1) + ":");
+            System.out.println("Pacakge" + (i + 1) + ":");
             str += packageSet.getElementAtPos(i).toString();
         }
         return str;
     }
 
+    public Package searchSpecificPackageByID(String packageID) {
+
+        SetInterface<Package> searchPackage = new ArraySet<Package>();
+        Iterator iterator = searchPackage.iterator();
+
+        while (iterator.hasNext()) {
+            Package temp = (Package) iterator.next();
+            if (temp.getPackageID().matches(packageID)) {
+                return temp;
+            }
+        }
+        return null;
+    }
+
+    public MenuItem searchSpecificMenuItemByID(String menuItemID) {
+
+        SetInterface<MenuItem> searchMenuItem = new ArraySet<MenuItem>();
+        Iterator iterator = searchMenuItem.iterator();
+
+        while (iterator.hasNext()) {
+            MenuItem temp = (MenuItem) iterator.next();
+            if (temp.getMenuItemID().matches(menuItemID)) {
+                return temp;
+            }
+        }
+        return null;
+    }
 }
