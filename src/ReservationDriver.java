@@ -219,6 +219,7 @@ public class ReservationDriver {
                                 // remove cart
                                 // print item in cart
                                 System.out.println(viewCart(reservation));
+                                
                                 do {
                                     // user enter choices to remove
                                     System.out.print("Enter the number you wish to remove(-1 to exit): ");
