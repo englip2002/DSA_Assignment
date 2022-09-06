@@ -85,10 +85,31 @@ public class Package implements Serializable {
         this.packageID = packageID;
     }
 
+    public void setPackageDescription(String packageDescription) {
+        this.packageDescription = packageDescription;
+    }
+
     // To perform the package has many menuItems we will include the Set ADT in this
     // entity class
     public void addMenuItemToPackage(MenuItem menuItem) {
         menuPackage.add(menuItem);
+    }
+
+    public boolean modifyPackage(String packageID, String modifiedPackageName, double modifiedPackagePrice, String modifiedPackageDescp){
+        
+        SetInterface<Package> searchPackage = new ArraySet<Package>();
+        Iterator iterator = searchPackage.iterator();
+
+        while (iterator.hasNext()) {
+            Package temp = (Package) iterator.next();
+            if (temp.getPackageID().matches(packageID)) {
+                temp.setPackageName(modifiedPackageName);
+                temp.setPackagePrice(modifiedPackagePrice);
+                temp.setPackageDescription(modifiedPackageDescp);
+                return true;
+            }
+        }
+        return false;
     }
 
     private String generatePackageID() {

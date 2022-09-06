@@ -68,7 +68,7 @@ public class MenuManager implements Serializable {
 
         scanner.nextLine();
 
-        //Use a temporay object to store that remove particular object
+        // Use a temporay object to store that remove particular object
         Package temp = searchSpecificPackageByID(inputRemovePackageID);
 
         packageSet.remove(temp);
@@ -91,7 +91,7 @@ public class MenuManager implements Serializable {
         String inputMenuItemDescription = scanner.nextLine();
 
         // Create new package information and add into the packageSet
-        menuItemSet.add(new MenuItem(inputMenuItemCategory, inputMenuItemName, inputMenuItemDescription)); 
+        menuItemSet.add(new MenuItem(inputMenuItemCategory, inputMenuItemName, inputMenuItemDescription));
     }
 
     public void removeMenuItem() {
@@ -119,8 +119,6 @@ public class MenuManager implements Serializable {
     // Assign menu item to package
     public void addMenuItemToPackage() {
 
-        Iterator iterator = packageSet.iterator();
-
         System.out.println("\n");
 
         // Display package first see the user want add menu items into which package
@@ -133,10 +131,10 @@ public class MenuManager implements Serializable {
 
         scanner.nextLine();
 
-       Package pckg = searchSpecificPackageByID(inputPackageID);
+        Package pckg = searchSpecificPackageByID(inputPackageID);
 
         // Search pacakge in existing package arraySet
-        if(packageSet.contains(pckg)){
+        if (packageSet.contains(pckg)) {
             System.out.println(displayMenuItems());
 
             System.out.println("\n");
@@ -145,17 +143,68 @@ public class MenuManager implements Serializable {
 
             MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
 
-            if(menuItemSet.contains(menuItem)){
+            if (menuItemSet.contains(menuItem)) {
                 pckg.addMenuItemToPackage(menuItem);
-            }
-            else{
+            } else {
                 System.out.println("The package does not exist!");
             }
-        }
-        else{
+        } else {
             System.out.println("The package does not exist!");
         }
-       
+
+    }
+
+    public void modifyPackage() {
+        System.out.println("\n");
+        System.out.println(displayPackage());
+        System.out.println("\n");
+
+        scanner.nextLine();
+        System.out.println("Please enter the package ID that you want to add menu item: ");
+        String inputPackageID = scanner.nextLine();
+
+        scanner.nextLine();
+
+        Package pckg = searchSpecificPackageByID(inputPackageID);
+
+        System.out.println("\t  Modify Package");
+        System.out.println("\t===================");
+
+        System.out.println("1. Modify Pacakge Name");
+        System.out.println("2. Modify Pacakge Price");
+        System.out.println("3. Modify Pacakge Description");
+        System.out.println("4. Modify All");
+        System.out.println("Enter your choice: ");
+        int inputModifyChoice = scanner.nextInt();
+
+        scanner.nextLine();
+
+        switch (inputModifyChoice) {
+            case 1:
+                System.out.println("Enetr new package name: ");
+                String modifiedName = scanner.nextLine();
+                break;
+            case 2:
+                System.out.println("Enetr new package price: RM ");
+                double modifiedPrice = scanner.nextDouble();
+                break;
+            case 3:
+                System.out.println("Enetr new package description: ");
+                String modifiedDescrip = scanner.nextLine();
+                break;
+            case 4:
+                System.out.println("Enetr new package nane: ");
+                double modifyName = scanner.nextDouble();
+
+                System.out.println("Enetr new package price: RM ");
+                double modifyPrice = scanner.nextDouble();
+
+                System.out.println("Enetr new package description: ");
+                String modifyDescrip = scanner.nextLine();
+                break;
+        }
+        //pckg.modifyPackage(pckg.getPackageID(), modifiedName, modifiedPrice, modifiedDescp);
+
     }
 
     public String displayMenuItems() {
