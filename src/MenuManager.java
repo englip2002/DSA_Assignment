@@ -38,13 +38,13 @@ public class MenuManager implements Serializable {
         System.out.println("Please enter package name: ");
         String inputPackageName = scanner.nextLine();
         // Clear buffer
-        scanner.nextLine();
+        //scanner.nextLine();
         System.out.println("Please enter package price: RM ");
         double inputPackagePrice = scanner.nextDouble();
         System.out.println("Please enter package descriptions: ");
         String inputPackageDescription = scanner.nextLine();
         // Clear buffer
-        scanner.nextLine();
+        //scanner.nextLine();
 
         // Create new package information and add into the packageSet
         packageSet.add(new Package(inputPackageName, inputPackagePrice, inputPackageDescription));
@@ -76,18 +76,16 @@ public class MenuManager implements Serializable {
 
     public void addNewMenuItem() {
         System.out.println("\n");
-        System.out.println("\t  ADD NEW MENU ITEM: ");
+        System.out.println("\t    ADD NEW MENU ITEM: ");
         System.out.println("\t==========================");
-        System.out.println("Please enter menu item name: ");
+        System.out.print("Please enter menu item name: ");
         String inputMenuItemName = scanner.nextLine();
         // Clear buffer
-        scanner.nextLine();
-        System.out.println("Please enter menu item category: ");
+        // scanner.nextLine();
+        System.out.print("Please enter menu item category: ");
         String inputMenuItemCategory = scanner.nextLine();
-        // Clear buffer
-        scanner.nextLine();
 
-        System.out.println("Please enter menu item descriptions: ");
+        System.out.print("Please enter menu item descriptions: ");
         String inputMenuItemDescription = scanner.nextLine();
 
         // Create new package information and add into the packageSet

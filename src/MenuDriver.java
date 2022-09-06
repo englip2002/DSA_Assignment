@@ -8,8 +8,10 @@ public class MenuDriver {
         FileHandler<MenuManager> menuFile = new FileHandler<MenuManager>("Menu.dat");
         MenuManager menuManager = new MenuManager();
 
-        menuFile.read();
-        menuManager.displayPackage();
+        menuManager.addNewMenuItem();
+
+        // menuFile.read();
+        // menuManager.displayPackage();
 
         // FileHandler<MenuManager> menuFile = new FileHandler<MenuManager>("Menu.dat");
 
