@@ -69,13 +69,13 @@ public class MenuItem {
     private String generateMenuItemID() {
 
         if (menuItemCategory.charAt(0) == 'A') {
-            return String.format("A%5d", menuItemCounter);
+            return String.format("A%05d", menuItemCounter);
         } else if (menuItemCategory.charAt(0) == 'M') {
-            return String.format("M%5d", menuItemCounter);
+            return String.format("M%05d", menuItemCounter);
         } else if (menuItemCategory.charAt(0) == 'B') {
-            return String.format("B%5d", menuItemCounter);
+            return String.format("B%05d", menuItemCounter);
         } else {
-            return String.format("D%5d", menuItemCounter);
+            return String.format("D%05d", menuItemCounter);
         }
 
     }

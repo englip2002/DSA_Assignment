@@ -33,6 +33,7 @@ public class Package implements Serializable {
         this.packagePrice = packagePrice;
         this.packageID = generatePackageID();
         this.packageDescription = packageDescription;
+        this.menuPackage = new ArraySet<>();
         packageCounter++;
     }
 
@@ -129,7 +130,7 @@ public class Package implements Serializable {
     // i add a method to print the item in the package
     public String printMenuItem() {
         String str = "";
-        str += String.format("%-3s %-10s %-20s %-30s", "No",
+        str += String.format("%-3s %-10s %-20s %-30s\n", "No",
                 "Dish ID", "Dish Name", "Dish Description");
         for (int i = 0; i < menuPackage.getNumberOfEntries(); i++) {
             MenuItem temp = menuPackage.getElementAtPos(i);

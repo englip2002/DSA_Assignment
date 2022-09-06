@@ -138,11 +138,14 @@ public class ReservationDriver {
                                     // enter menu into cart
                                     do {
                                         // print category choice
+                                        System.out.print(String.format("\n%-3s %-15s %-10s\n", "No", "PackageName",
+                                                "Price(RM)"));
                                         for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
-                                            System.out.println(String.format("%3d %10s %5.2f\n", (i + 1),
+                                            System.out.print(String.format("%-3d %-15s %-10.2f\n", (i + 1),
                                                     packageSet.getElementAtPos(i).getPackageName(),
                                                     packageSet.getElementAtPos(i).getPackagePrice()));
                                         }
+                                        System.out.print("Enter package choice: ");
                                         packageChoice = scanner.nextInt();
 
                                         if (packageChoice < 1
@@ -156,7 +159,7 @@ public class ReservationDriver {
                                             // validation for food choice
                                             do {
                                                 // print foods from package and enter food choice
-                                                System.out.println(reservation.getChoosenPackage().printMenuItem());
+                                                System.out.print("\n"+reservation.getChoosenPackage().printMenuItem());
 
                                                 System.out.print("Enter your food choice:");
                                                 menuItemChoice = scanner.nextInt();
@@ -180,18 +183,17 @@ public class ReservationDriver {
                                     totalMenuItemChoosen += menuItemQuantity;
 
                                     // store into cart
-                                    MenuItem temp = packageSet.getElementAtPos(packageChoice).getAllMenuPackage()
-                                            .getElementAtPos(menuItemChoice);
+                                    MenuItem temp = packageSet.getElementAtPos(packageChoice - 1).getAllMenuPackage()
+                                            .getElementAtPos(menuItemChoice - 1);
                                     reservation.getFoodInCart().add(new FoodInCart(temp, menuItemQuantity));
 
                                     // display cart
-                                    System.out.println("\nItems In Cart");
-                                    System.out.println("================");
                                     System.out.println(viewCart(reservation));
 
                                     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!change to while
                                     // totalMenuItemChoosen<limit
                                 } while (false);
+                                break;
                             case 3:
                                 // remove cart
                                 // print item in cart
@@ -202,7 +204,7 @@ public class ReservationDriver {
                                     cartRemovePosition = scanner.nextInt();
                                     scanner.nextLine();
 
-                                    if (removeChoice == -1) {
+                                    if (cartRemovePosition == -1) {
                                         System.out.println("Exited!");
                                         System.out.println("Press <Enter> to continue.");
                                         scanner.nextLine();
@@ -457,12 +459,14 @@ public class ReservationDriver {
 
     public static String viewCart(Reservation reservation) {
         String str = "";
-        str += String.format("%-5s %-10s %-10s %-10s %-10s\n", "No", "Dish Name",
-                "Dish Price", "Quantity", "Subtotal(RM)");
+        str += "\nItems In Cart\n";
+        str += "================\n";
+        str += String.format("%-5s %-20s %-10s\n", "No", "Dish Name",
+                 "Quantity");
         for (int i = 0; i < reservation.getFoodInCart().getNumberOfEntries(); i++) {
-            str += String.format("%-5d %-20s\n", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
+            str += String.format("%-5d %-30s\n", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
         }
-        str += String.format("%43.2f", reservation.getChoosenPackage().getPackagePrice());
+        str += String.format("Total: %0.2f\n", reservation.getChoosenPackage().getPackagePrice());
         return str;
     }
 }

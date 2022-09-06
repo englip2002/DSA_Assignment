@@ -18,7 +18,7 @@ public class FoodInCart implements Serializable{
     }
 
     public String toString() {
-        return String.format("%-10s %-10d", food.getMenuItemName(), quantity);
+        return String.format("%-20s %-10d", food.getMenuItemName(), quantity);
     }
 
 }
