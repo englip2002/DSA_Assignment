@@ -7,7 +7,6 @@ import java.util.Iterator;
  * 1 menu package has 1 or many menu item(s)
  **/
 
-import java.io.Serializable;
 
 public class Package implements Serializable {
 

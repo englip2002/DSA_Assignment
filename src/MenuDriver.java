@@ -8,6 +8,8 @@ public class MenuDriver {
         FileHandler<MenuManager> menuFile = new FileHandler<MenuManager>("Menu.dat");
         MenuManager menuManager = new MenuManager();
 
+        System.out.println(menuManager.displayPackage());
+        System.out.println(menuManager.displayMenuItems());
         menuManager.addNewMenuItem();
 
         // menuFile.read();
