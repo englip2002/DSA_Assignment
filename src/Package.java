@@ -7,13 +7,13 @@ import java.util.Iterator;
  * 1 menu package has 1 or many menu item(s)
  **/
 
-
 public class Package implements Serializable {
 
     // Class attribute
     private String packageID;
     private String packageName;
     private double packagePrice;
+    private int menuItemLimit;
     private String packageDescription;
     private static int packageCounter = 1;
     private SetInterface<MenuItem> menuPackage; // To store the menuItem in the array set of menuPackage
@@ -27,30 +27,33 @@ public class Package implements Serializable {
         this.menuPackage = new ArraySet<>();
     }
 
-    public Package(String packageName, double packagePrice, String packageDescription) {
+    public Package(String packageName, double packagePrice, int menuItemLimit, String packageDescription) {
         this.packageName = packageName;
         this.packagePrice = packagePrice;
+        this.menuItemLimit = menuItemLimit;
         this.packageID = generatePackageID();
         this.packageDescription = packageDescription;
         this.menuPackage = new ArraySet<>();
         packageCounter++;
     }
 
-    public Package(String packageName, double packagePrice, SetInterface<MenuItem> menuPackage,
+    public Package(String packageName, double packagePrice, int menuItemLimit, SetInterface<MenuItem> menuPackage,
             String packageDescription) {
         this.packageName = packageName;
         this.packagePrice = packagePrice;
+        this.menuItemLimit = menuItemLimit;
         this.packageID = generatePackageID();
         this.packageDescription = packageDescription;
         this.menuPackage = menuPackage;
         packageCounter++;
     }
 
-    public Package(String packageID, String packageName, double packagePrice, SetInterface<MenuItem> menuPackage,
+    public Package(String packageID, String packageName, double packagePrice, int menuItemLimit, SetInterface<MenuItem> menuPackage,
             String packageDescription) {
         this.packageID = packageID;
         this.packageName = packageName;
         this.packagePrice = packagePrice;
+        this.menuItemLimit = menuItemLimit;
         this.packageDescription = packageDescription;
         this.menuPackage = menuPackage;
         packageCounter++;
@@ -66,6 +69,10 @@ public class Package implements Serializable {
 
     public double getPackagePrice() {
         return packagePrice;
+    }
+
+    public int getMenuItemLimit(){
+        return menuItemLimit;
     }
 
     public SetInterface<MenuItem> getAllMenuPackage() {
@@ -94,8 +101,9 @@ public class Package implements Serializable {
         menuPackage.add(menuItem);
     }
 
-    public boolean modifyPackage(String packageID, String modifiedPackageName, double modifiedPackagePrice, String modifiedPackageDescp){
-        
+    public boolean modifyPackage(String packageID, String modifiedPackageName, double modifiedPackagePrice,
+            String modifiedPackageDescp) {
+
         SetInterface<Package> searchPackage = new ArraySet<Package>();
         Iterator iterator = searchPackage.iterator();
 
@@ -113,7 +121,7 @@ public class Package implements Serializable {
 
     private String generatePackageID() {
 
-        return String.format("MP%5d", packageCounter);
+        return String.format("MP%05d", packageCounter);
 
     }
 

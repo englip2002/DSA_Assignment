@@ -21,10 +21,10 @@ public class MenuManager implements Serializable {
 
     // Constructor --> Initialize the packages and menu items
     public MenuManager() {
-        packageSet.add(new Package("Package A", 38.00, "1 Appertizer, 1 Main Course, 1 Beverage"));
-        packageSet.add(new Package("Package B", 58.60, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
-        packageSet.add(new Package("Package C", 108.00, "1 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
-        packageSet.add(new Package("Package D", 120.50, "3 Appertizer, 2 Main Course, 3 Beverage, 3 Dessert"));
+        packageSet.add(new Package("Package A", 38.00,5, "1 Appertizer, 1 Main Course, 1 Beverage"));
+        packageSet.add(new Package("Package B", 58.60,10, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
+        packageSet.add(new Package("Package C", 108.00,15, "1 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
+        packageSet.add(new Package("Package D", 120.50,17, "3 Appertizer, 2 Main Course, 3 Beverage, 3 Dessert"));
         menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
         menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
         menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
@@ -41,13 +41,17 @@ public class MenuManager implements Serializable {
         //scanner.nextLine();
         System.out.println("Please enter package price: RM ");
         double inputPackagePrice = scanner.nextDouble();
+
+        System.out.println("Please enter menu item limit:  ");
+        int menuItemLimit = scanner.nextInt();
+
         System.out.println("Please enter package descriptions: ");
         String inputPackageDescription = scanner.nextLine();
         // Clear buffer
         //scanner.nextLine();
 
         // Create new package information and add into the packageSet
-        packageSet.add(new Package(inputPackageName, inputPackagePrice, inputPackageDescription));
+        packageSet.add(new Package(inputPackageName, inputPackagePrice,menuItemLimit, inputPackageDescription));
 
     }
 

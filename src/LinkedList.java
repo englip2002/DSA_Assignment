@@ -193,7 +193,7 @@ public class LinkedList<T> implements ListInterface<T>, Serializable {
     }
 
     // Iterator
-    @Override
+    //@Override
     public Iterator<T> iterator() {
         return new LinkedListIterator();
     }
