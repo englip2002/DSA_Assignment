@@ -7,9 +7,6 @@ import java.util.Scanner;
 
 public class ReservationDriver {
     public static void main(String[] args) {
-        FileHandler<ListInterface<Reservation>> reservationFile = new FileHandler<ListInterface<Reservation>>(
-                "Reservations.dat");
-
         Account account = new Account("A0001", "1234", "Tan", "EngLip", "Male", LocalDate.of(2002, 11, 22), "Customer");
 
         ReservationModule(account);
