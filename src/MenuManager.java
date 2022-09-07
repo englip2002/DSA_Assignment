@@ -127,7 +127,7 @@ public class MenuManager implements Serializable {
     }
 
     // Assign menu item to package
-    public void addMenuItemToPackage() {
+    public boolean addMenuItemToPackage() {
 
         System.out.println("\n");
 
@@ -145,22 +145,34 @@ public class MenuManager implements Serializable {
 
         // Search pacakge in existing package arraySet
         if (packageSet.contains(pckg)) {
-            System.out.println(displayMenuItems()); // not accurate
 
-            System.out.println("\n");
-            System.out.println("Please enter the menu item ID you would like to add into the package: ");
-            String inputMenuItemID = scanner.nextLine();
-
-            MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
-
-            if (menuItemSet.contains(menuItem)) {
-                pckg.addMenuItemToPackage(menuItem);
-            } else {
-                System.out.println("The package does not exist!");
+            //Check the limit of the menu item in the package 
+            if(pckg.getMenuItemInPackageCounter() == pckg.getMenuItemLimit()){
+                System.out.println("Cannot add menu item into the package since reached the volume limit!");
+                return false;
             }
-        } else {
-            System.out.println("The package does not exist!");
-        }
+            else{
+                System.out.println("\n");
+                System.out.println(displayMenuItems());
+                System.out.println("\nPlease enter the menu item ID you would like to add into the package: ");
+                String inputMenuItemID = scanner.nextLine();
+    
+                MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
+    
+                if (menuItemSet.contains(menuItem)) {
+                    pckg.addMenuItemToPackage(menuItem);
+                    return true;
+                } else {
+                    System.out.println("The package does not exist!");
+                }
+            }
+            }
+            else {
+                System.out.println("The package does not exist!");
+                return false;
+            }
+
+           return false;
 
     }
 
@@ -256,6 +268,7 @@ public class MenuManager implements Serializable {
         for (Package pckg : packageSet) {
             
         }
+
 
         while (iterator.hasNext()) {
             Package temp = (Package) iterator.next();

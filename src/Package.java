@@ -16,6 +16,7 @@ public class Package implements Serializable {
     private int menuItemLimit;
     private String packageDescription;
     private static int packageCounter = 1;
+    private static int menuItemInPackageCounter = 0;
     private SetInterface<MenuItem> menuPackage; // To store the menuItem in the array set of menuPackage
 
     // Constructor
@@ -83,6 +84,10 @@ public class Package implements Serializable {
         return menuPackage;
     }
 
+    public int getMenuItemInPackageCounter() {
+        return menuItemInPackageCounter;
+    }
+
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
@@ -107,6 +112,7 @@ public class Package implements Serializable {
     // entity class
     public void addMenuItemToPackage(MenuItem menuItem) {
         menuPackage.add(menuItem);
+        menuItemInPackageCounter++;
     }
 
     public boolean modifyPackage(String packageID, String modifiedPackageName, double modifiedPackagePrice,
@@ -160,7 +166,9 @@ public class Package implements Serializable {
         return "Package ID           : " + packageID + "\n" +
                 "Package Name         : " + packageName + "\n" +
                 "Package Price        :" + packagePrice + "\n" +
-                "Package Description  : " + packageDescription;
+                "Package Description  : " + packageDescription + "\n" + 
+                "Menu item(s) inside the package:" + "\n" +
+                printMenuItem();
     }
 
     // i add a method to print the item in the package
