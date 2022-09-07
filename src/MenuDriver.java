@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class MenuDriver {
     public static void main(String[] args) {
 
-        FileHandler<MenuManager> menuFile = new FileHandler<MenuManager>("Menu.dat");
+        FileHandler menuFile = new FileHandler("Menu.dat");
         // Class Attributes
         // Individual and separate package array set
         SetInterface<Package> packageSet = new ArraySet<>();
