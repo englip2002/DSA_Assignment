@@ -61,6 +61,7 @@ public class ReservationDriver {
         LocalDateTime serveTime = null;
         Scanner scanner = new Scanner(System.in);
         do {
+            // update the list every time loop
             reservationList = (ListInterface) reservationFile.read();
             System.out.println("\nReservation Module");
             System.out.println("========================");
@@ -84,13 +85,15 @@ public class ReservationDriver {
                         System.out.println("3. Remove food from cart");
                         System.out.println("4. View Cart");
                         System.out.println("5. CheckOut");
+                        System.out.println("6. Exit");
+
                         do {
                             System.out.print("Enter your choice: ");
                             reservationProcessChoice = scanner.nextInt();
-                            if (reservationProcessChoice < 1 || reservationProcessChoice > 5) {
+                            if (reservationProcessChoice < 1 || reservationProcessChoice > 6) {
                                 System.out.println("Invalid Choice!");
                             }
-                        } while (reservationProcessChoice < 1 || reservationProcessChoice > 5);
+                        } while (reservationProcessChoice < 1 || reservationProcessChoice > 6);
 
                         switch (reservationProcessChoice) {
                             case 1:
@@ -219,7 +222,7 @@ public class ReservationDriver {
                                 // remove cart
                                 // print item in cart
                                 System.out.println(viewCart(reservation));
-                                
+
                                 do {
                                     // user enter choices to remove
                                     System.out.print("Enter the number you wish to remove(-1 to exit): ");
@@ -236,8 +239,9 @@ public class ReservationDriver {
                                         System.out.println("Press <Enter> to continue.");
                                         scanner.nextLine();
                                     } else {
-                                        //update the totalMenuItemChoosen
-                                        totalMenuItemChoosen-=reservation.getFoodInCart().getEntry(cartRemovePosition-1).getQuantity();
+                                        // update the totalMenuItemChoosen
+                                        totalMenuItemChoosen -= reservation.getFoodInCart()
+                                                .getEntry(cartRemovePosition - 1).getQuantity();
                                         // remove fron list
                                         reservation.getFoodInCart().remove(cartRemovePosition - 1);
                                         System.out.println("Removed Successfully");
@@ -280,8 +284,15 @@ public class ReservationDriver {
                                     reservationFile.write(reservationList);
                                 }
                                 break;
+                            case 6:
+                                System.out.println("\nExited!");
+                                System.out.println("Press <Enter> to continue.");
+                                scanner.nextLine();
+                                scanner.nextLine();
+                                break;
+
                         }
-                    } while (reservationProcessChoice != 5);
+                    } while (reservationProcessChoice != 5 && reservationProcessChoice != 6);
                     break;
                 case 2:
                     // view all reservation history
