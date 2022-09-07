@@ -6,11 +6,31 @@ public class MenuDriver {
     public static void main(String[] args) {
 
         FileHandler<MenuManager> menuFile = new FileHandler<MenuManager>("Menu.dat");
+        // Class Attributes
+        // Individual and separate package array set
+        SetInterface<Package> packageSet = new ArraySet<>();
+        // Individual and separate menu item array set
+        SetInterface<MenuItem> menuItemSet = new ArraySet<>();
+
         MenuManager menuManager = new MenuManager();
+
+        Scanner scanner = new Scanner(System.in);
+
+        packageSet.add(new Package("Package A", 38.00,5, "1 Appertizer, 1 Main Course, 1 Beverage"));
+        packageSet.add(new Package("Package B", 58.60,10, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
+        packageSet.add(new Package("Package C", 108.00,15, "1 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
+        packageSet.add(new Package("Package D", 120.50,17, "3 Appertizer, 2 Main Course, 3 Beverage, 3 Dessert"));
+        menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
+        menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
+        menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
+        menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
+    
+        menuFile.write(packageSet);
+        menuFile.write(menuItemSet);
 
         System.out.println(menuManager.displayPackage());
         System.out.println(menuManager.displayMenuItems());
-        menuManager.addNewMenuItem();
+        //menuManager.addNewMenuItem();
 
         // menuFile.read();
         // menuManager.displayPackage();

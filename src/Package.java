@@ -75,6 +75,10 @@ public class Package implements Serializable {
         return menuItemLimit;
     }
 
+    public String getPackageDescription() {
+        return packageDescription;
+    }
+
     public SetInterface<MenuItem> getAllMenuPackage() {
         return menuPackage;
     }
@@ -89,6 +93,10 @@ public class Package implements Serializable {
 
     public void setPackageID(String packageID) {
         this.packageID = packageID;
+    }
+
+    public void setMenuItemLimit(int menuItemLimit) {
+        this.menuItemLimit = menuItemLimit;
     }
 
     public void setPackageDescription(String packageDescription) {

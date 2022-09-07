@@ -21,14 +21,22 @@ public class MenuManager implements Serializable {
 
     // Constructor --> Initialize the packages and menu items
     public MenuManager() {
-        packageSet.add(new Package("Package A", 38.00,5, "1 Appertizer, 1 Main Course, 1 Beverage"));
-        packageSet.add(new Package("Package B", 58.60,10, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
-        packageSet.add(new Package("Package C", 108.00,15, "1 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
-        packageSet.add(new Package("Package D", 120.50,17, "3 Appertizer, 2 Main Course, 3 Beverage, 3 Dessert"));
-        menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
-        menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
-        menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
-        menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
+        // packageSet.add(new Package("Package A", 38.00,5, "1 Appertizer, 1 Main
+        // Course, 1 Beverage"));
+        // packageSet.add(new Package("Package B", 58.60,10, "1 Appertizer, 1 Main
+        // Course, 1 Beverage, 1 Dessert"));
+        // packageSet.add(new Package("Package C", 108.00,15, "1 Appertizer, 2 Main
+        // Course, 2 Beverage, 2 Dessert"));
+        // packageSet.add(new Package("Package D", 120.50,17, "3 Appertizer, 2 Main
+        // Course, 3 Beverage, 3 Dessert"));
+        // menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges
+        // of Yukan Cold potatoes."));
+        // menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti
+        // with seafood and tomato sauce."));
+        // menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso
+        // and hot water."));
+        // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with
+        // graham crocker crust."));
     }
 
     public void addNewPackage() {
@@ -38,7 +46,7 @@ public class MenuManager implements Serializable {
         System.out.println("Please enter package name: ");
         String inputPackageName = scanner.nextLine();
         // Clear buffer
-        //scanner.nextLine();
+        // scanner.nextLine();
         System.out.println("Please enter package price: RM ");
         double inputPackagePrice = scanner.nextDouble();
 
@@ -48,10 +56,10 @@ public class MenuManager implements Serializable {
         System.out.println("Please enter package descriptions: ");
         String inputPackageDescription = scanner.nextLine();
         // Clear buffer
-        //scanner.nextLine();
+        // scanner.nextLine();
 
         // Create new package information and add into the packageSet
-        packageSet.add(new Package(inputPackageName, inputPackagePrice,menuItemLimit, inputPackageDescription));
+        packageSet.add(new Package(inputPackageName, inputPackagePrice, menuItemLimit, inputPackageDescription));
 
     }
 
@@ -137,7 +145,7 @@ public class MenuManager implements Serializable {
 
         // Search pacakge in existing package arraySet
         if (packageSet.contains(pckg)) {
-            System.out.println(displayMenuItems());
+            System.out.println(displayMenuItems()); // not accurate
 
             System.out.println("\n");
             System.out.println("Please enter the menu item ID you would like to add into the package: ");
@@ -205,7 +213,8 @@ public class MenuManager implements Serializable {
                 String modifyDescrip = scanner.nextLine();
                 break;
         }
-        //pckg.modifyPackage(pckg.getPackageID(), modifiedName, modifiedPrice, modifiedDescp);
+        // pckg.modifyPackage(pckg.getPackageID(), modifiedName, modifiedPrice,
+        // modifiedDescp);
 
     }
 
@@ -216,6 +225,15 @@ public class MenuManager implements Serializable {
             System.out.println("Menu Item" + (i + 1) + ":");
             str += menuItemSet.getElementAtPos(i).toString();
         }
+        return str;
+    }
+
+    public String displayPackageMenuItems(Package pckg) {
+        String str = "";
+
+        // for(int i = 0; i < ) //how can i get the no of entries of the menu items
+        // inside the package
+
         return str;
     }
 
