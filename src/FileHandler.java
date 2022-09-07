@@ -18,11 +18,11 @@ public class FileHandler<T> {
         this.filename = filename;
     }
 
-    public void write(SetInterface<MenuItem> menuItemSet) {
+    public void write(T object) {
         try {
             File file = new File(filename);
             ObjectOutputStream ooStream = new ObjectOutputStream(new FileOutputStream(file));
-            ooStream.writeObject(menuItemSet);
+            ooStream.writeObject(object);
             ooStream.close();
         } catch (FileNotFoundException ex) {
             System.out.println("File not found");
