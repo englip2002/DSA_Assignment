@@ -13,9 +13,9 @@ public class MenuManager implements Serializable {
 
     // Class Attributes
     // Individual and separate package array set
-    private SetInterface<Package> packageSet = new ArraySet<>();
+    private SetInterface<Package> packageSet = new ArraySet<Package>();
     // Individual and separate menu item array set
-    private SetInterface<MenuItem> menuItemSet = new ArraySet<>();
+    private SetInterface<MenuItem> menuItemSet = new ArraySet<MenuItem>();
 
     Scanner scanner = new Scanner(System.in);
 
@@ -251,6 +251,11 @@ public class MenuManager implements Serializable {
 
         SetInterface<Package> searchPackage = new ArraySet<Package>();
         Iterator iterator = searchPackage.iterator();
+
+
+        for (Package pckg : packageSet) {
+            
+        }
 
         while (iterator.hasNext()) {
             Package temp = (Package) iterator.next();
