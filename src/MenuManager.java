@@ -32,12 +32,12 @@ public class MenuManager implements Serializable {
         packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
         packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
         packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
-        menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
-        menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
-        menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
-        menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
+        // menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
+        // menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
+        // menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
+        // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
 
-        menuFile.write(packageSet);
+        //menuFile.write(packageSet);
 
     }
 
@@ -58,7 +58,7 @@ public class MenuManager implements Serializable {
             System.out.println("9. Search Package");
             System.out.print("Enter your choice(1 - 8): ");
             choice = scanner.nextInt();
-
+            scanner.nextLine();
             switch (choice) {
                 case 1:
                     addNewPackage();
@@ -92,6 +92,7 @@ public class MenuManager implements Serializable {
                 default:
                     System.out.println("Invalid selection!");
             }
+            menuFile.write(packageSet);
         } while (choice != -1);
     }
 
@@ -155,9 +156,10 @@ public class MenuManager implements Serializable {
 
         // Use a temporay object to store that remove particular object
         Package temp = searchSpecificPackageByID(inputRemovePackageID);
-        // System.out.println(temp);
+        //System.out.println(temp.getPackageID());
 
         packageSet.remove(temp);
+        
     }
 
     public void addNewMenuItem() {
@@ -352,11 +354,8 @@ public class MenuManager implements Serializable {
     }
 
     private Package searchSpecificPackageByID(String packageID) {
-
-        int i = 0;
         for (Package pckg : packageSet) {
-            i++;
-            if (pckg.getPackageID().equals(packageID)) {
+            if (pckg.getPackageID().equalsIgnoreCase(packageID)) {
                 return pckg;
             }
         }
@@ -364,11 +363,8 @@ public class MenuManager implements Serializable {
     }
 
     private MenuItem searchSpecificMenuItemByID(String menuItemID) {
-
-        int i = 0;
         for (MenuItem menuItem : menuItemSet) {
-            i++;
-            if (menuItem.getMenuItemID().equals(menuItemID)) {
+            if (menuItem.getMenuItemID().equalsIgnoreCase(menuItemID)) {
                 return menuItem;
             }
         }

@@ -10,9 +10,11 @@ public class MenuDriver {
 
         // menuManager.displayPackage();
 
-        menuManager.modifyPackage();
+        //menuManager.modifyPackage();
 
-        menuManager.displayPackage();
+        //menuManager.displayPackage();
+
+        menuManager.menuModule();
 
     }
 }
