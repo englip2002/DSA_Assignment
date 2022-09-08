@@ -485,11 +485,12 @@ public class ReservationDriver {
                     scanner.nextLine();
                     scanner.nextLine();
             }
+            reservationFile.write(reservationList);
         } while (choice != 5);
 
         // input to file when module end
         scanner.close();
-        reservationFile.write(reservationList);
+        
     }
 
     public static String viewCart(Reservation reservation) {
