@@ -14,6 +14,7 @@ public class MenuManager implements Serializable {
     // Class Attributes
     // File
     private FileHandler menuFile;
+    private FileHandler menuItemFile;
     // Individual and separate package array set
     private SetInterface<Package> packageSet;
     // Individual and separate menu item array set
@@ -24,20 +25,25 @@ public class MenuManager implements Serializable {
     public MenuManager() {
 
         menuFile = new FileHandler("Menu.dat");
-        packageSet = new ArraySet<Package>();
-        menuItemSet = new ArraySet<MenuItem>();
+        menuItemFile=new FileHandler("MenuItem.dat");
+        packageSet=(SetInterface)menuFile.read();
+        menuItemSet=(SetInterface)menuItemFile.read();
+        //packageSet = new ArraySet<Package>();
+        //menuItemSet = new ArraySet<MenuItem>();
         scanner = new Scanner(System.in);
 
-        packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
-        packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
-        packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
-        packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
-        menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
-        menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
-        menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
-        menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
+        // packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
+        // packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
+        // packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
+        // packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
+        // menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
+        // menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
+        // menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
+        // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
 
         // menuFile.write(packageSet);
+        // menuItemFile.write(menuItemSet);
+        // menuItemFile.write(menuItemSet);
 
     }
 
@@ -93,6 +99,7 @@ public class MenuManager implements Serializable {
                     System.out.println("Invalid selection!");
             }
             menuFile.write(packageSet);
+            menuItemFile.write(menuItemSet);
         } while (choice != -1);
     }
 
@@ -214,7 +221,7 @@ public class MenuManager implements Serializable {
             if(!packageSet.contains(pckg)){
                 System.out.println("Invalid Package ID!");
             }
-            
+
         } while (!packageSet.contains(pckg));
 
         addMenuItemToPackage(pckg);
