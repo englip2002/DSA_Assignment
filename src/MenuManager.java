@@ -346,11 +346,12 @@ public class MenuManager implements Serializable {
         }
     }
 
+    //havent finish
     public void searchPackage() {
 
     }
 
-    public Package searchSpecificPackageByID(String packageID) {
+    private Package searchSpecificPackageByID(String packageID) {
 
         int i = 0;
         for (Package pckg : packageSet) {
@@ -362,7 +363,7 @@ public class MenuManager implements Serializable {
         return null;
     }
 
-    public MenuItem searchSpecificMenuItemByID(String menuItemID) {
+    private MenuItem searchSpecificMenuItemByID(String menuItemID) {
 
         int i = 0;
         for (MenuItem menuItem : menuItemSet) {
