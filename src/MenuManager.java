@@ -25,21 +25,29 @@ public class MenuManager implements Serializable {
     public MenuManager() {
 
         menuFile = new FileHandler("Menu.dat");
-        menuItemFile=new FileHandler("MenuItem.dat");
-        packageSet=(SetInterface)menuFile.read();
-        menuItemSet=(SetInterface)menuItemFile.read();
-        //packageSet = new ArraySet<Package>();
-        //menuItemSet = new ArraySet<MenuItem>();
+        menuItemFile = new FileHandler("MenuItem.dat");
+        packageSet = (SetInterface) menuFile.read();
+        menuItemSet = (SetInterface) menuItemFile.read();
+        // packageSet = new ArraySet<Package>();
+        // menuItemSet = new ArraySet<MenuItem>();
         scanner = new Scanner(System.in);
 
-        // packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
-        // packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
-        // packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
-        // packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
-        // menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
-        // menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
-        // menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
-        // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
+        // packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main
+        // Course, 1 Beverage"));
+        // packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main
+        // Course, 1 Beverage, 1 Dessert"));
+        // packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main
+        // Course, 2 Beverage, 2 Dessert"));
+        // packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main
+        // Course, 3 Beverage, 5 Dessert"));
+        // menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges
+        // of Yukan Cold potatoes."));
+        // menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti
+        // with seafood and tomato sauce."));
+        // menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso
+        // and hot water."));
+        // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with
+        // graham crocker crust."));
 
         // menuFile.write(packageSet);
         // menuItemFile.write(menuItemSet);
@@ -60,9 +68,10 @@ public class MenuManager implements Serializable {
             System.out.println("5. Remove Menu Item");
             System.out.println("6. Display Menu Item");
             System.out.println("7. Add Menu Item into Package");
-            System.out.println("8. Modify Package");
-            System.out.println("9. Search Package");
-            System.out.print("Enter your choice(1 - 9): ");
+            System.out.println("8. Remove Menu Item from Package");
+            System.out.println("9. Modify Package");
+            System.out.println("10. Search Package");
+            System.out.print("Enter your choice(1 - 10): ");
             choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
@@ -88,9 +97,12 @@ public class MenuManager implements Serializable {
                     continueAddMenuItemToPackage();
                     break;
                 case 8:
-                    modifyPackage();
+                    removeMenuItemFromPackage();
                     break;
                 case 9:
+                    modifyPackage();
+                    break;
+                case 10:
                     searchPackage();
                     break;
                 case -1:
@@ -117,10 +129,11 @@ public class MenuManager implements Serializable {
         System.out.print("Please enter menu item limit:  ");
         int menuItemLimit = scanner.nextInt();
 
-        System.out.print("Please enter package description: ");
-        String inputPackageDescription = scanner.nextLine();
         // Clear buffer
         scanner.nextLine();
+
+        System.out.print("Please enter package description: ");
+        String inputPackageDescription = scanner.nextLine();
 
         Package pckg = new Package(inputPackageName, inputPackagePrice, menuItemLimit, inputPackageDescription);
         char choice;
@@ -190,7 +203,7 @@ public class MenuManager implements Serializable {
     public void removeMenuItem() {
         System.out.println("\n");
 
-        System.out.println("\t  REMOVE PACKAGE: ");
+        System.out.println("\t  REMOVE MENU ITEM: ");
         System.out.println("\t=========================");
 
         // Step 1: Display the menu items
@@ -218,7 +231,7 @@ public class MenuManager implements Serializable {
             String inputPackageID = scanner.nextLine();
             pckg = searchSpecificPackageByID(inputPackageID);
 
-            if(!packageSet.contains(pckg)){
+            if (!packageSet.contains(pckg)) {
                 System.out.println("Invalid Package ID!");
             }
 
@@ -253,6 +266,48 @@ public class MenuManager implements Serializable {
         }
 
         return pckg;
+
+    }
+
+    public void removeMenuItemFromPackage() {
+
+        String inputMenuItemID;
+
+        displayPackage();
+        scanner.nextLine();
+        System.out.print("Please enter package ID that you would like to remove menu item: ");
+        String inputPackageID = scanner.nextLine();
+
+        Package temp = searchSpecificPackageByID(inputPackageID);
+
+        if (temp.getAllMenuPackage() != null) {
+            temp.toString();
+            scanner.nextLine();
+            System.out.print("Please enter menu item ID that you would like remove from this package: ");
+            inputMenuItemID = scanner.nextLine();
+            temp = searchMenuItemInPackageByID(inputMenuItemID);
+            temp.toString();
+        }
+        else{
+            System.out.println("There do not have menu item inside the package!");
+        }
+
+    }
+
+    // Naming problem
+    private Package searchMenuItemInPackageByID(String inputMenuItemID) {
+        int i = 0;
+        MenuItem menuItem;
+
+        for (Package each : packageSet) {
+            i++;
+            if (each.getAllMenuPackage().getElementAtPos(i).getMenuItemID().equals(inputMenuItemID)) {
+                menuItem = each.getAllMenuPackage().getElementAtPos(i);
+                each.removeMenuItemFromPackage(menuItem);
+                return each;
+            }
+        }
+        return null;
 
     }
 
@@ -314,7 +369,7 @@ public class MenuManager implements Serializable {
     }
 
     private void displayModifyTable() {
-        System.out.println("\t  Modify Package: ");
+        System.out.println("\t  MODIFY PACKAGE: ");
         System.out.println("\t===================");
 
         System.out.println("1. Modify Pacakge Name");
@@ -344,8 +399,6 @@ public class MenuManager implements Serializable {
         System.out.println("\t  PACKAGE DETAILS: ");
         System.out.println("\t======================");
 
-        // packageSet = (SetInterface<Package>) menuFile.read();
-
         if (packageSet != null) {
 
             for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
@@ -361,6 +414,65 @@ public class MenuManager implements Serializable {
     // havent finish
     public void searchPackage() {
 
+        boolean searchflag = false;
+        double minInputPrice, maxInputPrice;
+        String packageName, menuItemName;
+        Package pckg;
+
+        displaySearchTable();
+        int choice;
+        do {
+            choice = scanner.nextInt();
+        } while (choice < 1 || choice > 3);
+
+        switch (choice) {
+            case 1:
+                scanner.nextLine();
+                System.out.print("Enter Package Name: ");
+                packageName = scanner.nextLine();
+                pckg = searchPackageByName(packageName);
+                System.out.println("\n");
+                if (pckg != null) {
+                    System.out.println("Package had founded!!\n");
+                    System.out.println(pckg.toString());
+                    searchflag = true;
+                } else {
+                    System.out.println("Cannot found package!");
+                    searchflag = false;
+                }
+                break;
+            case 2:
+                System.out.print("Enetr the price range (Maximum): RM ");
+                maxInputPrice = scanner.nextDouble();
+                do {
+                    System.out.print("Enetr the price range (Minimum): RM ");
+                    minInputPrice = scanner.nextDouble();
+                } while (minInputPrice > maxInputPrice);
+                System.out.println("\n");
+                searchPackageByPrice(maxInputPrice, minInputPrice);
+                break;
+            case 3:
+                scanner.nextLine();
+                System.out.print("Enter menu item name: ");
+                menuItemName = scanner.nextLine();
+
+            default:
+                System.out.println("Invalid input!");
+
+        }
+
+    }
+
+    private void displaySearchTable() {
+
+        System.out.println("\n");
+        System.out.println("\t  Search Package: ");
+        System.out.println("\t===================");
+
+        System.out.println("1. Search By Pacakge Name");
+        System.out.println("2. Search By Pacakge Price");
+        System.out.println("3. Search By Menu Item Name");
+        System.out.print("Enter your choice (1 - 3): ");
     }
 
     private Package searchSpecificPackageByID(String packageID) {
@@ -371,6 +483,42 @@ public class MenuManager implements Serializable {
         }
         return null;
     }
+
+    private Package searchPackageByName(String packageName) {
+        for (Package pckg : packageSet) {
+            if (pckg.getPackageName().equalsIgnoreCase(packageName)) {
+                return pckg;
+            }
+        }
+        return null;
+    }
+
+    private void searchPackageByPrice(double maxInputPrice, double minInputPrice) {
+
+        int totalNumber = 0;
+        for (Package pckg : packageSet) {
+            if (pckg.getPackagePrice() <= maxInputPrice && pckg.getPackagePrice() >= minInputPrice) {
+                totalNumber++;
+                System.out.println(pckg.toString());
+
+            }
+        }
+
+        System.out.println("Total package found: " + totalNumber);
+    }
+
+    // private void searchMenuItemByName(String menuItemName){
+    // int totalNumber = 0;
+    // for (Package pckg : packageSet) {
+    // if (pckg.getAllMenuPackage().) {
+    // totalNumber++;
+    // System.out.println(pckg.toString());
+
+    // }
+    // }
+
+    // System.out.println("Total package found: " + totalNumber);
+    // }
 
     private MenuItem searchSpecificMenuItemByID(String menuItemID) {
         for (MenuItem menuItem : menuItemSet) {

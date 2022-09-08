@@ -113,7 +113,10 @@ public class Package implements Serializable {
     // entity class
     public void addMenuItemToPackage(MenuItem menuItem) {
         menuPackage.add(menuItem);
-        //menuItemInPackageCounter++;
+    }
+
+    public void removeMenuItemFromPackage(MenuItem menuItem){
+        menuPackage.remove(menuItem);
     }
 
     // public boolean modifyPackage(String packageID, String modifiedPackageName, double modifiedPackagePrice,
