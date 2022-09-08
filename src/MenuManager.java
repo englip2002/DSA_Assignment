@@ -117,7 +117,7 @@ public class MenuManager implements Serializable {
         System.out.print("Please enter menu item limit:  ");
         int menuItemLimit = scanner.nextInt();
 
-        System.out.print("Please enter package descriptions: ");
+        System.out.print("Please enter package description: ");
         String inputPackageDescription = scanner.nextLine();
         // Clear buffer
         scanner.nextLine();
