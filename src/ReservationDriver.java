@@ -170,7 +170,7 @@ public class ReservationDriver {
                                     do {
                                         // print foods from package and enter food choice
                                         System.out
-                                                .print("\n" + reservation.getChoosenPackage().printMenuItem());
+                                                .print("\n" + reservation.getChoosenPackage().printMenuItemInPackage());
 
                                         System.out.print("Enter your food choice:");
                                         menuItemChoice = scanner.nextInt();

@@ -28,54 +28,102 @@ public class MenuManager implements Serializable {
         menuItemSet = new ArraySet<MenuItem>();
         scanner = new Scanner(System.in);
 
-        // packageSet.add(new Package("Package A", 38.00,5, "1 Appertizer, 1 Main
-        // Course, 1 Beverage"));
-        // packageSet.add(new Package("Package B", 58.60,10, "1 Appertizer, 1 Main
-        // Course, 1 Beverage, 1 Dessert"));
-        // packageSet.add(new Package("Package C", 108.00,15, "1 Appertizer, 2 Main
-        // Course, 2 Beverage, 2 Dessert"));
-        // packageSet.add(new Package("Package D", 120.50,17, "3 Appertizer, 2 Main
-        // Course, 3 Beverage, 3 Dessert"));
-        // menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges
-        // of Yukan Cold potatoes."));
-        // menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti
-        // with seafood and tomato sauce."));
-        // menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso
-        // and hot water."));
-        // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with
-        // graham crocker crust."));
+        packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
+        packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
+        packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
+        packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
+        menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
+        menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
+        menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
+        menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
+
+        menuFile.write(packageSet);
+
+    }
+
+    public void menuModule() {
+        int choice;
+
+        do {
+            System.out.println("\t  Menu Module");
+            System.out.println("\t=================");
+            System.out.println("1. Add New Package");
+            System.out.println("2. Remove Package");
+            System.out.println("3. Display Package");
+            System.out.println("4. Add New Menu Item");
+            System.out.println("5. Remove Menu Item");
+            System.out.println("6. Display Package");
+            System.out.println("7. Add Menu Item into Package");
+            System.out.println("8. Modify Package");
+            System.out.println("9. Search Package");
+            System.out.print("Enter your choice(1 - 8): ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    addNewPackage();
+                    break;
+                case 2:
+                    removePackage();
+                    break;
+                case 3:
+                    displayPackage();
+                    break;
+                case 4:
+                    addNewMenuItem();
+                    break;
+                case 5:
+                    removeMenuItem();
+                    break;
+                case 6:
+                    displayPackage();
+                    break;
+                case 7:
+                    continueAddMenuItemToPackage();
+                    break;
+                case 8:
+                    modifyPackage();
+                    break;
+                case 9:
+                    searchPackage();
+                    break;
+                case -1:
+                    break;
+                default:
+                    System.out.println("Invalid selection!");
+            }
+        } while (choice != -1);
     }
 
     public void addNewPackage() {
         System.out.println("\n");
         System.out.println("\t  ADD NEW PACKAGE: ");
         System.out.println("\t=======================");
-        System.out.println("Please enter package name: ");
+        System.out.print("Please enter package name: ");
         String inputPackageName = scanner.nextLine();
         // Clear buffer
         // scanner.nextLine();
-        System.out.println("Please enter package price: RM ");
+        System.out.print("Please enter package price: RM ");
         double inputPackagePrice = scanner.nextDouble();
 
-        System.out.println("Please enter menu item limit:  ");
+        System.out.print("Please enter menu item limit:  ");
         int menuItemLimit = scanner.nextInt();
 
-        System.out.println("Please enter package descriptions: ");
+        System.out.print("Please enter package descriptions: ");
         String inputPackageDescription = scanner.nextLine();
         // Clear buffer
-        // scanner.nextLine();
+        scanner.nextLine();
 
         Package pckg = new Package(inputPackageName, inputPackagePrice, menuItemLimit, inputPackageDescription);
 
         char choice;
         do {
-            System.out.println("Do you want to add menu item(s) inside the package (Y: yes N: no)? ");
+            System.out.print("Do you want to add menu item(s) inside the package (Y: yes N: no)? ");
             choice = scanner.nextLine().charAt(0);
 
             switch (Character.toUpperCase(choice)) {
                 case 'Y':
                     pckg = addMenuItemToPackage(pckg);
-                    System.out.println("You had add successfully!!");
                     break;
                 case 'N':
                     break;
@@ -87,29 +135,31 @@ public class MenuManager implements Serializable {
 
         packageSet.add(pckg);
 
+        System.out.println("You had added successfully!!");
+
+        displayPackage();
     }
 
     public void removePackage() {
         System.out.println("\n");
 
         System.out.println("\t  REMOVE PACKAGE: ");
-        System.out.println("\t=========================");
+        System.out.println("\t======================");
 
         // Step 1: Display the package
-        System.out.println(displayPackage());
-
-        scanner.nextLine();
+        displayPackage();
 
         // Step 2: Let user to choose which package to remove
         System.out.print("Please enter Pacakge ID that you want remove: ");
         String inputRemovePackageID = scanner.nextLine();
 
-        scanner.nextLine();
-
         // Use a temporay object to store that remove particular object
         Package temp = searchSpecificPackageByID(inputRemovePackageID);
+        //System.out.println(temp);
 
         packageSet.remove(temp);
+
+        displayPackage();
     }
 
     public void addNewMenuItem() {
@@ -128,6 +178,7 @@ public class MenuManager implements Serializable {
 
         // Create new package information and add into the packageSet
         menuItemSet.add(new MenuItem(inputMenuItemCategory, inputMenuItemName, inputMenuItemDescription));
+
     }
 
     public void removeMenuItem() {
@@ -137,7 +188,7 @@ public class MenuManager implements Serializable {
         System.out.println("\t=========================");
 
         // Step 1: Display the menu items
-        System.out.println(displayMenuItems());
+        displayMenuItems();
 
         scanner.nextLine();
 
@@ -152,33 +203,36 @@ public class MenuManager implements Serializable {
         menuItemSet.remove(temp);
     }
 
+    public void continueAddMenuItemToPackage() {
+        System.out.println("\n");
+
+        // Display package first see the user want add menu items into which package
+        displayPackage();
+        System.out.println("\n");
+
+        scanner.nextLine();
+        System.out.println("Please enter the package ID that you want to add menu item: ");
+        String inputPackageID = scanner.nextLine();
+
+        scanner.nextLine();
+
+        Package pckg = searchSpecificPackageByID(inputPackageID);
+
+        addMenuItemToPackage(pckg);
+    }
+
     // Assign menu item to package
-    public Package addMenuItemToPackage(Package pckg) {
-
-        // System.out.println("\n");
-
-        // // Display package first see the user want add menu items into which package
-        // System.out.println(displayPackage());
-        // System.out.println("\n");
-
-        // scanner.nextLine();
-        // System.out.println("Please enter the package ID that you want to add menu
-        // item: ");
-        // String inputPackageID = scanner.nextLine();
-
-        // scanner.nextLine();
-
-        // pckg = searchSpecificPackageByID(inputPackageID);
+    private Package addMenuItemToPackage(Package pckg) {
 
         // Search pacakge in existing package arraySet
         if (packageSet.contains(pckg)) {
 
             // Check the limit of the menu item in the package
-            if (pckg.getMenuItemInPackageCounter() > pckg.getMenuItemLimit()) {
+            if (pckg.getAllMenuPackage().getNumberOfEntries() > pckg.getMenuItemLimit()) {
                 System.out.println("Cannot add menu item into the package since reached the volume limit!");
             } else {
                 System.out.println("\n");
-                System.out.println(displayMenuItems());
+                displayMenuItems();
                 System.out.println("\nPlease enter the menu item ID you would like to add into the package: ");
                 String inputMenuItemID = scanner.nextLine();
 
@@ -201,7 +255,7 @@ public class MenuManager implements Serializable {
 
     public void modifyPackage() {
         System.out.println("\n");
-        System.out.println(displayPackage());
+        displayPackage();
         System.out.println("\n");
 
         scanner.nextLine();
@@ -226,25 +280,25 @@ public class MenuManager implements Serializable {
 
         switch (inputModifyChoice) {
             case 1:
-                System.out.println("Enetr new package name: ");
+                System.out.println("Enter new package name: ");
                 String modifiedName = scanner.nextLine();
                 break;
             case 2:
-                System.out.println("Enetr new package price: RM ");
+                System.out.println("Enter new package price: RM ");
                 double modifiedPrice = scanner.nextDouble();
                 break;
             case 3:
-                System.out.println("Enetr new package description: ");
+                System.out.println("Enter new package description: ");
                 String modifiedDescrip = scanner.nextLine();
                 break;
             case 4:
-                System.out.println("Enetr new package nane: ");
+                System.out.println("Enter new package nane: ");
                 double modifyName = scanner.nextDouble();
 
-                System.out.println("Enetr new package price: RM ");
+                System.out.println("Enter new package price: RM ");
                 double modifyPrice = scanner.nextDouble();
 
-                System.out.println("Enetr new package description: ");
+                System.out.println("Enter new package description: ");
                 String modifyDescrip = scanner.nextLine();
                 break;
         }
@@ -253,50 +307,59 @@ public class MenuManager implements Serializable {
 
     }
 
-    public String displayMenuItems() {
-        String str = "";
+    public void displayMenuItems() {
+        System.out.println("\t  MENU ITEMS DETAILS");
+        System.out.println("\t=========================");
 
-        for (int i = 0; i < menuItemSet.getNumberOfEntries(); i++) {
-            System.out.println("Menu Item" + (i + 1) + ":");
-            str += menuItemSet.getElementAtPos(i).toString();
+        if (menuItemSet != null) {
+            for (int i = 0; i < menuItemSet.getNumberOfEntries(); i++) {
+                System.out.println((i + 1) + ":");
+                System.out.println(menuItemSet.getElementAtPos(i).toString());
+            }
+            System.out.println("Total number of menu items: " + menuItemSet.getNumberOfEntries());
+        } else {
+            System.out.println("No menu item exist!");
         }
-        return str;
     }
 
-    public String displayPackageMenuItems(Package pckg) {
-        String str = "";
+    public void displayPackage() {
+        System.out.println("\t  PACKAGE DETAILS");
+        System.out.println("\t======================");
 
-        // for(int i = 0; i < ) //how can i get the no of entries of the menu items
-        // inside the package
+        packageSet = (SetInterface<Package>) menuFile.read();
 
-        return str;
+        if (packageSet != null) {
+
+            for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
+                System.out.println((i + 1) + ":");
+                System.out.println(packageSet.getElementAtPos(i).toString());
+            }
+            System.out.println("\nTotal number of package: " + packageSet.getNumberOfEntries());
+        } else {
+            System.out.println("No Package exist!");
+        }
     }
 
-    public String displayPackage() {
-        String str = "";
+    public void searchPackage() {
 
-        for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
-            System.out.println("Pacakge" + (i + 1) + ":");
-            str += packageSet.getElementAtPos(i).toString();
-        }
-        return str;
     }
 
     public Package searchSpecificPackageByID(String packageID) {
 
-        SetInterface<Package> searchPackage = new ArraySet<Package>();
-        Iterator iterator = searchPackage.iterator();
-
+        int i = 0;
         for (Package pckg : packageSet) {
-
-        }
-
-        while (iterator.hasNext()) {
-            Package temp = (Package) iterator.next();
-            if (temp.getPackageID().matches(packageID)) { // equals not match (match is use regex)
-                return temp;
+            i++;
+            if (pckg.getPackageID().equals(packageID)) {
+                return pckg;
             }
         }
+
+        // while (iterator.hasNext()) {
+        //     Package temp = (Package) iterator.next();
+        //     if (temp.getPackageID().matches(packageID)) { // equals not match (match is use regex)
+        //         return temp;
+        //     }
+        // }
         return null;
     }
 
