@@ -121,7 +121,7 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
      * @return An value that corresponding to the key given, null if no value.
      */
     @Override
-    public V getValue(K key) {
+    public V get(K key) {
         V dataValue = null;
         // STEP 1: Hash the key given to obtain its hash index.
         int i = hashing(key);
@@ -163,15 +163,56 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
     }
 
     /**
-     * A public method that inherited from the MapInterface to verify whether
-     * the given key has a corresponding value.
+     * A public method that inherited from the MapInterface to get all the
+     * values in the dictionary.
      *
-     * @param key The key given.
-     * @return True if the key has a corresponding value, False if not.
+     * @return A collection of values of the dictionary entries.
      */
     @Override
-    public boolean contains(K key) {
-        return getValue(key) != null;
+    public V[] values() {
+        V[] values = (V[]) new Object[numberOfEntries];
+        Node<K, V> currentNode = null;
+        int j = 0;
+        // STEP 1: Search through the hash table to find the Node Objects that consists of value.
+        for (Node<K, V> each : hashTable) {
+            currentNode = each;
+            // STEP 2: Search through the Node Object chain to find the Node Objects that consists of value.
+            while (currentNode != null) {
+                values[j] = currentNode.value;
+                j++;
+                currentNode = currentNode.next;
+            }
+        }
+        return values;
+    }
+
+    /**
+     * A public method that inherited from the MapInterface to verify whether
+     * the given key is exist.
+     *
+     * @param key The key given.
+     * @return True if the key is exist, False if not.
+     */
+    @Override
+    public boolean containsKey(K key) {
+        return get(key) != null;
+    }
+
+    /**
+     * A public method that inherited from the MapInterface to verify whether
+     * the given value is exist.
+     *
+     * @param value The value given.
+     * @return True if the value is exist, False if not.
+     */
+    @Override
+    public boolean containsValue(V value) {
+        for (V each : values()) {
+            if (each.equals(value)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -206,7 +247,7 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
      * entities.
      */
     @Override
-    public int getSize() {
+    public int size() {
         return numberOfEntries;
     }
 
