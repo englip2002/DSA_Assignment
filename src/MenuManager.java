@@ -12,15 +12,22 @@ import java.util.Iterator;
 public class MenuManager implements Serializable {
 
     // Class Attributes
+    // File
+    private FileHandler menuFile;
     // Individual and separate package array set
-    private SetInterface<Package> packageSet = new ArraySet<Package>();
+    private SetInterface<Package> packageSet;
     // Individual and separate menu item array set
-    private SetInterface<MenuItem> menuItemSet = new ArraySet<MenuItem>();
-
-    Scanner scanner = new Scanner(System.in);
+    private SetInterface<MenuItem> menuItemSet;
+    private Scanner scanner;
 
     // Constructor --> Initialize the packages and menu items
     public MenuManager() {
+
+        menuFile = new FileHandler("Menu.dat");
+        packageSet = new ArraySet<Package>();
+        menuItemSet = new ArraySet<MenuItem>();
+        scanner = new Scanner(System.in);
+
         // packageSet.add(new Package("Package A", 38.00,5, "1 Appertizer, 1 Main
         // Course, 1 Beverage"));
         // packageSet.add(new Package("Package B", 58.60,10, "1 Appertizer, 1 Main
@@ -58,8 +65,27 @@ public class MenuManager implements Serializable {
         // Clear buffer
         // scanner.nextLine();
 
-        // Create new package information and add into the packageSet
-        packageSet.add(new Package(inputPackageName, inputPackagePrice, menuItemLimit, inputPackageDescription));
+        Package pckg = new Package(inputPackageName, inputPackagePrice, menuItemLimit, inputPackageDescription);
+
+        char choice;
+        do {
+            System.out.println("Do you want to add menu item(s) inside the package (Y: yes N: no)? ");
+            choice = scanner.nextLine().charAt(0);
+
+            switch (Character.toUpperCase(choice)) {
+                case 'Y':
+                    pckg = addMenuItemToPackage(pckg);
+                    System.out.println("You had add successfully!!");
+                    break;
+                case 'N':
+                    break;
+                default:
+                    System.out.println("Invalid input!!");
+                    break;
+            }
+        } while (Character.toUpperCase(choice) != 'N');
+
+        packageSet.add(pckg);
 
     }
 
@@ -127,52 +153,49 @@ public class MenuManager implements Serializable {
     }
 
     // Assign menu item to package
-    public boolean addMenuItemToPackage() {
+    public Package addMenuItemToPackage(Package pckg) {
 
-        System.out.println("\n");
+        // System.out.println("\n");
 
-        // Display package first see the user want add menu items into which package
-        System.out.println(displayPackage());
-        System.out.println("\n");
+        // // Display package first see the user want add menu items into which package
+        // System.out.println(displayPackage());
+        // System.out.println("\n");
 
-        scanner.nextLine();
-        System.out.println("Please enter the package ID that you want to add menu item: ");
-        String inputPackageID = scanner.nextLine();
+        // scanner.nextLine();
+        // System.out.println("Please enter the package ID that you want to add menu
+        // item: ");
+        // String inputPackageID = scanner.nextLine();
 
-        scanner.nextLine();
+        // scanner.nextLine();
 
-        Package pckg = searchSpecificPackageByID(inputPackageID);
+        // pckg = searchSpecificPackageByID(inputPackageID);
 
         // Search pacakge in existing package arraySet
         if (packageSet.contains(pckg)) {
 
-            //Check the limit of the menu item in the package 
-            if(pckg.getMenuItemInPackageCounter() == pckg.getMenuItemLimit()){
+            // Check the limit of the menu item in the package
+            if (pckg.getMenuItemInPackageCounter() > pckg.getMenuItemLimit()) {
                 System.out.println("Cannot add menu item into the package since reached the volume limit!");
-                return false;
-            }
-            else{
+            } else {
                 System.out.println("\n");
                 System.out.println(displayMenuItems());
                 System.out.println("\nPlease enter the menu item ID you would like to add into the package: ");
                 String inputMenuItemID = scanner.nextLine();
-    
+
                 MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
-    
+
                 if (menuItemSet.contains(menuItem)) {
                     pckg.addMenuItemToPackage(menuItem);
-                    return true;
                 } else {
                     System.out.println("The package does not exist!");
                 }
             }
-            }
-            else {
-                System.out.println("The package does not exist!");
-                return false;
-            }
+        } else {
+            System.out.println("The package does not exist!");
 
-           return false;
+        }
+
+        return pckg;
 
     }
 
@@ -264,15 +287,13 @@ public class MenuManager implements Serializable {
         SetInterface<Package> searchPackage = new ArraySet<Package>();
         Iterator iterator = searchPackage.iterator();
 
-
         for (Package pckg : packageSet) {
-            
-        }
 
+        }
 
         while (iterator.hasNext()) {
             Package temp = (Package) iterator.next();
-            if (temp.getPackageID().matches(packageID)) {
+            if (temp.getPackageID().matches(packageID)) { // equals not match (match is use regex)
                 return temp;
             }
         }
