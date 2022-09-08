@@ -485,23 +485,41 @@ public class ReservationDriver {
                     scanner.nextLine();
                     scanner.nextLine();
             }
-            reservationFile.write(reservationList);
+
         } while (choice != 5);
 
         // input to file when module end
         scanner.close();
-        
+        reservationFile.write(reservationList);
     }
 
     public static String viewCart(Reservation reservation) {
         String str = "";
+        String appertizeStr = "";
+        String mainStr = "";
+        String beverageStr = "";
+        String dessertStr = "";
         str += "\nItems In Cart\n";
         str += "================\n";
         str += String.format("%-5s %-20s %-10s\n", "No", "Dish Name",
                 "Quantity");
+        // sort by food type
         for (int i = 0; i < reservation.getFoodInCart().getNumberOfEntries(); i++) {
-            str += String.format("%-5d %-30s\n", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
+            if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory() == "Appertizer") {
+                appertizeStr += String.format("%-5d %-30s\n", (i + 1),
+                        reservation.getFoodInCart().getEntry(i).toString());
+            } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory() == "Main Course") {
+                mainStr += String.format("%-5d %-30s\n", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
+            } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory() == "Beverage") {
+                beverageStr += String.format("%-5d %-30s\n", (i + 1),
+                        reservation.getFoodInCart().getEntry(i).toString());
+            } else {
+                dessertStr += String.format("%-5d %-30s\n", (i + 1),
+                        reservation.getFoodInCart().getEntry(i).toString());
+            }
         }
+        str += "Appertizer\n" + "==============\n" + appertizeStr + "Main Course\n" + "==============\n" + mainStr
+                + "Beverage\n" + "==============\n" + beverageStr + "Dessert\n" + "==============\n" + dessertStr;
         str += String.format("Total Price: %.2f\n", reservation.getChoosenPackage().getPackagePrice());
         return str;
     }

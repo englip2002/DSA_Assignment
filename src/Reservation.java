@@ -34,6 +34,22 @@ public class Reservation implements Serializable {
         return str;
     }
 
+    // public void sortCart(){
+    //     //4 type of food
+    //     FoodInCart firstAppertizer=null;
+    //     FoodInCart firstMain=null;
+    //     FoodInCart firstBeverage=null;
+    //     FoodInCart firstDessert=null;
+    //     for (FoodInCart food : foodInCart) {
+    //         if(firstAppertizer==null&&food.getFood().getMenuItemCategory()=="Appertizer"){
+    //             firstAppertizer=food;
+    //         }
+    //         else if(firstMain==null&&food.getFood().getMenuItemCategory()=="Main Course"){
+                
+    //         }
+    //     }
+    // }
+
     public void reserveDetails(String contactNo, String serveLocation, LocalDateTime serveTime) {
         this.contactNo = contactNo;
         this.serveLocation = serveLocation;
