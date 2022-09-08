@@ -45,8 +45,8 @@ public class MenuManager implements Serializable {
         int choice;
 
         do {
-            System.out.println("\t  Menu Module");
-            System.out.println("\t=================");
+            System.out.println("\t   Menu Module");
+            System.out.println("\t==================");
             System.out.println("1. Add New Package");
             System.out.println("2. Remove Package");
             System.out.println("3. Display Package");
@@ -116,7 +116,7 @@ public class MenuManager implements Serializable {
         scanner.nextLine();
 
         Package pckg = new Package(inputPackageName, inputPackagePrice, menuItemLimit, inputPackageDescription);
-
+        packageSet.add(pckg);
         char choice;
         do {
             System.out.print("Do you want to add menu item(s) inside the package (Y: yes N: no)? ");
@@ -234,7 +234,7 @@ public class MenuManager implements Serializable {
                 if (menuItemSet.contains(menuItem)) {
                     pckg.addMenuItemToPackage(menuItem);
                 } else {
-                    System.out.println("The package does not exist!");
+                    System.out.println("The menu item does not exist!");
                 }
             }
         } else {
@@ -304,7 +304,7 @@ public class MenuManager implements Serializable {
     }
 
     private void displayModifyTable() {
-        System.out.println("\t  Modify Package");
+        System.out.println("\t  Modify Package: ");
         System.out.println("\t===================");
 
         System.out.println("1. Modify Pacakge Name");
@@ -315,8 +315,8 @@ public class MenuManager implements Serializable {
         System.out.print("Enter your choice: ");
     }
 
-    public void displayMenuItems() {
-        System.out.println("\t  MENU ITEMS DETAILS");
+    private void displayMenuItems() {
+        System.out.println("\t  MENU ITEMS DETAILS: ");
         System.out.println("\t=========================");
 
         if (menuItemSet != null) {
@@ -331,10 +331,10 @@ public class MenuManager implements Serializable {
     }
 
     public void displayPackage() {
-        System.out.println("\t  PACKAGE DETAILS");
+        System.out.println("\t  PACKAGE DETAILS: ");
         System.out.println("\t======================");
 
-        packageSet = (SetInterface<Package>) menuFile.read();
+        //packageSet = (SetInterface<Package>) menuFile.read();
 
         if (packageSet != null) {
 
