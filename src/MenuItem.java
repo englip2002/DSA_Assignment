@@ -3,9 +3,10 @@
  * Author: KONG ZHI LIN
  * Description: Store food and beverage (menuItems)
  */
+import java.io.Serializable;
 import java.util.Iterator;
 
-public class MenuItem {
+public class MenuItem implements Serializable{
     // Class Attributes
     private String menuItemCategory; // Appertizer, Main course, Beverage, Dessert
     private String menuItemName;

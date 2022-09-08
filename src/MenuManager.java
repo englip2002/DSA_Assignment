@@ -36,9 +36,8 @@ public class MenuManager implements Serializable {
         menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
         menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
         menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
->>>>>>> 8765234356ff53b19ab598943ad4ecfb14915cfb
 
-        //menuFile.write(packageSet);
+        // menuFile.write(packageSet);
 
     }
 
@@ -117,7 +116,6 @@ public class MenuManager implements Serializable {
         scanner.nextLine();
 
         Package pckg = new Package(inputPackageName, inputPackagePrice, menuItemLimit, inputPackageDescription);
-        packageSet.add(pckg);
         char choice;
         do {
             System.out.print("Do you want to add menu item(s) inside the package (Y: yes N: no)? ");
@@ -126,16 +124,16 @@ public class MenuManager implements Serializable {
             switch (Character.toUpperCase(choice)) {
                 case 'Y':
                     pckg = addMenuItemToPackage(pckg);
+                    packageSet.add(pckg);
                     break;
                 case 'N':
+                    packageSet.add(pckg);
                     break;
                 default:
                     System.out.println("Invalid input!!");
                     break;
             }
         } while (Character.toUpperCase(choice) != 'N');
-
-        packageSet.add(pckg);
 
         System.out.println("You had added successfully!!");
 
@@ -201,52 +199,51 @@ public class MenuManager implements Serializable {
     }
 
     public void continueAddMenuItemToPackage() {
+        Package pckg = null;
         System.out.println("\n");
 
         // Display package first see the user want add menu items into which package
         displayPackage();
         System.out.println("\n");
 
-        System.out.print("Please enter the package ID that you want to add menu item: ");
-        String inputPackageID = scanner.nextLine();
+        do {
+            System.out.print("Please enter the package ID that you want to add menu item: ");
+            String inputPackageID = scanner.nextLine();
+            pckg = searchSpecificPackageByID(inputPackageID);
 
-        Package pckg = searchSpecificPackageByID(inputPackageID);
+            if(!packageSet.contains(pckg)){
+                System.out.println("Invalid Package ID!");
+            }
+            
+        } while (!packageSet.contains(pckg));
 
         addMenuItemToPackage(pckg);
     }
 
     // Assign menu item to package
     private Package addMenuItemToPackage(Package pckg) {
-
-        // Search pacakge in existing package arraySet
-        if (packageSet.contains(pckg)) {
-
-            // Check the limit of the menu item in the package
-            if (pckg.getAllMenuPackage().getNumberOfEntries() > pckg.getMenuItemLimit()) {
-                System.out.println("Cannot add menu item into the package since reached the volume limit!");
-            } else {
-                System.out.println("\n");
-                displayMenuItems();
-                System.out.print("\nPlease enter the menu item ID you would like to add into the package: ");
-                String inputMenuItemID = scanner.nextLine();
-
-                MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
-
-                if (menuItemSet.contains(menuItem)) {
-                    if (pckg.getAllMenuPackage().contains(menuItem)) {
-                        System.out.println("The menu item had added to another package!");
-                        // System.out.println("Please select again the menu item: ");
-                    } else {
-                        pckg.addMenuItemToPackage(menuItem);
-                        menuItemSet.remove(menuItem);
-                    }
-                } else {
-                    System.out.println("The menu item does not exist!");
-                }
-            }
+        // Check the limit of the menu item in the package
+        if (pckg.getAllMenuPackage().getNumberOfEntries() > pckg.getMenuItemLimit()) {
+            System.out.println("Cannot add menu item into the package since reached the volume limit!");
         } else {
-            System.out.println("The package does not exist!");
+            System.out.println("\n");
+            displayMenuItems();
+            System.out.print("\nPlease enter the menu item ID you would like to add into the package: ");
+            String inputMenuItemID = scanner.nextLine();
 
+            MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
+
+            if (menuItemSet.contains(menuItem)) {
+                if (pckg.getAllMenuPackage().contains(menuItem)) {
+                    System.out.println("The menu item had added to another package!");
+                    // System.out.println("Please select again the menu item: ");
+                } else {
+                    pckg.addMenuItemToPackage(menuItem);
+                    menuItemSet.remove(menuItem);
+                }
+            } else {
+                System.out.println("The menu item does not exist!");
+            }
         }
 
         return pckg;
