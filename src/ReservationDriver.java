@@ -7,29 +7,28 @@ import java.util.Scanner;
 
 public class ReservationDriver {
     public static void main(String[] args) {
-        Account account = new Account("A0001", "1234", "Tan", "EngLip", "Male", LocalDate.of(2002, 11, 22), "Customer");
+        Customer customer = new Customer("A0001", "Tan", "EngLip", "Male", LocalDate.of(2002, 11, 22));
 
-        ReservationModule(account);
+        ReservationModule(customer);
     }
 
-    public static void ReservationModule(Account account) {
+    public static void ReservationModule(Customer customer) {
         // read file when starting
         // reservation
-        Reservation reservation = new Reservation(account);
+        Reservation reservation = new Reservation(customer);
         FileHandler reservationFile = new FileHandler("Reservations.dat");
         ListInterface<Reservation> reservationList;
-        // System.out.println(reservationList.getEntry(0).toString());
 
-        // menu
-        // FileHandler packageFile = new FileHandler("Package.dat");
-        // SetInterface<Package> packageSet = (SetInterface)packageFile.read();
+        // package
+        FileHandler packageFile = new FileHandler("Menu.dat");
+        SetInterface<Package> packageSet = (SetInterface) packageFile.read();
 
         // temporary package
-        SetInterface<Package> packageSet = new ArraySet<Package>();
-        Package package1 = new Package("package1", 125, 5, "cheap");
-        MenuItem cornSoup = new MenuItem("Appertizer", "Corn Soup", "Deli");
-        package1.addMenuItemToPackage(cornSoup);
-        packageSet.add(package1);
+        // SetInterface<Package> packageSet = new ArraySet<Package>();
+        // Package package1 = new Package("package1", 125, 5, "cheap");
+        // MenuItem cornSoup = new MenuItem("Appertizer", "Corn Soup", "Deli");
+        // package1.addMenuItemToPackage(cornSoup);
+        // packageSet.add(package1);
 
         int choice = 0;
         boolean dateValidity;
@@ -47,6 +46,9 @@ public class ReservationDriver {
         int menuItemQuantity;
         int totalMenuItemChoosen = 0;
         int cartRemovePosition;
+
+        // display
+        int displayChoice = -1;
 
         // remove
         int removeChoice = -1;
@@ -283,6 +285,8 @@ public class ReservationDriver {
                                     reservationList.add(reservation);
                                     reservationFile.write(reservationList);
                                 }
+                                // clear memory
+                                reservation = new Reservation(customer);
                                 break;
                             case 6:
                                 System.out.println("\nExited!");
@@ -302,21 +306,42 @@ public class ReservationDriver {
                         scanner.nextLine();
                         scanner.nextLine();
                     } else {
-                        System.out.print(
-                                String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
-                                        "AccountID",
-                                        "ContactNo",
-                                        "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
+                        // sort
+                        System.out.println("\nDisplay by");
+                        System.out.println("========================");
+                        System.out.println("1. Reservation Date");
+                        System.out.println("2. Serve Date");
+                        System.out.println("3. Default");
+                        System.out.println("4. Exit");
+                        do {
+                            System.out.print("Enter your choice: ");
+                            displayChoice = scanner.nextInt();
 
-                        int i = 0;
-                        for (Reservation reserve : reservationList) {
-                            i++;
-                            System.out.print(String.format("%-3s %-115s", i, reserve.toString()));
-                        }
-                        System.out.println("Total Number of Reservation: " + reservationList.getNumberOfEntries());
-                        System.out.println("Press <Enter> to continue.");
-                        scanner.nextLine();
-                        scanner.nextLine();
+                            switch (displayChoice) {
+                                case 1:
+                                case 2:
+                                    ListInterface<Reservation> temp = sortReservation(reservationList, displayChoice);
+                                    System.out.println(printReservationList(temp));
+                                    System.out.println("Press <Enter> to continue.");
+                                    scanner.nextLine();
+                                    scanner.nextLine();
+                                    break;
+                                case 3:
+                                    // display by default
+                                    System.out.println(printReservationList(reservationList));
+                                    System.out.println("Press <Enter> to continue.");
+                                    scanner.nextLine();
+                                    scanner.nextLine();
+                                    break;
+                                case 4:
+                                    System.out.println("Exited!!");
+                                    System.out.println("Press <Enter> to continue.");
+                                    scanner.nextLine();
+                                    scanner.nextLine();
+                                    break;
+                            }
+                        } while (displayChoice != 4);
+
                     }
                     break;
                 case 3:
@@ -327,18 +352,7 @@ public class ReservationDriver {
                         scanner.nextLine();
                         scanner.nextLine();
                     } else {
-                        System.out.print(
-                                String.format("%-3s %-15s %-15s %-15s %-15s %-20s %-20s %-10s\n", "No", "ReservationID",
-                                        "AccountID",
-                                        "ContactNo",
-                                        "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
-
-                        // for each loop
-                        int i = 0;
-                        for (Reservation reserve : reservationList) {
-                            i++;
-                            System.out.print(String.format("%-3d %s", i, reserve.toString()));
-                        }
+                        System.out.println(printReservationList(reservationList));
                         do {
                             System.out.print("Please Enter your choice to remove (-1 to exit):");
                             removeChoice = scanner.nextInt();
@@ -448,7 +462,7 @@ public class ReservationDriver {
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
 
                         for (Reservation reservations : reservationList) {
-                            if (reservations.getReserveDate().format(formatter)
+                            if (reservations.getServeDate().format(formatter)
                                     .compareTo(searchTime.format(formatter)) == 0) {
                                 i++;
                                 System.out.println(String.format("%-3d %-115s", i, reservations.toString()));
@@ -469,7 +483,7 @@ public class ReservationDriver {
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
 
                         for (Reservation reservations : reservationList) {
-                            if (reservations.getAccount().getFullName().compareToIgnoreCase(searchName) == 0) {
+                            if (reservations.getCustomer().getFullName().compareToIgnoreCase(searchName) == 0) {
                                 i++;
                                 System.out.println(String.format("%-3d %s", i, reservations.toString()));
                                 searchFlag = true;
@@ -501,26 +515,89 @@ public class ReservationDriver {
         String dessertStr = "";
         str += "\nItems In Cart\n";
         str += "================\n";
-        str += String.format("%-5s %-20s %-10s\n", "No", "Dish Name",
+        str += String.format("%-3s %-20s %-10s\n", "No", "Dish Name",
                 "Quantity");
         // sort by food type
         for (int i = 0; i < reservation.getFoodInCart().getNumberOfEntries(); i++) {
-            if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory() == "Appertizer") {
-                appertizeStr += String.format("%-5d %-30s\n", (i + 1),
-                        reservation.getFoodInCart().getEntry(i).toString());
-            } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory() == "Main Course") {
-                mainStr += String.format("%-5d %-30s\n", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
-            } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory() == "Beverage") {
-                beverageStr += String.format("%-5d %-30s\n", (i + 1),
-                        reservation.getFoodInCart().getEntry(i).toString());
+            if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
+                    .compareToIgnoreCase("Appertizer") == 0) {
+                appertizeStr += String.format("%-3d %-30s\n",
+                        (i + 1), reservation.getFoodInCart().getEntry(i).toString());
+            } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
+                    .compareToIgnoreCase("Main Course") == 0) {
+                mainStr += String.format("%-3d %-30s\n", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
+            } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
+                    .compareToIgnoreCase("Beverage") == 0) {
+                beverageStr += String.format("%-3d %-30s\n",
+                        (i + 1), reservation.getFoodInCart().getEntry(i).toString());
             } else {
-                dessertStr += String.format("%-5d %-30s\n", (i + 1),
-                        reservation.getFoodInCart().getEntry(i).toString());
+                dessertStr += String.format("%-3d %-30s\n",
+                        (i + 1), reservation.getFoodInCart().getEntry(i).toString());
             }
         }
-        str += "Appertizer\n" + "==============\n" + appertizeStr + "Main Course\n" + "==============\n" + mainStr
-                + "Beverage\n" + "==============\n" + beverageStr + "Dessert\n" + "==============\n" + dessertStr;
+        str += "\nAppertizer\n" + "-----------------\n" + appertizeStr + "\nMain Course\n" + "-----------------\n"
+                + mainStr
+                + "\nBeverage\n" + "-----------------\n" + beverageStr + "\nDessert\n" + "-----------------\n"
+                + dessertStr;
         str += String.format("Total Price: %.2f\n", reservation.getChoosenPackage().getPackagePrice());
         return str;
+    }
+
+    public static ListInterface<Reservation> sortReservation(ListInterface<Reservation> reservationList,
+            int displayChoice) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        if (displayChoice == 1) {
+            // sort by reserve date
+            int indexOfSmallest = 0;
+            for (int i = 1; i < reservationList.getNumberOfEntries(); i++) {
+                for (int j = i; j < reservationList.getNumberOfEntries(); j++) {
+                    if (reservationList.getEntry(j).getReserveDate().format(formatter)
+                            .compareTo(
+                                    reservationList.getEntry(indexOfSmallest).getReserveDate().format(formatter)) < 0) {
+                        indexOfSmallest = j;
+                    }
+                }
+                // swap
+                Reservation temp = reservationList.getEntry(i);
+                reservationList.replace(i, reservationList.getEntry(indexOfSmallest));
+                reservationList.replace(indexOfSmallest, temp);
+            }
+        } else {
+            // sort by serve date
+            int indexOfSmallest = 0;
+            for (int i = 1; i < reservationList.getNumberOfEntries(); i++) {
+                for (int j = i; j < reservationList.getNumberOfEntries(); j++) {
+                    if (reservationList.getEntry(j).getServeDate()
+                            .isBefore(
+                                    reservationList.getEntry(indexOfSmallest).getServeDate())) {
+
+                        indexOfSmallest = j;
+                    }
+                }
+                // swap
+                Reservation temp = reservationList.getEntry(i);
+                reservationList.replace(i, reservationList.getEntry(indexOfSmallest));
+                reservationList.replace(indexOfSmallest, temp);
+                // System.out.println(reservationList.toString());
+            }
+        }
+        return reservationList;
+    }
+
+    public static String printReservationList(ListInterface<Reservation> reservationList) {
+        String str = "";
+        str += String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
+                "AccountID",
+                "ContactNo",
+                "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus");
+
+        int i = 0;
+        for (Reservation reserve : reservationList) {
+            i++;
+            str += String.format("%-3s %-115s", i, reserve.toString());
+        }
+        str += ("Total Number of Reservation: " + reservationList.getNumberOfEntries());
+        return str;
+
     }
 }

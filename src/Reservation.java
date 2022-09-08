@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Reservation implements Serializable {
     private String reservationID;
-    private Account account;
+    private Customer customer;
     private LocalDateTime reserveTime;
     private LocalDateTime serveTime;
     private String contactNo;
@@ -14,8 +14,8 @@ public class Reservation implements Serializable {
     private ListInterface<FoodInCart> foodInCart;
     private static int IDcounter = 1;
 
-    public Reservation(Account account) {
-        this.account = account;
+    public Reservation(Customer account) {
+        this.customer = account;
         this.reservationStatus = null;
         foodInCart = new LinkedList<FoodInCart>();
         reservationID = generareReservationID();
@@ -59,7 +59,7 @@ public class Reservation implements Serializable {
     public String generateBill() {
         // format the bill
         String str = "";
-        str += account.toString() + "\n";
+        str += customer.toString() + "\n";
         str += choosenPackage.getPackageName()+"\n";
         str += String.format("%-5s %-10s %-10s\n", "No", "Dish Name",
              "Quantity");
@@ -75,7 +75,7 @@ public class Reservation implements Serializable {
         // reservationID, accountID, contactNo, reserveTime, serveTime, serveLocation,
         // reservationStatus
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return String.format("%-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", reservationID, account.getAccountID(),
+        return String.format("%-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", reservationID, customer.getCustomerId(),
                 contactNo,
                 reserveTime.format(formatter), serveTime.format(formatter), serveLocation, reservationStatus);
 
@@ -86,8 +86,8 @@ public class Reservation implements Serializable {
         return foodInCart;
     }
 
-    public Account getAccount() {
-        return account;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public String getReservationID() {
@@ -106,7 +106,9 @@ public class Reservation implements Serializable {
         return choosenPackage;
     }
     private String generareReservationID() {
-        return String.format("R%05d", IDcounter);
+        String reserveID = String.format("R%05d", IDcounter);
+        IDcounter++;
+        return reserveID;
     }
 
     // setter
