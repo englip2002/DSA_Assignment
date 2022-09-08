@@ -246,7 +246,6 @@ public class MenuManager implements Serializable {
                     // System.out.println("Please select again the menu item: ");
                 } else {
                     pckg.addMenuItemToPackage(menuItem);
-                    menuItemSet.remove(menuItem);
                 }
             } else {
                 System.out.println("The menu item does not exist!");
