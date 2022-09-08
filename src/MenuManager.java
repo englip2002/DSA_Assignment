@@ -155,7 +155,7 @@ public class MenuManager implements Serializable {
 
         // Use a temporay object to store that remove particular object
         Package temp = searchSpecificPackageByID(inputRemovePackageID);
-        //System.out.println(temp);
+        // System.out.println(temp);
 
         packageSet.remove(temp);
     }
@@ -249,53 +249,68 @@ public class MenuManager implements Serializable {
         displayPackage();
         System.out.println("\n");
 
-        scanner.nextLine();
-        System.out.println("Please enter the package ID that you want to add menu item: ");
+        System.out.print("Please enter the package ID that you want to modify: ");
         String inputPackageID = scanner.nextLine();
-
-        scanner.nextLine();
 
         Package pckg = searchSpecificPackageByID(inputPackageID);
 
-        System.out.println("\t  Modify Package");
-        System.out.println("\t===================");
-
-        System.out.println("1. Modify Pacakge Name");
-        System.out.println("2. Modify Pacakge Price");
-        System.out.println("3. Modify Pacakge Description");
-        System.out.println("4. Modify All");
-        System.out.println("Enter your choice: ");
+        displayModifyTable();
         int inputModifyChoice = scanner.nextInt();
 
         scanner.nextLine();
 
         switch (inputModifyChoice) {
             case 1:
-                System.out.println("Enter new package name: ");
+                System.out.print("Enter new package name: ");
                 String modifiedName = scanner.nextLine();
+                pckg.setPackageName(modifiedName);
                 break;
             case 2:
-                System.out.println("Enter new package price: RM ");
+                System.out.print("Enter new package price: RM ");
                 double modifiedPrice = scanner.nextDouble();
+                pckg.setPackagePrice(modifiedPrice);
                 break;
             case 3:
-                System.out.println("Enter new package description: ");
+                System.out.print("Enter new package description: ");
                 String modifiedDescrip = scanner.nextLine();
+                pckg.setPackageDescription(modifiedDescrip);
                 break;
-            case 4:
-                System.out.println("Enter new package nane: ");
-                double modifyName = scanner.nextDouble();
+            case 4: 
+                System.out.println("Enter new menu item limit: ");
+                int modifiedLimit = scanner.nextInt();
+                pckg.setMenuItemLimit(modifiedLimit);
+                break;
+            case 5:
+                System.out.print("Enter new package name: ");
+                String modifyName = scanner.nextLine();
+                pckg.setPackageName(modifyName);
 
-                System.out.println("Enter new package price: RM ");
+                System.out.print("Enter new package price: RM ");
                 double modifyPrice = scanner.nextDouble();
+                pckg.setPackagePrice(modifyPrice);
 
-                System.out.println("Enter new package description: ");
+                System.out.println("Enter new menu item limit: ");
+                int modifyLimit = scanner.nextInt();
+                pckg.setMenuItemLimit(modifyLimit);
+
+                System.out.print("Enter new package description: ");
                 String modifyDescrip = scanner.nextLine();
+                pckg.setPackageDescription(modifyDescrip);
+
                 break;
         }
-        // pckg.modifyPackage(pckg.getPackageID(), modifiedName, modifiedPrice,
-        // modifiedDescp);
+    }
 
+    private void displayModifyTable() {
+        System.out.println("\t  Modify Package");
+        System.out.println("\t===================");
+
+        System.out.println("1. Modify Pacakge Name");
+        System.out.println("2. Modify Pacakge Price");
+        System.out.println("3. Modify Pacakge Description");
+        System.out.println("4. Modify Menu Item Limit");
+        System.out.println("5. Modify All");
+        System.out.print("Enter your choice: ");
     }
 
     public void displayMenuItems() {

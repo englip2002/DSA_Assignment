@@ -116,23 +116,23 @@ public class Package implements Serializable {
         //menuItemInPackageCounter++;
     }
 
-    public boolean modifyPackage(String packageID, String modifiedPackageName, double modifiedPackagePrice,
-            String modifiedPackageDescp) {
+    // public boolean modifyPackage(String packageID, String modifiedPackageName, double modifiedPackagePrice,
+    //         String modifiedPackageDescp) {
 
-        SetInterface<Package> searchPackage = new ArraySet<Package>();
-        Iterator iterator = searchPackage.iterator();
+    //     SetInterface<Package> searchPackage = new ArraySet<Package>();
+    //     Iterator iterator = searchPackage.iterator();
 
-        while (iterator.hasNext()) {
-            Package temp = (Package) iterator.next();
-            if (temp.getPackageID().matches(packageID)) {
-                temp.setPackageName(modifiedPackageName);
-                temp.setPackagePrice(modifiedPackagePrice);
-                temp.setPackageDescription(modifiedPackageDescp);
-                return true;
-            }
-        }
-        return false;
-    }
+    //     while (iterator.hasNext()) {
+    //         Package temp = (Package) iterator.next();
+    //         if (temp.getPackageID().matches(packageID)) {
+    //             temp.setPackageName(modifiedPackageName);
+    //             temp.setPackagePrice(modifiedPackagePrice);
+    //             temp.setPackageDescription(modifiedPackageDescp);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     private String generatePackageID() {
 
