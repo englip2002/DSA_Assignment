@@ -8,5 +8,7 @@ public class MenuDriver {
 
         menuManager.removePackage();
 
+        menuManager.displayPackage();
+
     }
 }

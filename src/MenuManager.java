@@ -158,8 +158,6 @@ public class MenuManager implements Serializable {
         //System.out.println(temp);
 
         packageSet.remove(temp);
-
-        displayPackage();
     }
 
     public void addNewMenuItem() {
@@ -190,13 +188,9 @@ public class MenuManager implements Serializable {
         // Step 1: Display the menu items
         displayMenuItems();
 
-        scanner.nextLine();
-
         // Step 2: Let user to choose which menu item to remove
         System.out.print("Please enter Menu Item ID that you want remove: ");
         String inputRemoveMenuItemID = scanner.nextLine();
-
-        scanner.nextLine();
 
         MenuItem temp = searchSpecificMenuItemByID(inputRemoveMenuItemID);
 
@@ -210,11 +204,8 @@ public class MenuManager implements Serializable {
         displayPackage();
         System.out.println("\n");
 
-        scanner.nextLine();
-        System.out.println("Please enter the package ID that you want to add menu item: ");
+        System.out.print("Please enter the package ID that you want to add menu item: ");
         String inputPackageID = scanner.nextLine();
-
-        scanner.nextLine();
 
         Package pckg = searchSpecificPackageByID(inputPackageID);
 
@@ -233,7 +224,7 @@ public class MenuManager implements Serializable {
             } else {
                 System.out.println("\n");
                 displayMenuItems();
-                System.out.println("\nPlease enter the menu item ID you would like to add into the package: ");
+                System.out.print("\nPlease enter the menu item ID you would like to add into the package: ");
                 String inputMenuItemID = scanner.nextLine();
 
                 MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
@@ -353,25 +344,16 @@ public class MenuManager implements Serializable {
                 return pckg;
             }
         }
-
-        // while (iterator.hasNext()) {
-        //     Package temp = (Package) iterator.next();
-        //     if (temp.getPackageID().matches(packageID)) { // equals not match (match is use regex)
-        //         return temp;
-        //     }
-        // }
         return null;
     }
 
     public MenuItem searchSpecificMenuItemByID(String menuItemID) {
 
-        SetInterface<MenuItem> searchMenuItem = new ArraySet<MenuItem>();
-        Iterator iterator = searchMenuItem.iterator();
-
-        while (iterator.hasNext()) {
-            MenuItem temp = (MenuItem) iterator.next();
-            if (temp.getMenuItemID().matches(menuItemID)) {
-                return temp;
+        int i = 0;
+        for (MenuItem menuItem : menuItemSet) {
+            i++;
+            if (menuItem.getMenuItemID().equals(menuItemID)) {
+                return menuItem;
             }
         }
         return null;
