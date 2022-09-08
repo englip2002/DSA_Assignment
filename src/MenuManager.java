@@ -32,10 +32,10 @@ public class MenuManager implements Serializable {
         packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
         packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
         packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
-        // menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
-        // menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
-        // menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
-        // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
+        menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
+        menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
+        menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
+        menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
 
         menuFile.write(packageSet);
 
@@ -52,11 +52,11 @@ public class MenuManager implements Serializable {
             System.out.println("3. Display Package");
             System.out.println("4. Add New Menu Item");
             System.out.println("5. Remove Menu Item");
-            System.out.println("6. Display Package");
+            System.out.println("6. Display Menu Item");
             System.out.println("7. Add Menu Item into Package");
             System.out.println("8. Modify Package");
             System.out.println("9. Search Package");
-            System.out.print("Enter your choice(1 - 8): ");
+            System.out.print("Enter your choice(1 - 9): ");
             choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
@@ -76,7 +76,7 @@ public class MenuManager implements Serializable {
                     removeMenuItem();
                     break;
                 case 6:
-                    displayPackage();
+                    displayMenuItems();
                     break;
                 case 7:
                     continueAddMenuItemToPackage();
@@ -156,10 +156,10 @@ public class MenuManager implements Serializable {
 
         // Use a temporay object to store that remove particular object
         Package temp = searchSpecificPackageByID(inputRemovePackageID);
-        //System.out.println(temp.getPackageID());
+        // System.out.println(temp.getPackageID());
 
         packageSet.remove(temp);
-        
+
     }
 
     public void addNewMenuItem() {
@@ -232,7 +232,13 @@ public class MenuManager implements Serializable {
                 MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
 
                 if (menuItemSet.contains(menuItem)) {
-                    pckg.addMenuItemToPackage(menuItem);
+                    if (pckg.getAllMenuPackage().contains(menuItem)) {
+                        System.out.println("The menu item had added to another package!");
+                        // System.out.println("Please select again the menu item: ");
+                    } else {
+                        pckg.addMenuItemToPackage(menuItem);
+                        menuItemSet.remove(menuItem);
+                    }
                 } else {
                     System.out.println("The menu item does not exist!");
                 }
@@ -277,7 +283,7 @@ public class MenuManager implements Serializable {
                 String modifiedDescrip = scanner.nextLine();
                 pckg.setPackageDescription(modifiedDescrip);
                 break;
-            case 4: 
+            case 4:
                 System.out.println("Enter new menu item limit: ");
                 int modifiedLimit = scanner.nextInt();
                 pckg.setMenuItemLimit(modifiedLimit);
@@ -334,7 +340,7 @@ public class MenuManager implements Serializable {
         System.out.println("\t  PACKAGE DETAILS: ");
         System.out.println("\t======================");
 
-        //packageSet = (SetInterface<Package>) menuFile.read();
+        // packageSet = (SetInterface<Package>) menuFile.read();
 
         if (packageSet != null) {
 
@@ -348,7 +354,7 @@ public class MenuManager implements Serializable {
         }
     }
 
-    //havent finish
+    // havent finish
     public void searchPackage() {
 
     }
