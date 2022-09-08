@@ -37,7 +37,7 @@ public class MenuManager implements Serializable {
         // menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
         // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
 
-        //menuFile.write(packageSet);
+        menuFile.write(packageSet);
 
     }
 
