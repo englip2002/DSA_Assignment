@@ -94,7 +94,7 @@ public class TableManager {
         System.out.println("Return to last stage.");
     }
 
-    public void displayTablesDetails() {
+    private void displayTablesDetails() {
 
         // Display Table Details
         System.out.println("\nTables Details");
@@ -120,7 +120,7 @@ public class TableManager {
         }
     }
 
-    public void addNewCustomer() {
+    private void addNewCustomer() {
 
         // Add New Customer
         char choice;
@@ -199,7 +199,7 @@ public class TableManager {
         } while (Character.toUpperCase(choice) != 'N');
     }
 
-    public void createNewTable() {
+    private void createNewTable() {
 
         // Create New Table
         char choice;
@@ -259,7 +259,7 @@ public class TableManager {
         } while (Character.toUpperCase(choice) != 'N');
     }
 
-    public void editTableDetails() {
+    private void editTableDetails() {
 
         // Edit Table Details
         char choice;
@@ -382,7 +382,7 @@ public class TableManager {
                 != 'N');
     }
 
-    public void deleteTable() {
+    private void deleteTable() {
 
         // Delete Table
         char choice;
@@ -434,7 +434,7 @@ public class TableManager {
         } while (Character.toUpperCase(choice) != 'N');
     }
 
-    public void visualizeSeatOccupyingRate() {
+    private void visualizeSeatOccupyingRate() {
 
         // Visualize Seat Occupying Rate
         System.out.println("\nVisualize Seat Occupying Rate");
