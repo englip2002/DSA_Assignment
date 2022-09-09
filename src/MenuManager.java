@@ -28,6 +28,7 @@ public class MenuManager implements Serializable {
 
         menuFile = new FileHandler("Menu.dat");
         menuItemFile = new FileHandler("MenuItem.dat");
+        //for read from file
         // packageSet = (SetInterface) menuFile.read();
         // menuItemSet = (SetInterface) menuItemFile.read();
 
@@ -45,7 +46,8 @@ public class MenuManager implements Serializable {
         // else{
         //     menuItem = new MenuItem();
         // }
-
+        
+        //for read from constructor
         packageSet = new ArraySet<Package>();
         menuItemSet = new ArraySet<MenuItem>();
         scanner = new Scanner(System.in);
@@ -61,7 +63,6 @@ public class MenuManager implements Serializable {
 
         //menuFile.write(packageSet);
         menuItemFile.write(menuItemSet);
-        menuItemSet=(SetInterface)menuItemFile.read();
     }
 
     public void menuModule() {
