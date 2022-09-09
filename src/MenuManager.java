@@ -28,13 +28,9 @@ public class MenuManager implements Serializable {
 
         menuFile = new FileHandler("Menu.dat");
         menuItemFile = new FileHandler("MenuItem.dat");
-<<<<<<< HEAD
         // packageSet = (SetInterface) menuFile.read();
         // menuItemSet = (SetInterface) menuItemFile.read();
-=======
-        //packageSet = (SetInterface) menuFile.read();
-        //menuItemSet = (SetInterface) menuItemFile.read();
->>>>>>> 97cd418398e07f2cf1b4cc8e417226b318e54e64
+
 
         // if(packageSet != null){
         //     pckg = new Package(getLastPackageID(packageSet));
@@ -54,54 +50,18 @@ public class MenuManager implements Serializable {
         menuItemSet = new ArraySet<MenuItem>();
         scanner = new Scanner(System.in);
 
-<<<<<<< HEAD
-        // packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main
-        // Course, 1 Beverage"));
-        // packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main
-        // Course, 1 Beverage, 1 Dessert"));
-        // packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main
-        // Course, 2 Beverage, 2 Dessert"));
-        // packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main
-        // Course, 3 Beverage, 5 Dessert"));
-=======
-        packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
-        packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
-        packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
-        packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
->>>>>>> 97cd418398e07f2cf1b4cc8e417226b318e54e64
+        // packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
+        // packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
+        // packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
+        // packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
         menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
         menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
         menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
         menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
 
-<<<<<<< HEAD
         //menuFile.write(packageSet);
-        // packageSet = (SetInterface) menuFile.read();
-        // menuItemSet = (SetInterface) menuItemFile.read();
         menuItemFile.write(menuItemSet);
-=======
-        menuFile.write(packageSet);
-        menuItemFile.write(menuItemSet);
-        packageSet = (SetInterface) menuFile.read();
-        menuItemSet = (SetInterface) menuItemFile.read();
-        // menuItemFile.write(menuItemSet);
-        // menuItemFile.write(menuItemSet);
->>>>>>> 97cd418398e07f2cf1b4cc8e417226b318e54e64
-
-        // if(packageSet != null){
-        //     pckg = new Package(getLastPackageID(packageSet));
-        // }
-        // else{
-        //     pckg = new Package();
-        // }
-
-        // if(menuItemSet != null){
-        //     menuItem = new MenuItem(getLastMenuItemID(menuItemSet));
-        // }
-        // else{
-        //     menuItem = new MenuItem();
-        // }
-
+        menuItemSet=(SetInterface)menuItemFile.read();
     }
 
     public void menuModule() {
