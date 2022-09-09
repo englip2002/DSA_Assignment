@@ -26,23 +26,6 @@ public class MenuManager implements Serializable {
 
         menuFile = new FileHandler<>("Menu.dat");
         menuItemFile = new FileHandler<>("MenuItem.dat");
-        // for read from file
-        // packageSet = (SetInterface<Package>) menuFile.read();
-        // menuItemSet = (SetInterface<MenuItem>) menuItemFile.read();
-
-        // if(packageSet != null){
-        // pckg = new Package(getLastPackageID(packageSet));
-        // }
-        // else{
-        // pckg = new Package();
-        // }
-
-        // if(menuItemSet != null){
-        // menuItem = new MenuItem(getLastMenuItemID(menuItemSet));
-        // }
-        // else{
-        // menuItem = new MenuItem();
-        // }
 
         // for read from constructor
         packageSet = new ArraySet<Package>();
@@ -379,7 +362,6 @@ public class MenuManager implements Serializable {
 
     }
 
-    // Naming problem
     private Package searchMenuItemInPackageByID(String inputMenuItemID, Package pckg) {
 
         MenuItem menuItem;
@@ -526,7 +508,6 @@ public class MenuManager implements Serializable {
     // havent finish
     public void searchPackage() {
 
-        boolean searchflag = false;
         double minInputPrice, maxInputPrice;
         String packageName, menuItemName;
         Package pckg;
@@ -547,10 +528,8 @@ public class MenuManager implements Serializable {
                 if (pckg != null) {
                     System.out.println("Package had founded!!\n");
                     System.out.println(pckg.toString());
-                    searchflag = true;
                 } else {
                     System.out.println("Cannot found package!");
-                    searchflag = false;
                 }
                 break;
             case 2:
