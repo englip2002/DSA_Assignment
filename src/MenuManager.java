@@ -474,7 +474,7 @@ public class MenuManager implements Serializable {
         System.out.print("Enter your choice: ");
     }
 
-    private void displayMenuItems() {
+    public void displayMenuItems() {
         System.out.println("\t  MENU ITEMS DETAILS: ");
         System.out.println("\t=========================");
 
