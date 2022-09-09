@@ -28,14 +28,18 @@ public class MenuManager implements Serializable {
         menuItemFile = new FileHandler("MenuItem.dat");
         packageSet = (SetInterface) menuFile.read();
         menuItemSet = (SetInterface) menuItemFile.read();
-        //packageSet = new ArraySet<Package>();
+        // packageSet = new ArraySet<Package>();
         // menuItemSet = new ArraySet<MenuItem>();
         scanner = new Scanner(System.in);
 
-        // packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
-        // packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
-        // packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
-        // packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
+        // packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main
+        // Course, 1 Beverage"));
+        // packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main
+        // Course, 1 Beverage, 1 Dessert"));
+        // packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main
+        // Course, 2 Beverage, 2 Dessert"));
+        // packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main
+        // Course, 3 Beverage, 5 Dessert"));
         // menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges
         // of Yukan Cold potatoes."));
         // menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti
@@ -45,7 +49,7 @@ public class MenuManager implements Serializable {
         // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with
         // graham crocker crust."));
 
-        //menuFile.write(packageSet);
+        // menuFile.write(packageSet);
         // menuItemFile.write(menuItemSet);
         // menuItemFile.write(menuItemSet);
 
@@ -330,7 +334,6 @@ public class MenuManager implements Serializable {
 
         do {
             displayPackage();
-            scanner.nextLine();
             System.out.print("Please enter package ID that you would like to remove menu item: ");
             inputPackageID = scanner.nextLine();
 
@@ -338,10 +341,9 @@ public class MenuManager implements Serializable {
 
             if (temp.getAllMenuPackage() != null) {
                 temp.toString();
-                scanner.nextLine();
                 System.out.print("Please enter menu item ID that you would like remove from this package: ");
                 inputMenuItemID = scanner.nextLine();
-                temp = searchMenuItemInPackageByID(inputMenuItemID);
+                temp = searchMenuItemInPackageByID(inputMenuItemID, temp);
                 temp.toString();
             } else {
                 System.out.println("There do not have menu item inside the package!");
@@ -358,16 +360,15 @@ public class MenuManager implements Serializable {
     }
 
     // Naming problem
-    private Package searchMenuItemInPackageByID(String inputMenuItemID) {
-        int i = 0;
+    private Package searchMenuItemInPackageByID(String inputMenuItemID, Package pckg) {
+        
         MenuItem menuItem;
 
-        for (Package each : packageSet) {
-            i++;
-            if (each.getAllMenuPackage().getElementAtPos(i).getMenuItemID().equals(inputMenuItemID)) {
-                menuItem = each.getAllMenuPackage().getElementAtPos(i);
-                each.removeMenuItemFromPackage(menuItem);
-                return each;
+        for (int i = 0; i < pckg.getAllMenuPackage().getNumberOfEntries(); i ++) {
+            if (pckg.getAllMenuPackage().getElementAtPos(i).getMenuItemID().equals(inputMenuItemID)) {
+                menuItem = pckg.getAllMenuPackage().getElementAtPos(i);
+                pckg.removeMenuItemFromPackage(menuItem);
+                return pckg;
             }
         }
         return null;
@@ -606,13 +607,15 @@ public class MenuManager implements Serializable {
 
     // private void searchMenuItemByName(String menuItemName){
     // int totalNumber = 0;
+    // int i = 0;
     // for (Package pckg : packageSet) {
-    // if (pckg.getAllMenuPackage().) {
+    //     i++;
+    // if (pckg.getAllMenuPackage().getElementAtPos(i).) {
     // totalNumber++;
     // System.out.println(pckg.toString());
 
     // }
-    // }
+    // // }
 
     // System.out.println("Total package found: " + totalNumber);
     // }
