@@ -16,7 +16,7 @@ public class Package implements Serializable {
     private int menuItemLimit;
     private String packageDescription;
     private static int packageCounter = 1;
-    private static int menuItemInPackageCounter = 0;
+    //private static int menuItemInPackageCounter = 0;
     private SetInterface<MenuItem> menuPackage; // To store the menuItem in the array set of menuPackage
 
     // Constructor
@@ -25,6 +25,12 @@ public class Package implements Serializable {
         this.packageName = "";
         this.packagePrice = 0;
         this.packageDescription = "";
+        this.menuPackage = new ArraySet<>();
+    }
+
+    public Package(int lastPackageIDCounter){
+        packageCounter = lastPackageIDCounter + 1;
+        this.packageID = generatePackageID();
         this.menuPackage = new ArraySet<>();
     }
 
@@ -49,7 +55,8 @@ public class Package implements Serializable {
         packageCounter++;
     }
 
-    public Package(String packageID, String packageName, double packagePrice, int menuItemLimit, SetInterface<MenuItem> menuPackage,
+    public Package(String packageID, String packageName, double packagePrice, int menuItemLimit,
+            SetInterface<MenuItem> menuPackage,
             String packageDescription) {
         this.packageID = packageID;
         this.packageName = packageName;
@@ -72,7 +79,7 @@ public class Package implements Serializable {
         return packagePrice;
     }
 
-    public int getMenuItemLimit(){
+    public int getMenuItemLimit() {
         return menuItemLimit;
     }
 
@@ -84,9 +91,9 @@ public class Package implements Serializable {
         return menuPackage;
     }
 
-    public int getMenuItemInPackageCounter() {
-        return menuItemInPackageCounter;
-    }
+    // public int getMenuItemInPackageCounter() {
+    //     return menuItemInPackageCounter;
+    // }
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
@@ -112,26 +119,29 @@ public class Package implements Serializable {
     // entity class
     public void addMenuItemToPackage(MenuItem menuItem) {
         menuPackage.add(menuItem);
-        menuItemInPackageCounter++;
     }
 
-    public boolean modifyPackage(String packageID, String modifiedPackageName, double modifiedPackagePrice,
-            String modifiedPackageDescp) {
-
-        SetInterface<Package> searchPackage = new ArraySet<Package>();
-        Iterator iterator = searchPackage.iterator();
-
-        while (iterator.hasNext()) {
-            Package temp = (Package) iterator.next();
-            if (temp.getPackageID().matches(packageID)) {
-                temp.setPackageName(modifiedPackageName);
-                temp.setPackagePrice(modifiedPackagePrice);
-                temp.setPackageDescription(modifiedPackageDescp);
-                return true;
-            }
-        }
-        return false;
+    public void removeMenuItemFromPackage(MenuItem menuItem){
+        menuPackage.remove(menuItem);
     }
+
+    // public boolean modifyPackage(String packageID, String modifiedPackageName, double modifiedPackagePrice,
+    //         String modifiedPackageDescp) {
+
+    //     SetInterface<Package> searchPackage = new ArraySet<Package>();
+    //     Iterator iterator = searchPackage.iterator();
+
+    //     while (iterator.hasNext()) {
+    //         Package temp = (Package) iterator.next();
+    //         if (temp.getPackageID().matches(packageID)) {
+    //             temp.setPackageName(modifiedPackageName);
+    //             temp.setPackagePrice(modifiedPackagePrice);
+    //             temp.setPackageDescription(modifiedPackageDescp);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     private String generatePackageID() {
 
@@ -161,18 +171,17 @@ public class Package implements Serializable {
         return false;
     }
 
-    // Havent complete
     public String toString() {
         return "Package ID           : " + packageID + "\n" +
                 "Package Name         : " + packageName + "\n" +
-                "Package Price        :" + packagePrice + "\n" +
-                "Package Description  : " + packageDescription + "\n" + 
+                "Package Price        : RM " + packagePrice + "\n" +
+                "Package Description  : " + packageDescription + "\n" +
+                "Limit of menu items  : " + menuItemLimit + "\n" +
                 "Menu item(s) inside the package:" + "\n" +
-                printMenuItem();
+                printMenuItemInPackage();
     }
 
-    // i add a method to print the item in the package
-    public String printMenuItem() {
+    public String printMenuItemInPackage() {
         String str = "";
         str += String.format("%-3s %-10s %-20s %-30s\n", "No",
                 "Dish ID", "Dish Name", "Dish Description");

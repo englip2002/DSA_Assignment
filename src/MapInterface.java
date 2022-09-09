@@ -6,17 +6,21 @@ public interface MapInterface<K, V> {
 
     public V remove(K key);
 
-    public V getValue(K key);
+    public V get(K key);
 
     public K[] keySet();
 
-    public boolean contains(K key);
+    public V[] values();
+
+    public boolean containsKey(K key);
+
+    public boolean containsValue(V value);
 
     public boolean isEmpty();
 
     public boolean isFull();
 
-    public int getSize();
+    public int size();
 
     public void clear();
 }

@@ -63,7 +63,7 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
         // Step 2: Use for loop to ensure that paricular data in the array and remove
         // the array and remove the gap of the array
         for (int i = 0; i < numberOfEntries; i++) {
-            if (array[i].equals(anElement)) {
+            if (array[i]==(anElement)) {
                 removeGap(i + 1);
 
                 // Step 3: Reduce the number of entries

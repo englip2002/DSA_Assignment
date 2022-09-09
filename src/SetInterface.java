@@ -9,7 +9,7 @@
 //Use the concept of iterator to loop through the set 
 import java.util.Iterator;
 
-public interface SetInterface<T> {
+public interface SetInterface<T> extends Iterable<T>{
 
     // Add new element
     public boolean add(T newElement);

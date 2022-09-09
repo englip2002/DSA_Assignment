@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Reservation implements Serializable {
     private String reservationID;
-    private Account account;
+    private Customer customer;
     private LocalDateTime reserveTime;
     private LocalDateTime serveTime;
     private String contactNo;
@@ -12,10 +12,18 @@ public class Reservation implements Serializable {
     private String reservationStatus;
     private Package choosenPackage;
     private ListInterface<FoodInCart> foodInCart;
-    private static int IDcounter = 1;
+    private static int IDcounter = 0;
 
-    public Reservation(Account account) {
-        this.account = account;
+    public Reservation(Customer account, int latestIDCounter) {
+        IDcounter = latestIDCounter + 1;
+        this.customer = account;
+        this.reservationStatus = null;
+        foodInCart = new LinkedList<FoodInCart>();
+        reservationID = generareReservationID();
+    }
+
+    public Reservation(Customer account) {
+        this.customer = account;
         this.reservationStatus = null;
         foodInCart = new LinkedList<FoodInCart>();
         reservationID = generareReservationID();
@@ -34,6 +42,23 @@ public class Reservation implements Serializable {
         return str;
     }
 
+    // public void sortCart(){
+    // //4 type of food
+    // FoodInCart firstAppertizer=null;
+    // FoodInCart firstMain=null;
+    // FoodInCart firstBeverage=null;
+    // FoodInCart firstDessert=null;
+    // for (FoodInCart food : foodInCart) {
+    // if(firstAppertizer==null&&food.getFood().getMenuItemCategory()=="Appertizer"){
+    // firstAppertizer=food;
+    // }
+    // else if(firstMain==null&&food.getFood().getMenuItemCategory()=="Main
+    // Course"){
+
+    // }
+    // }
+    // }
+
     public void reserveDetails(String contactNo, String serveLocation, LocalDateTime serveTime) {
         this.contactNo = contactNo;
         this.serveLocation = serveLocation;
@@ -43,10 +68,10 @@ public class Reservation implements Serializable {
     public String generateBill() {
         // format the bill
         String str = "";
-        str += account.toString() + "\n";
-        str += choosenPackage.getPackageName()+"\n";
+        str += customer.customerInfo() + "\n";
+        str += choosenPackage.getPackageName() + "\n";
         str += String.format("%-5s %-10s %-10s\n", "No", "Dish Name",
-             "Quantity");
+                "Quantity");
         for (int i = 0; i < foodInCart.getNumberOfEntries(); i++) {
             str += foodInCart.getEntry(i).toString();
         }
@@ -59,7 +84,7 @@ public class Reservation implements Serializable {
         // reservationID, accountID, contactNo, reserveTime, serveTime, serveLocation,
         // reservationStatus
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return String.format("%-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", reservationID, account.getAccountID(),
+        return String.format("%-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", reservationID, customer.getCustomerId(),
                 contactNo,
                 reserveTime.format(formatter), serveTime.format(formatter), serveLocation, reservationStatus);
 
@@ -70,8 +95,8 @@ public class Reservation implements Serializable {
         return foodInCart;
     }
 
-    public Account getAccount() {
-        return account;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public String getReservationID() {
@@ -86,11 +111,14 @@ public class Reservation implements Serializable {
         return serveTime;
     }
 
-    public Package getChoosenPackage(){
+    public Package getChoosenPackage() {
         return choosenPackage;
     }
+
     private String generareReservationID() {
-        return String.format("R%05d", IDcounter);
+        String reserveID = String.format("R%05d", IDcounter);
+        IDcounter++;
+        return reserveID;
     }
 
     // setter
@@ -98,8 +126,8 @@ public class Reservation implements Serializable {
         this.reservationStatus = status;
     }
 
-    public void setPackageChoice(Package packageChoice){
-        this.choosenPackage=packageChoice;
+    public void setPackageChoice(Package packageChoice) {
+        this.choosenPackage = packageChoice;
     }
 
 }
