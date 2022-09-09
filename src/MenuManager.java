@@ -28,25 +28,25 @@ public class MenuManager implements Serializable {
 
         menuFile = new FileHandler("Menu.dat");
         menuItemFile = new FileHandler("MenuItem.dat");
-        packageSet = (SetInterface) menuFile.read();
-        menuItemSet = (SetInterface) menuItemFile.read();
+        // packageSet = (SetInterface) menuFile.read();
+        // menuItemSet = (SetInterface) menuItemFile.read();
 
-        if(packageSet != null){
-            pckg = new Package(getLastPackageID(packageSet));
-        }
-        else{
-            pckg = new Package();
-        }
+        // if(packageSet != null){
+        //     pckg = new Package(getLastPackageID(packageSet));
+        // }
+        // else{
+        //     pckg = new Package();
+        // }
 
-        if(menuItemSet != null){
-            menuItem = new MenuItem(getLastMenuItemID(menuItemSet));
-        }
-        else{
-            menuItem = new MenuItem();
-        }
+        // if(menuItemSet != null){
+        //     menuItem = new MenuItem(getLastMenuItemID(menuItemSet));
+        // }
+        // else{
+        //     menuItem = new MenuItem();
+        // }
 
-        // packageSet = new ArraySet<Package>();
-        // menuItemSet = new ArraySet<MenuItem>();
+        packageSet = new ArraySet<Package>();
+        menuItemSet = new ArraySet<MenuItem>();
         scanner = new Scanner(System.in);
 
         // packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main
@@ -57,20 +57,15 @@ public class MenuManager implements Serializable {
         // Course, 2 Beverage, 2 Dessert"));
         // packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main
         // Course, 3 Beverage, 5 Dessert"));
-        // menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges
-        // of Yukan Cold potatoes."));
-        // menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti
-        // with seafood and tomato sauce."));
-        // menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso
-        // and hot water."));
-        // menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with
-        // graham crocker crust."));
+        menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
+        menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
+        menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
+        menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
 
-        // menuFile.write(packageSet);
+        //menuFile.write(packageSet);
         // packageSet = (SetInterface) menuFile.read();
         // menuItemSet = (SetInterface) menuItemFile.read();
-        // menuItemFile.write(menuItemSet);
-        // menuItemFile.write(menuItemSet);
+        menuItemFile.write(menuItemSet);
 
     }
 
