@@ -82,6 +82,7 @@ public class ReservationDriver {
             do {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
+                scanner.nextLine();
             } while (choice < 1 || choice > 5);
 
             switch (choice) {
@@ -99,6 +100,7 @@ public class ReservationDriver {
                         do {
                             System.out.print("Enter your choice: ");
                             reservationProcessChoice = scanner.nextInt();
+                            scanner.nextLine();
                             if (reservationProcessChoice < 1 || reservationProcessChoice > 6) {
                                 System.out.println("Invalid Choice!");
                             }
@@ -106,7 +108,6 @@ public class ReservationDriver {
 
                         switch (reservationProcessChoice) {
                             case 1:
-                                scanner.nextLine();
                                 do {
                                     System.out.print("Please enter your contact No (XXX-XXXXXXX): ");
                                     contactNo = scanner.nextLine();
@@ -140,9 +141,9 @@ public class ReservationDriver {
 
                                 // enter food package choice
                                 do {
-                                    System.out.println("Enter Package: ");
+                                    System.out.println("\nEnter Package: ");
                                     // print category choice
-                                    System.out.print(String.format("\n%-3s %-15s %-10s\n", "No", "PackageName",
+                                    System.out.print(String.format("%-3s %-15s %-10s\n", "No", "PackageName",
                                             "Price(RM)"));
                                     for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
                                         System.out.print(String.format("%-3d %-15s %-10.2f\n", (i + 1),
@@ -151,6 +152,7 @@ public class ReservationDriver {
                                     }
                                     System.out.print("Enter package choice: ");
                                     packageChoice = scanner.nextInt();
+                                    scanner.nextLine();
 
                                     if (packageChoice < 1
                                             || packageChoice > packageSet.getNumberOfEntries()) {
@@ -171,9 +173,8 @@ public class ReservationDriver {
                                 // check if the quantity exceed the limit
                                 if (reservation.getChoosenPackage() == null) {
                                     System.out.println("\nPlease choose package in reservation detail section!");
-                                    System.out.println("Press <Enter> to continue.");
-                                    scanner.nextLine();
-                                    scanner.nextLine();
+                                    pressEnterToContinue(scanner);
+
                                 } else if (totalMenuItemChoosen < reservation.getChoosenPackage().getMenuItemLimit()) {
                                     // enter menu item choice
                                     do {
@@ -214,16 +215,13 @@ public class ReservationDriver {
 
                                     // display cart
                                     System.out.println(viewCart(reservation));
-                                    System.out.println("Press <Enter> to continue.");
-                                    scanner.nextLine();
-                                    scanner.nextLine();
+                                    pressEnterToContinue(scanner);
 
                                 } else {
                                     System.out.println("The total quantity of menu item has reached the limit ("
                                             + reservation.getChoosenPackage().getMenuItemLimit() + ")");
-                                    System.out.println("Press <Enter> to continue.");
-                                    scanner.nextLine();
-                                    scanner.nextLine();
+                                            pressEnterToContinue(scanner);
+
                                 }
 
                                 break;
@@ -240,13 +238,13 @@ public class ReservationDriver {
 
                                     if (cartRemovePosition == -1) {
                                         System.out.println("Exited!");
-                                        System.out.println("Press <Enter> to continue.");
-                                        scanner.nextLine();
+                                        pressEnterToContinue(scanner);
+
                                     } else if (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
                                             || cartRemovePosition < 1) {
                                         System.out.println("Invalid Input!");
-                                        System.out.println("Press <Enter> to continue.");
-                                        scanner.nextLine();
+                                        pressEnterToContinue(scanner);
+
                                     } else {
                                         // update the totalMenuItemChoosen
                                         totalMenuItemChoosen -= reservation.getFoodInCart()
@@ -254,9 +252,8 @@ public class ReservationDriver {
                                         // remove fron list
                                         reservation.getFoodInCart().remove(cartRemovePosition - 1);
                                         System.out.println("Removed Successfully");
-                                        System.out.println("Press <Enter> to continue.");
-                                        scanner.nextLine();
-                                        scanner.nextLine();
+                                        pressEnterToContinue(scanner);
+
                                     }
 
                                     // validate remove choice
@@ -266,9 +263,8 @@ public class ReservationDriver {
                             case 4:
                                 // view cart
                                 System.out.print(viewCart(reservation));
-                                System.out.println("Press <Enter> to continue.");
-                                scanner.nextLine();
-                                scanner.nextLine();
+                                pressEnterToContinue(scanner);
+
                                 break;
 
                             case 5:
@@ -277,9 +273,8 @@ public class ReservationDriver {
                                 System.out.println("\nBills");
                                 System.out.println("===========");
                                 System.out.println(reservation.generateBill());
-                                System.out.println("Press <Enter> to continue.");
-                                scanner.nextLine();
-                                scanner.nextLine();
+                                pressEnterToContinue(scanner);
+
 
                                 reservation.checkOut();
                                 // add into array and write into file, else discard
@@ -297,9 +292,7 @@ public class ReservationDriver {
                                 break;
                             case 6:
                                 System.out.println("\nExited!");
-                                System.out.println("Press <Enter> to continue.");
-                                scanner.nextLine();
-                                scanner.nextLine();
+                                pressEnterToContinue(scanner);
                                 break;
 
                         }
@@ -309,9 +302,8 @@ public class ReservationDriver {
                     // view all reservation history
                     if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
                         System.out.println("No Reservation Stored!");
-                        System.out.println("Press <Enter> to continue.");
-                        scanner.nextLine();
-                        scanner.nextLine();
+                        pressEnterToContinue(scanner);
+
                     } else {
                         // sort
                         System.out.println("\nDisplay by");
@@ -323,28 +315,23 @@ public class ReservationDriver {
                         do {
                             System.out.print("Enter your choice: ");
                             displayChoice = scanner.nextInt();
+                            scanner.nextLine();
 
                             switch (displayChoice) {
                                 case 1:
                                 case 2:
                                     ListInterface<Reservation> temp = sortReservation(reservationList, displayChoice);
                                     System.out.println(printReservationList(temp));
-                                    System.out.println("Press <Enter> to continue.");
-                                    scanner.nextLine();
-                                    scanner.nextLine();
+                                    pressEnterToContinue(scanner);
                                     break;
                                 case 3:
                                     // display by default
                                     System.out.println(printReservationList(reservationList));
-                                    System.out.println("Press <Enter> to continue.");
-                                    scanner.nextLine();
-                                    scanner.nextLine();
+                                    pressEnterToContinue(scanner);
                                     break;
                                 case 4:
                                     System.out.println("Exited!!");
-                                    System.out.println("Press <Enter> to continue.");
-                                    scanner.nextLine();
-                                    scanner.nextLine();
+                                    pressEnterToContinue(scanner);
                                     break;
                                 default:
                                     System.out.println("Invalid Choice!!");
@@ -358,19 +345,19 @@ public class ReservationDriver {
                     // remove reservation history
                     if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
                         System.out.println("No Reservation Stored!");
-                        System.out.println("Press <Enter> to continue.");
-                        scanner.nextLine();
-                        scanner.nextLine();
+                        pressEnterToContinue(scanner);
+
                     } else {
                         System.out.println(printReservationList(reservationList));
                         do {
                             System.out.print("Please Enter your choice to remove (-1 to exit):");
                             removeChoice = scanner.nextInt();
+                            scanner.nextLine();
 
                             if (removeChoice == -1) {
                                 System.out.println("Exited!");
-                                System.out.println("Press <Enter> to continue.");
-                                scanner.nextLine();
+                                pressEnterToContinue(scanner);
+
                             } else if ((removeChoice > reservationList.getNumberOfEntries()
                                     || removeChoice < 1) && removeChoice != -1) {
                                 System.out.println("Invalid Choice!");
@@ -378,8 +365,8 @@ public class ReservationDriver {
                                 reservationList.remove(removeChoice - 1);
                                 reservationFile.write(reservationList);
                                 System.out.println("Removed Successfully!");
-                                System.out.println("Press <Enter> to continue.");
-                                scanner.nextLine();
+                                pressEnterToContinue(scanner);
+
                             }
 
                         } while ((removeChoice > reservationList.getNumberOfEntries()
@@ -397,14 +384,12 @@ public class ReservationDriver {
                     do {
                         System.out.print("Enter your choice: ");
                         searchChoice = scanner.nextInt();
+                        scanner.nextLine();
 
                         if (searchChoice < 1 || searchChoice > 3) {
                             System.out.println("Invalid Choice!");
                         }
                     } while (searchChoice < 1 || searchChoice > 3);
-
-                    // clear buffer
-                    searchName = scanner.nextLine();
 
                     if (searchChoice == 1) {
                         do {
@@ -514,15 +499,12 @@ public class ReservationDriver {
                         System.out.println("No Record Found!");
                     }
 
-                    System.out.println("Press <Enter> to continue.");
-                    scanner.nextLine();
+                    pressEnterToContinue(scanner);
                     break;
 
                 case 5:
                     System.out.println("Exited!!");
-                    System.out.println("Press <Enter> to continue.");
-                    scanner.nextLine();
-                    scanner.nextLine();
+                    pressEnterToContinue(scanner);
                     break;
             }
 
@@ -632,5 +614,10 @@ public class ReservationDriver {
                 .getReservationID();
         lastReservationID = lastReservationID.substring(1, 6);
         return Integer.parseInt(lastReservationID);
+    }
+
+    public static void pressEnterToContinue(Scanner scanner) {
+        System.out.println("Press <Enter> to continue.");
+        scanner.nextLine();
     }
 }

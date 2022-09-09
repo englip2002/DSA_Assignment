@@ -68,7 +68,7 @@ public class Reservation implements Serializable {
     public String generateBill() {
         // format the bill
         String str = "";
-        str += customer.toString() + "\n";
+        str += customer.customerInfo() + "\n";
         str += choosenPackage.getPackageName() + "\n";
         str += String.format("%-5s %-10s %-10s\n", "No", "Dish Name",
                 "Quantity");
