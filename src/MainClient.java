@@ -6,6 +6,7 @@ public class MainClient {
     public static void main(String[] args) {
 
         TableClient tableManager = new TableClient();
+        MenuManager menuManager = new MenuManager();
         Scanner sc = new Scanner(System.in);
         int selection;
         do {
@@ -27,6 +28,7 @@ public class MainClient {
                     break;
                 case 2:
                     // Menu Module
+                    menuManager.menuModule();
                     break;
                 case 3:
                     // Reservation Module

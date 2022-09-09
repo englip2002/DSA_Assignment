@@ -65,7 +65,7 @@ public class MenuManager implements Serializable {
             System.out.println("8. Remove Menu Item from Package");
             System.out.println("9. Modify Package");
             System.out.println("10. Search Package");
-            System.out.print("Enter your choice(1 - 10): ");
+            System.out.print("Enter your choice(-1 exit): ");
             choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
