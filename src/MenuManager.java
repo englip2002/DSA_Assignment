@@ -639,18 +639,4 @@ public class MenuManager implements Serializable {
         System.out.println("Menu Item do not exist!");
         return null;
     }
-
-    private static int getLastPackageID(SetInterface<Package> packageSet) {
-        String lastPackageID = packageSet.getElementAtPos(packageSet.getNumberOfEntries() - 1).getPackageID();
-        lastPackageID = lastPackageID.substring(2, 7);
-
-        return Integer.parseInt(lastPackageID);
-    }
-
-    private static int getLastMenuItemID(SetInterface<MenuItem> menuItemSet) {
-        String lastMenuItemID = menuItemSet.getElementAtPos(menuItemSet.getNumberOfEntries() - 1).getMenuItemID();
-        lastMenuItemID = lastMenuItemID.substring(1, 6);
-
-        return Integer.parseInt(lastMenuItemID);
-    }
 }
