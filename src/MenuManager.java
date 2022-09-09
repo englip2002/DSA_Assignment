@@ -7,7 +7,6 @@
 
 import java.util.Scanner;
 import java.io.Serializable;
-import java.util.Iterator;
 
 public class MenuManager implements Serializable {
 
@@ -42,6 +41,7 @@ public class MenuManager implements Serializable {
         menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
 
         packageSet.getElementAtPos(0).addMenuItemToPackage(menuItemSet.getElementAtPos(0));
+        packageSet.getElementAtPos(3).addMenuItemToPackage(menuItemSet.getElementAtPos(0));
 
         // write into file
         menuFile.write(packageSet);
