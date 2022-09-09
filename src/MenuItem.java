@@ -22,6 +22,11 @@ public class MenuItem implements Serializable{
         this.menuItemCounter = 1;
     }
 
+    public MenuItem(int lastMenuItemIDCounter){
+        menuItemCounter = lastMenuItemIDCounter + 1;
+        this.menuItemID = generateMenuItemID();
+    }
+
     public MenuItem(String menuItemCategory, String menuItemName, String menuItemDescription) {
         this.menuItemCategory = menuItemCategory;
         this.menuItemName = menuItemName;
