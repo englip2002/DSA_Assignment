@@ -5,7 +5,7 @@ public class MainClient {
 
     public static void main(String[] args) {
 
-        TableClient tableManager = new TableClient();
+        TableManager tableManager = new TableManager();
         MenuManager menuManager = new MenuManager();
         Scanner sc = new Scanner(System.in);
         int selection;

@@ -3,16 +3,16 @@
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class TableClient {
+public class TableManager {
 
-    private FileHandler tablesFile;
+    private FileHandler<MapInterface<String, Table>> tablesFile;
     private MapInterface<String, Table> tableList;
     private MapInterface<String, Customer> customerList;
     private Scanner sc;
 
-    public TableClient() {
+    public TableManager() {
 
-        tablesFile = new FileHandler("Tables.dat");
+        tablesFile = new FileHandler<>("Tables.dat");
         tableList = new HashMap<>();
         customerList = new HashMap<>();
         sc = new Scanner(System.in);

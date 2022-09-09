@@ -6,10 +6,10 @@ import java.io.Serializable;
  * A public class that implements the ADT Map / Dictionary by using hashing and
  * separate chaining to resolve collisions.The dictionary is not sorted and has
  * distinct search keys.DEFAULT_SIZE (TABLE SIZE) = 101 == Prime Number
- * MAX_LOAD_FACTOR (LAMBDA) = 0.9 < 1.0 @
+ * MAX_LOAD_FACTOR (LAMBDA) = 0.9 < 1.0
  *
  * @param <K> Key Object.
- * @param <V> Value Object
+ * @param <V> Value Object.
  */
 public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
 
@@ -47,7 +47,7 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
         // STEP 3: If the hash index is empty, add the pair of dictionary entries by the given key and the given value.
         if (hashTable[i] == null) {
             hashTable[i] = new Node(key, value);
-            // STEP 4: Increase the number pair of dictionary entities.
+            // STEP 4: Increase the number pair of dictionary entries.
             numberOfEntries++;
         } else {
             // STEP 5: If the hash index is not empty, search through the Node Objects chain to check whether the given key is distinct.
@@ -63,7 +63,7 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
             // STEP 6: If the given key is distinct, add the pair of dictionary entries by the given key and the given value.
             if (isDistinct) {
                 currentNode = new Node(key, value);
-                // STEP 7: Increase the number pair of dictionary entities.
+                // STEP 7: Increase the number pair of dictionary entries.
                 numberOfEntries++;
             } else {
                 // STEP 8: If the given key is not distinct, grab the old value and replace it with the given value.
@@ -106,7 +106,7 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
             } else {
                 previousNode.next = currentNode.next;
             }
-            // STEP 4: Grab the removed value and decrease the number pair of dictionary entities.
+            // STEP 4: Grab the removed value and decrease the number pair of dictionary entries.
             removedValue = currentNode.value;
             numberOfEntries--;
         }
@@ -219,8 +219,7 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
      * A public method that inherited from the MapInterface to verify whether
      * the hash table is empty.
      *
-     * @return True if the number pair of dictionary entities is 0, False if
-     * not.
+     * @return True if the number pair of dictionary entries is 0, False if not.
      */
     @Override
     public boolean isEmpty() {
@@ -241,10 +240,10 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
 
     /**
      * A public method that inherited from the MapInterface to get the number
-     * pair of dictionary entities.
+     * pair of dictionary entries.
      *
-     * @return An integer value that represents the number of dictionary
-     * entities.
+     * @return An integer value that represents the number of dictionary.
+     * entries.
      */
     @Override
     public int size() {
