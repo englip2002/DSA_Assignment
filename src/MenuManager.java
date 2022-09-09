@@ -645,19 +645,10 @@ public class MenuManager implements Serializable {
                 }
             }
         }
-<<<<<<< HEAD
 
-    }
-    // }
-
-    //System.out.println("Total package found: "+totalNumber);
-
-    //}
-=======
         System.out.println("Total package found: " + totalNumber);
 
     }
->>>>>>> 5cc28879b5d6cc2702f511573eaad3a770e0afa8
 
     private MenuItem searchSpecificMenuItemByID(String menuItemID) {
         for (MenuItem menuItem : menuItemSet) {
@@ -671,7 +662,7 @@ public class MenuManager implements Serializable {
 
     private static int getLastPackageID(SetInterface<Package> packageSet) {
         String lastPackageID = packageSet.getElementAtPos(packageSet.getNumberOfEntries() - 1).getPackageID();
-        lastPackageID = lastPackageID.substring(1, 7);
+        lastPackageID = lastPackageID.substring(2, 7);
 
         return Integer.parseInt(lastPackageID);
     }
