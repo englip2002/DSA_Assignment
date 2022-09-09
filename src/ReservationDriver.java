@@ -556,6 +556,7 @@ public class ReservationDriver {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         if (displayChoice == 1) {
             // sort by reserve date
+            //insertion sort
             int indexOfSmallest = 0;
             for (int i = 0; i < reservationList.getNumberOfEntries() - 1; i++) {
                 for (int j = i; j < reservationList.getNumberOfEntries(); j++) {
