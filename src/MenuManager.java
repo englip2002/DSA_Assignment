@@ -19,6 +19,8 @@ public class MenuManager implements Serializable {
     private SetInterface<Package> packageSet;
     // Individual and separate menu item array set
     private SetInterface<MenuItem> menuItemSet;
+    Package pckg;
+    MenuItem menuItem;
     private Scanner scanner;
 
     // Constructor --> Initialize the packages and menu items
@@ -28,6 +30,21 @@ public class MenuManager implements Serializable {
         menuItemFile = new FileHandler("MenuItem.dat");
         packageSet = (SetInterface) menuFile.read();
         menuItemSet = (SetInterface) menuItemFile.read();
+
+        if(packageSet != null){
+            pckg = new Package(getLastPackageID(packageSet));
+        }
+        else{
+            pckg = new Package();
+        }
+
+        if(menuItemSet != null){
+            menuItem = new MenuItem(getLastMenuItemID(menuItemSet));
+        }
+        else{
+            menuItem = new MenuItem();
+        }
+
         // packageSet = new ArraySet<Package>();
         // menuItemSet = new ArraySet<MenuItem>();
         scanner = new Scanner(System.in);
@@ -50,6 +67,8 @@ public class MenuManager implements Serializable {
         // graham crocker crust."));
 
         // menuFile.write(packageSet);
+        // packageSet = (SetInterface) menuFile.read();
+        // menuItemSet = (SetInterface) menuItemFile.read();
         // menuItemFile.write(menuItemSet);
         // menuItemFile.write(menuItemSet);
 
@@ -198,8 +217,12 @@ public class MenuManager implements Serializable {
             // Use a temporay object to store that remove particular object
             Package temp = searchSpecificPackageByID(inputRemovePackageID);
 
-            packageSet.remove(temp);
-            System.out.println("You had remove successfully!");
+            if (temp != null) {
+                packageSet.remove(temp);
+                System.out.println("You had remove successfully!");
+            } else {
+                System.out.println("Removed Failed!");
+            }
 
             do {
                 System.out.print("\nDo you want to continue remove package(Y = yes N = no)? ");
@@ -261,8 +284,12 @@ public class MenuManager implements Serializable {
 
             MenuItem temp = searchSpecificMenuItemByID(inputRemoveMenuItemID);
 
-            menuItemSet.remove(temp);
-            System.out.println("You had remove successfully!");
+            if (temp == null) {
+                menuItemSet.remove(temp);
+                System.out.println("You had remove successfully!");
+            } else {
+                System.out.println("Remove Failed!");
+            }
 
             do {
                 System.out.print("\nDo you want to continue remove menu item(Y = yes N = no)? ");
@@ -361,10 +388,10 @@ public class MenuManager implements Serializable {
 
     // Naming problem
     private Package searchMenuItemInPackageByID(String inputMenuItemID, Package pckg) {
-        
+
         MenuItem menuItem;
 
-        for (int i = 0; i < pckg.getAllMenuPackage().getNumberOfEntries(); i ++) {
+        for (int i = 0; i < pckg.getAllMenuPackage().getNumberOfEntries(); i++) {
             if (pckg.getAllMenuPackage().getElementAtPos(i).getMenuItemID().equals(inputMenuItemID)) {
                 menuItem = pckg.getAllMenuPackage().getElementAtPos(i);
                 pckg.removeMenuItemFromPackage(menuItem);
@@ -606,21 +633,20 @@ public class MenuManager implements Serializable {
         System.out.println("Total package found: " + totalNumber);
     }
 
-    private void searchMenuItemByName(String menuItemName){
-    int totalNumber = 0;
+    private void searchMenuItemByName(String menuItemName) {
+        int totalNumber = 0;
 
-    for(int i = 0; i < packageSet.getNumberOfEntries(); i++){
-        for(int j = 0; j < packageSet.getElementAtPos(i).getAllMenuPackage().getNumberOfEntries(); i++){
-                if(packageSet.getElementAtPos(i).getAllMenuPackage().getElementAtPos(j).getMenuItemName().equals(menuItemName)){
+        for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
+            for (int j = 0; j < packageSet.getElementAtPos(i).getAllMenuPackage().getNumberOfEntries(); i++) {
+                if (packageSet.getElementAtPos(i).getAllMenuPackage().getElementAtPos(j).getMenuItemName()
+                        .equals(menuItemName)) {
                     System.out.println(packageSet.toString());
+                    totalNumber++;
                 }
+            }
         }
-    }
+        System.out.println("Total package found: " + totalNumber);
 
-    }
-    // }
-
-    System.out.println("Total package found: " + totalNumber);
     }
 
     private MenuItem searchSpecificMenuItemByID(String menuItemID) {
@@ -631,5 +657,19 @@ public class MenuManager implements Serializable {
         }
         System.out.println("Menu Item do not exist!");
         return null;
+    }
+
+    private static int getLastPackageID(SetInterface<Package> packageSet) {
+        String lastPackageID = packageSet.getElementAtPos(packageSet.getNumberOfEntries() - 1).getPackageID();
+        lastPackageID = lastPackageID.substring(1, 7);
+
+        return Integer.parseInt(lastPackageID);
+    }
+
+    private static int getLastMenuItemID(SetInterface<MenuItem> menuItemSet) {
+        String lastMenuItemID = menuItemSet.getElementAtPos(menuItemSet.getNumberOfEntries() - 1).getMenuItemID();
+        lastMenuItemID = lastMenuItemID.substring(1, 6);
+
+        return Integer.parseInt(lastMenuItemID);
     }
 }

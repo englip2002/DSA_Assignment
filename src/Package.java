@@ -28,6 +28,12 @@ public class Package implements Serializable {
         this.menuPackage = new ArraySet<>();
     }
 
+    public Package(int lastPackageIDCounter){
+        packageCounter = lastPackageIDCounter + 1;
+        this.packageID = generatePackageID();
+        this.menuPackage = new ArraySet<>();
+    }
+
     public Package(String packageName, double packagePrice, int menuItemLimit, String packageDescription) {
         this.packageName = packageName;
         this.packagePrice = packagePrice;
