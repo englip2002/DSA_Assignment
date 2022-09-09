@@ -157,7 +157,6 @@ public class MenuManager implements Serializable {
 
         System.out.println("You had added successfully!!");
 
-        displayPackage();
     }
 
     public void removePackage() {
@@ -272,11 +271,12 @@ public class MenuManager implements Serializable {
     public void removeMenuItemFromPackage() {
 
         String inputMenuItemID;
+        String inputPackageID;
 
         displayPackage();
         scanner.nextLine();
         System.out.print("Please enter package ID that you would like to remove menu item: ");
-        String inputPackageID = scanner.nextLine();
+        inputPackageID = scanner.nextLine();
 
         Package temp = searchSpecificPackageByID(inputPackageID);
 
