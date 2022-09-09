@@ -16,7 +16,6 @@ public class Package implements Serializable {
     private int menuItemLimit;
     private String packageDescription;
     private static int packageCounter = 1;
-    // private static int menuItemInPackageCounter = 0;
     private SetInterface<MenuItem> packageMenuItems; // To store the menuItem in the array set of menuPackage
 
     // Constructor
@@ -25,12 +24,6 @@ public class Package implements Serializable {
         this.packageName = "";
         this.packagePrice = 0;
         this.packageDescription = "";
-        this.packageMenuItems = new ArraySet<>();
-    }
-
-    public Package(int lastPackageIDCounter) {
-        packageCounter = lastPackageIDCounter + 1;
-        this.packageID = generatePackageID();
         this.packageMenuItems = new ArraySet<>();
     }
 
@@ -90,10 +83,6 @@ public class Package implements Serializable {
         return packageMenuItems;
     }
 
-    // public int getMenuItemInPackageCounter() {
-    // return menuItemInPackageCounter;
-    // }
-
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
@@ -123,25 +112,6 @@ public class Package implements Serializable {
     public void removeMenuItemFromPackage(MenuItem menuItem) {
         packageMenuItems.remove(menuItem);
     }
-
-    // public boolean modifyPackage(String packageID, String modifiedPackageName,
-    // double modifiedPackagePrice,
-    // String modifiedPackageDescp) {
-
-    // SetInterface<Package> searchPackage = new ArraySet<Package>();
-    // Iterator iterator = searchPackage.iterator();
-
-    // while (iterator.hasNext()) {
-    // Package temp = (Package) iterator.next();
-    // if (temp.getPackageID().matches(packageID)) {
-    // temp.setPackageName(modifiedPackageName);
-    // temp.setPackagePrice(modifiedPackagePrice);
-    // temp.setPackageDescription(modifiedPackageDescp);
-    // return true;
-    // }
-    // }
-    // return false;
-    // }
 
     private String generatePackageID() {
 
