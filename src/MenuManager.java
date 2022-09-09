@@ -552,6 +552,7 @@ public class MenuManager implements Serializable {
                 scanner.nextLine();
                 System.out.print("Enter menu item name: ");
                 menuItemName = scanner.nextLine();
+                searchMenuItemByName(menuItemName);
 
             default:
                 System.out.println("Invalid input!");
@@ -605,20 +606,22 @@ public class MenuManager implements Serializable {
         System.out.println("Total package found: " + totalNumber);
     }
 
-    // private void searchMenuItemByName(String menuItemName){
-    // int totalNumber = 0;
-    // int i = 0;
-    // for (Package pckg : packageSet) {
-    //     i++;
-    // if (pckg.getAllMenuPackage().getElementAtPos(i).) {
-    // totalNumber++;
-    // System.out.println(pckg.toString());
+    private void searchMenuItemByName(String menuItemName){
+    int totalNumber = 0;
 
-    // }
-    // // }
+    for(int i = 0; i < packageSet.getNumberOfEntries(); i++){
+        for(int j = 0; j < packageSet.getElementAtPos(i).getAllMenuPackage().getNumberOfEntries(); i++){
+                if(packageSet.getElementAtPos(i).getAllMenuPackage().getElementAtPos(j).getMenuItemName().equals(menuItemName)){
+                    System.out.println(packageSet.toString());
+                }
+        }
+    }
 
-    // System.out.println("Total package found: " + totalNumber);
+    }
     // }
+
+    System.out.println("Total package found: " + totalNumber);
+    }
 
     private MenuItem searchSpecificMenuItemByID(String menuItemID) {
         for (MenuItem menuItem : menuItemSet) {
