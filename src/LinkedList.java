@@ -138,7 +138,6 @@ public class LinkedList<T> implements ListInterface<T>, Serializable {
         } else {
             return "No data contained!";
         }
-
     }
 
     // inner class
