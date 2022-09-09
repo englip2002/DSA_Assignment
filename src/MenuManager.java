@@ -175,7 +175,7 @@ public class MenuManager implements Serializable {
                     System.out.println("You had key in invalid input. Please key in again!");
                 }
             } while (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N');
-        } while (Character.toUpperCase(continueChoice) != 'Y');
+        } while (Character.toUpperCase(continueChoice) != 'N');
     }
 
     public void removePackage() {
@@ -199,6 +199,7 @@ public class MenuManager implements Serializable {
             Package temp = searchSpecificPackageByID(inputRemovePackageID);
 
             packageSet.remove(temp);
+            System.out.println("You had remove successfully!");
 
             do {
                 System.out.print("\nDo you want to continue remove package(Y = yes N = no)? ");
@@ -207,7 +208,7 @@ public class MenuManager implements Serializable {
                     System.out.println("You had key in invalid input. Please key in again!");
                 }
             } while (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N');
-        } while (Character.toUpperCase(continueChoice) != 'Y');
+        } while (Character.toUpperCase(continueChoice) != 'N');
     }
 
     public void addNewMenuItem() {
@@ -230,7 +231,7 @@ public class MenuManager implements Serializable {
 
             // Create new package information and add into the packageSet
             menuItemSet.add(new MenuItem(inputMenuItemCategory, inputMenuItemName, inputMenuItemDescription));
-
+            System.out.println("You had added successfully!");
             do {
                 System.out.print("\nDo you want to continue add menu item(Y = yes N = no)? ");
                 continueChoice = scanner.nextLine().charAt(0);
@@ -238,25 +239,39 @@ public class MenuManager implements Serializable {
                     System.out.println("You had key in invalid input. Please key in again!");
                 }
             } while (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N');
-        } while (Character.toUpperCase(continueChoice) != 'Y');
+        } while (Character.toUpperCase(continueChoice) != 'N');
     }
 
     public void removeMenuItem() {
-        System.out.println("\n");
 
-        System.out.println("\t  REMOVE MENU ITEM: ");
-        System.out.println("\t=========================");
+        char continueChoice;
 
-        // Step 1: Display the menu items
-        displayMenuItems();
+        do {
+            System.out.println("\n");
 
-        // Step 2: Let user to choose which menu item to remove
-        System.out.print("Please enter Menu Item ID that you want remove: ");
-        String inputRemoveMenuItemID = scanner.nextLine();
+            System.out.println("\t  REMOVE MENU ITEM: ");
+            System.out.println("\t=========================");
 
-        MenuItem temp = searchSpecificMenuItemByID(inputRemoveMenuItemID);
+            // Step 1: Display the menu items
+            displayMenuItems();
 
-        menuItemSet.remove(temp);
+            // Step 2: Let user to choose which menu item to remove
+            System.out.print("Please enter Menu Item ID that you want remove: ");
+            String inputRemoveMenuItemID = scanner.nextLine();
+
+            MenuItem temp = searchSpecificMenuItemByID(inputRemoveMenuItemID);
+
+            menuItemSet.remove(temp);
+            System.out.println("You had remove successfully!");
+
+            do {
+                System.out.print("\nDo you want to continue remove menu item(Y = yes N = no)? ");
+                continueChoice = scanner.nextLine().charAt(0);
+                if (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N') {
+                    System.out.println("You had key in invalid input. Please key in again!");
+                }
+            } while (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N');
+        } while (Character.toUpperCase(continueChoice) != 'N');
     }
 
     public void continueAddMenuItemToPackage() {
@@ -315,23 +330,34 @@ public class MenuManager implements Serializable {
         String inputMenuItemID;
         String inputPackageID;
 
-        displayPackage();
-        scanner.nextLine();
-        System.out.print("Please enter package ID that you would like to remove menu item: ");
-        inputPackageID = scanner.nextLine();
+        char continueChoice;
 
-        Package temp = searchSpecificPackageByID(inputPackageID);
-
-        if (temp.getAllMenuPackage() != null) {
-            temp.toString();
+        do {
+            displayPackage();
             scanner.nextLine();
-            System.out.print("Please enter menu item ID that you would like remove from this package: ");
-            inputMenuItemID = scanner.nextLine();
-            temp = searchMenuItemInPackageByID(inputMenuItemID);
-            temp.toString();
-        } else {
-            System.out.println("There do not have menu item inside the package!");
-        }
+            System.out.print("Please enter package ID that you would like to remove menu item: ");
+            inputPackageID = scanner.nextLine();
+
+            Package temp = searchSpecificPackageByID(inputPackageID);
+
+            if (temp.getAllMenuPackage() != null) {
+                temp.toString();
+                scanner.nextLine();
+                System.out.print("Please enter menu item ID that you would like remove from this package: ");
+                inputMenuItemID = scanner.nextLine();
+                temp = searchMenuItemInPackageByID(inputMenuItemID);
+                temp.toString();
+            } else {
+                System.out.println("There do not have menu item inside the package!");
+            }
+            do {
+                System.out.print("\nDo you want to continue remove menu item from package(Y = yes N = no)? ");
+                continueChoice = scanner.nextLine().charAt(0);
+                if (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N') {
+                    System.out.println("You had key in invalid input. Please key in again!");
+                }
+            } while (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N');
+        } while (Character.toUpperCase(continueChoice) != 'N');
 
     }
 
@@ -353,60 +379,84 @@ public class MenuManager implements Serializable {
     }
 
     public void modifyPackage() {
-        System.out.println("\n");
-        displayPackage();
-        System.out.println("\n");
 
-        System.out.print("Please enter the package ID that you want to modify: ");
-        String inputPackageID = scanner.nextLine();
+        char continueChoice;
+        double modifyPrice, modifiedPrice;
 
-        Package pckg = searchSpecificPackageByID(inputPackageID);
+        do {
+            System.out.println("\n");
+            displayPackage();
+            System.out.println("\n");
 
-        displayModifyTable();
-        int inputModifyChoice = scanner.nextInt();
+            System.out.print("Please enter the package ID that you want to modify: ");
+            String inputPackageID = scanner.nextLine();
 
-        scanner.nextLine();
+            Package pckg = searchSpecificPackageByID(inputPackageID);
 
-        switch (inputModifyChoice) {
-            case 1:
-                System.out.print("Enter new package name: ");
-                String modifiedName = scanner.nextLine();
-                pckg.setPackageName(modifiedName);
-                break;
-            case 2:
-                System.out.print("Enter new package price: RM ");
-                double modifiedPrice = scanner.nextDouble();
-                pckg.setPackagePrice(modifiedPrice);
-                break;
-            case 3:
-                System.out.print("Enter new package description: ");
-                String modifiedDescrip = scanner.nextLine();
-                pckg.setPackageDescription(modifiedDescrip);
-                break;
-            case 4:
-                System.out.println("Enter new menu item limit: ");
-                int modifiedLimit = scanner.nextInt();
-                pckg.setMenuItemLimit(modifiedLimit);
-                break;
-            case 5:
-                System.out.print("Enter new package name: ");
-                String modifyName = scanner.nextLine();
-                pckg.setPackageName(modifyName);
+            displayModifyTable();
+            int inputModifyChoice = scanner.nextInt();
 
-                System.out.print("Enter new package price: RM ");
-                double modifyPrice = scanner.nextDouble();
-                pckg.setPackagePrice(modifyPrice);
+            scanner.nextLine();
 
-                System.out.println("Enter new menu item limit: ");
-                int modifyLimit = scanner.nextInt();
-                pckg.setMenuItemLimit(modifyLimit);
+            switch (inputModifyChoice) {
+                case 1:
+                    System.out.print("Enter new package name: ");
+                    String modifiedName = scanner.nextLine();
+                    pckg.setPackageName(modifiedName);
+                    break;
+                case 2:
+                    do {
+                        System.out.print("Enter new package price: RM ");
+                        modifiedPrice = scanner.nextDouble();
+                        if (modifiedPrice <= 0) {
+                            System.out.println("Price must be more than RM 0 ! Please enter again!");
+                        }
+                    } while (modifiedPrice <= 0);
+                    pckg.setPackagePrice(modifiedPrice);
+                    break;
+                case 3:
+                    System.out.print("Enter new package description: ");
+                    String modifiedDescrip = scanner.nextLine();
+                    pckg.setPackageDescription(modifiedDescrip);
+                    break;
+                case 4:
+                    System.out.println("Enter new menu item limit: ");
+                    int modifiedLimit = scanner.nextInt();
+                    pckg.setMenuItemLimit(modifiedLimit);
+                    break;
+                case 5:
+                    System.out.print("Enter new package name: ");
+                    String modifyName = scanner.nextLine();
+                    pckg.setPackageName(modifyName);
 
-                System.out.print("Enter new package description: ");
-                String modifyDescrip = scanner.nextLine();
-                pckg.setPackageDescription(modifyDescrip);
+                    do {
+                        System.out.print("Enter new package price: RM ");
+                        modifyPrice = scanner.nextDouble();
+                        if (modifyPrice <= 0) {
+                            System.out.println("Price must be more than RM 0 ! Please enter again!");
+                        }
+                    } while (modifyPrice <= 0);
+                    pckg.setPackagePrice(modifyPrice);
 
-                break;
-        }
+                    System.out.println("Enter new menu item limit: ");
+                    int modifyLimit = scanner.nextInt();
+                    pckg.setMenuItemLimit(modifyLimit);
+
+                    System.out.print("Enter new package description: ");
+                    String modifyDescrip = scanner.nextLine();
+                    pckg.setPackageDescription(modifyDescrip);
+
+                    break;
+            }
+            do {
+                System.out.print("\nDo you want to continue modify package(Y = yes N = no)? ");
+                continueChoice = scanner.nextLine().charAt(0);
+                if (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N') {
+                    System.out.println("You had key in invalid input. Please key in again!");
+                }
+            } while (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N');
+        } while (Character.toUpperCase(continueChoice) != 'N');
+
     }
 
     private void displayModifyTable() {
@@ -483,12 +533,21 @@ public class MenuManager implements Serializable {
                 }
                 break;
             case 2:
-                System.out.print("Enetr the price range (Maximum): RM ");
-                maxInputPrice = scanner.nextDouble();
                 do {
                     System.out.print("Enetr the price range (Minimum): RM ");
                     minInputPrice = scanner.nextDouble();
-                } while (minInputPrice > maxInputPrice);
+
+                    do {
+                        System.out.print("Enetr the price range (Maximum): RM ");
+                        maxInputPrice = scanner.nextDouble();
+                        if (minInputPrice > maxInputPrice) {
+                            System.out.println("Maximum price range must bigger than the minimum price range!");
+                        }
+                    } while (minInputPrice > maxInputPrice);
+                    if (maxInputPrice <= 0 && minInputPrice <= 0) {
+                        System.out.println("Price must more than RM 0 ! Please enter agian. ");
+                    }
+                } while (maxInputPrice <= 0 && minInputPrice <= 0);
                 System.out.println("\n");
                 searchPackageByPrice(maxInputPrice, minInputPrice);
                 break;
