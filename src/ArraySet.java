@@ -193,7 +193,7 @@ public class ArraySet<T> implements SetInterface<T>, Serializable {
     // Innner class
     private class SetIterator implements Iterator<T> {
 
-        int currentIndex;
+        private int currentIndex;
 
         public SetIterator() {
             currentIndex = 0;
