@@ -185,13 +185,13 @@ public class ReservationDriver {
                                         System.out.print("Enter your food choice:");
                                         menuItemChoice = scanner.nextInt();
 
-                                        if (menuItemChoice > reservation.getChoosenPackage().getAllMenuPackage()
+                                        if (menuItemChoice > reservation.getChoosenPackage().getAllPackageMenuItems()
                                                 .getNumberOfEntries()
                                                 || menuItemChoice < 1) {
                                             System.out.println("invalid Choice!");
                                         }
                                     } while (menuItemChoice > reservation.getChoosenPackage()
-                                            .getAllMenuPackage().getNumberOfEntries() || menuItemChoice < 1);
+                                            .getAllPackageMenuItems().getNumberOfEntries() || menuItemChoice < 1);
 
                                     // enter quantity
                                     System.out.print("Please Enter Quantity:");
@@ -209,7 +209,8 @@ public class ReservationDriver {
                                     }
 
                                     // store into cart
-                                    MenuItem temp = packageSet.getElementAtPos(packageChoice - 1).getAllMenuPackage()
+                                    MenuItem temp = packageSet.getElementAtPos(packageChoice - 1)
+                                            .getAllPackageMenuItems()
                                             .getElementAtPos(menuItemChoice - 1);
                                     reservation.getFoodInCart().add(new FoodInCart(temp, menuItemQuantity));
 
@@ -220,7 +221,7 @@ public class ReservationDriver {
                                 } else {
                                     System.out.println("The total quantity of menu item has reached the limit ("
                                             + reservation.getChoosenPackage().getMenuItemLimit() + ")");
-                                            pressEnterToContinue(scanner);
+                                    pressEnterToContinue(scanner);
 
                                 }
 
@@ -274,7 +275,6 @@ public class ReservationDriver {
                                 System.out.println("===========");
                                 System.out.println(reservation.generateBill());
                                 pressEnterToContinue(scanner);
-
 
                                 reservation.checkOut();
                                 // add into array and write into file, else discard
@@ -556,7 +556,7 @@ public class ReservationDriver {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         if (displayChoice == 1) {
             // sort by reserve date
-            //insertion sort
+            // insertion sort
             int indexOfSmallest = 0;
             for (int i = 0; i < reservationList.getNumberOfEntries() - 1; i++) {
                 for (int j = i; j < reservationList.getNumberOfEntries(); j++) {

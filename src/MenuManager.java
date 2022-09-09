@@ -13,57 +13,57 @@ public class MenuManager implements Serializable {
 
     // Class Attributes
     // File
-    private FileHandler menuFile;
-    private FileHandler menuItemFile;
+    private FileHandler<SetInterface<Package>> menuFile;
+    private FileHandler<SetInterface<MenuItem>> menuItemFile;
     // Individual and separate package array set
     private SetInterface<Package> packageSet;
     // Individual and separate menu item array set
     private SetInterface<MenuItem> menuItemSet;
-    Package pckg;
-    MenuItem menuItem;
     private Scanner scanner;
 
     // Constructor --> Initialize the packages and menu items
     public MenuManager() {
 
-        menuFile = new FileHandler("Menu.dat");
-        menuItemFile = new FileHandler("MenuItem.dat");
-        //for read from file
-        // packageSet = (SetInterface) menuFile.read();
-        // menuItemSet = (SetInterface) menuItemFile.read();
-
+        menuFile = new FileHandler<>("Menu.dat");
+        menuItemFile = new FileHandler<>("MenuItem.dat");
+        // for read from file
+        // packageSet = (SetInterface<Package>) menuFile.read();
+        // menuItemSet = (SetInterface<MenuItem>) menuItemFile.read();
 
         // if(packageSet != null){
-        //     pckg = new Package(getLastPackageID(packageSet));
+        // pckg = new Package(getLastPackageID(packageSet));
         // }
         // else{
-        //     pckg = new Package();
+        // pckg = new Package();
         // }
 
         // if(menuItemSet != null){
-        //     menuItem = new MenuItem(getLastMenuItemID(menuItemSet));
+        // menuItem = new MenuItem(getLastMenuItemID(menuItemSet));
         // }
         // else{
-        //     menuItem = new MenuItem();
+        // menuItem = new MenuItem();
         // }
-        
-        //for read from constructor
+
+        // for read from constructor
         packageSet = new ArraySet<Package>();
         menuItemSet = new ArraySet<MenuItem>();
         scanner = new Scanner(System.in);
 
-        // packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
-        // packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
-        // packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
-        // packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
+        packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
+        packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
+        packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
+        packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
         menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
         menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
         menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
         menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
 
-        //write into file
-        //menuFile.write(packageSet);
+        packageSet.getElementAtPos(0).addMenuItemToPackage(menuItemSet.getElementAtPos(0));
+
+        // write into file
+        menuFile.write(packageSet);
         menuItemFile.write(menuItemSet);
+
     }
 
     public void menuModule() {
@@ -177,6 +177,7 @@ public class MenuManager implements Serializable {
                         break;
                 }
             } while (Character.toUpperCase(choice) != 'N');
+            menuFile.write(packageSet);
             System.out.println("You had added successfully!!");
 
             do {
@@ -318,7 +319,7 @@ public class MenuManager implements Serializable {
     // Assign menu item to package
     private Package addMenuItemToPackage(Package pckg) {
         // Check the limit of the menu item in the package
-        if (pckg.getAllMenuPackage().getNumberOfEntries() > pckg.getMenuItemLimit()) {
+        if (pckg.getAllPackageMenuItems().getNumberOfEntries() > pckg.getMenuItemLimit()) {
             System.out.println("Cannot add menu item into the package since reached the volume limit!");
         } else {
             System.out.println("\n");
@@ -329,7 +330,7 @@ public class MenuManager implements Serializable {
             MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
 
             if (menuItemSet.contains(menuItem)) {
-                if (pckg.getAllMenuPackage().contains(menuItem)) {
+                if (pckg.getAllPackageMenuItems().contains(menuItem)) {
                     System.out.println("The menu item had added!");
                     // System.out.println("Please select again the menu item: ");
                 } else {
@@ -358,7 +359,7 @@ public class MenuManager implements Serializable {
 
             Package temp = searchSpecificPackageByID(inputPackageID);
 
-            if (temp.getAllMenuPackage() != null) {
+            if (temp.getAllPackageMenuItems() != null) {
                 temp.toString();
                 System.out.print("Please enter menu item ID that you would like remove from this package: ");
                 inputMenuItemID = scanner.nextLine();
@@ -383,9 +384,9 @@ public class MenuManager implements Serializable {
 
         MenuItem menuItem;
 
-        for (int i = 0; i < pckg.getAllMenuPackage().getNumberOfEntries(); i++) {
-            if (pckg.getAllMenuPackage().getElementAtPos(i).getMenuItemID().equals(inputMenuItemID)) {
-                menuItem = pckg.getAllMenuPackage().getElementAtPos(i);
+        for (int i = 0; i < pckg.getAllPackageMenuItems().getNumberOfEntries(); i++) {
+            if (pckg.getAllPackageMenuItems().getElementAtPos(i).getMenuItemID().equals(inputMenuItemID)) {
+                menuItem = pckg.getAllPackageMenuItems().getElementAtPos(i);
                 pckg.removeMenuItemFromPackage(menuItem);
                 return pckg;
             }
@@ -424,6 +425,7 @@ public class MenuManager implements Serializable {
                     do {
                         System.out.print("Enter new package price: RM ");
                         modifiedPrice = scanner.nextDouble();
+                        scanner.nextLine();
                         if (modifiedPrice <= 0) {
                             System.out.println("Price must be more than RM 0 ! Please enter again!");
                         }
@@ -436,8 +438,9 @@ public class MenuManager implements Serializable {
                     pckg.setPackageDescription(modifiedDescrip);
                     break;
                 case 4:
-                    System.out.println("Enter new menu item limit: ");
+                    System.out.print("Enter new menu item limit: ");
                     int modifiedLimit = scanner.nextInt();
+                    scanner.nextLine();
                     pckg.setMenuItemLimit(modifiedLimit);
                     break;
                 case 5:
@@ -454,9 +457,11 @@ public class MenuManager implements Serializable {
                     } while (modifyPrice <= 0);
                     pckg.setPackagePrice(modifyPrice);
 
-                    System.out.println("Enter new menu item limit: ");
+                    System.out.print("Enter new menu item limit: ");
                     int modifyLimit = scanner.nextInt();
                     pckg.setMenuItemLimit(modifyLimit);
+
+                    scanner.nextLine();
 
                     System.out.print("Enter new package description: ");
                     String modifyDescrip = scanner.nextLine();
@@ -586,8 +591,8 @@ public class MenuManager implements Serializable {
         System.out.println("\t  Search Package: ");
         System.out.println("\t===================");
 
-        System.out.println("1. Search By Pacakge Name");
-        System.out.println("2. Search By Pacakge Price");
+        System.out.println("1. Search By Package Name");
+        System.out.println("2. Search By Package Price");
         System.out.println("3. Search By Menu Item Name");
         System.out.print("Enter your choice (1 - 3): ");
     }
@@ -629,12 +634,16 @@ public class MenuManager implements Serializable {
         int totalNumber = 0;
 
         for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
-            for (int j = 0; j < packageSet.getElementAtPos(i).getAllMenuPackage().getNumberOfEntries(); i++) {
-                if (packageSet.getElementAtPos(i).getAllMenuPackage().getElementAtPos(j).getMenuItemName()
+            boolean searchFlag = false;
+            for (int j = 0; j < packageSet.getElementAtPos(i).getAllPackageMenuItems().getNumberOfEntries(); j++) {
+                if (packageSet.getElementAtPos(i).getAllPackageMenuItems().getElementAtPos(j).getMenuItemName()
                         .equals(menuItemName)) {
-                    System.out.println(packageSet.toString());
+                    searchFlag = true;
                     totalNumber++;
                 }
+            }
+            if (searchFlag) {
+                System.out.println(packageSet.getElementAtPos(i).toString());
             }
         }
 
