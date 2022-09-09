@@ -15,9 +15,15 @@ public class ReservationDriver {
     public static void ReservationModule(Customer customer) {
         // read file when starting
         // reservation
-        Reservation reservation = new Reservation(customer);
+        Reservation reservation;
         FileHandler reservationFile = new FileHandler("Reservations.dat");
-        ListInterface<Reservation> reservationList;
+        ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
+
+        if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
+            reservation = new Reservation(customer);
+        } else {
+            reservation = new Reservation(customer, getLastReservationID(reservationList));
+        }
 
         // package
         FileHandler packageFile = new FileHandler("Menu.dat");
@@ -65,6 +71,7 @@ public class ReservationDriver {
         do {
             // update the list every time loop
             reservationList = (ListInterface) reservationFile.read();
+
             System.out.println("\nReservation Module");
             System.out.println("========================");
             System.out.println("1. Make Reservation for current account");
@@ -75,7 +82,7 @@ public class ReservationDriver {
             do {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
-            } while (choice < 1 || choice > 4);
+            } while (choice < 1 || choice > 5);
 
             switch (choice) {
                 case 1:
@@ -267,7 +274,7 @@ public class ReservationDriver {
                             case 5:
                                 // checkout
                                 // confirm (print bill)
-                                System.out.println("Bills");
+                                System.out.println("\nBills");
                                 System.out.println("===========");
                                 System.out.println(reservation.generateBill());
                                 System.out.println("Press <Enter> to continue.");
@@ -339,8 +346,11 @@ public class ReservationDriver {
                                     scanner.nextLine();
                                     scanner.nextLine();
                                     break;
+                                default:
+                                    System.out.println("Invalid Choice!!");
+                                    break;
                             }
-                        } while (displayChoice != 4);
+                        } while (displayChoice != 4 && (displayChoice < 1 || displayChoice > 4));
 
                     }
                     break;
@@ -361,23 +371,25 @@ public class ReservationDriver {
                                 System.out.println("Exited!");
                                 System.out.println("Press <Enter> to continue.");
                                 scanner.nextLine();
-                            } else if (removeChoice > reservationList.getNumberOfEntries() || removeChoice < 1) {
+                            } else if ((removeChoice > reservationList.getNumberOfEntries()
+                                    || removeChoice < 1) && removeChoice != -1) {
                                 System.out.println("Invalid Choice!");
-                                System.out.println("Press <Enter> to continue.");
-                                scanner.nextLine();
                             } else {
                                 reservationList.remove(removeChoice - 1);
                                 reservationFile.write(reservationList);
+                                System.out.println("Removed Successfully!");
+                                System.out.println("Press <Enter> to continue.");
+                                scanner.nextLine();
                             }
 
-                        } while (removeChoice > reservationList.getNumberOfEntries()
-                                || (removeChoice <= 0 && removeChoice != -1));
+                        } while ((removeChoice > reservationList.getNumberOfEntries()
+                                || removeChoice < 1) && removeChoice != -1);
                     }
                     break;
                 case 4:
                     searchFlag = false;
                     // Search by date, Name
-                    System.out.println("Search");
+                    System.out.println("\nSearch");
                     System.out.println("===========");
                     System.out.println("1. By Reserve Date");
                     System.out.println("2. By Serve Date");
@@ -385,10 +397,14 @@ public class ReservationDriver {
                     do {
                         System.out.print("Enter your choice: ");
                         searchChoice = scanner.nextInt();
+
                         if (searchChoice < 1 || searchChoice > 3) {
                             System.out.println("Invalid Choice!");
                         }
                     } while (searchChoice < 1 || searchChoice > 3);
+
+                    // clear buffer
+                    searchName = scanner.nextLine();
 
                     if (searchChoice == 1) {
                         do {
@@ -411,13 +427,14 @@ public class ReservationDriver {
 
                         } while (dateValidity == false);
 
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
                         // print result
                         searchFlag = false;
                         int i = 0;
-                        System.out.println(
-                                String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
+                        System.out.print(
+                                String.format("\n%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No",
+                                        "ReservationID",
                                         "AccountID",
                                         "ContactNo",
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
@@ -425,7 +442,7 @@ public class ReservationDriver {
                             if (reservations.getReserveDate().format(formatter)
                                     .compareTo(searchTime.format(formatter)) == 0) {
                                 i++;
-                                System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                                System.out.print(String.format("%-3d %s", i, reservations.toString()));
                                 searchFlag = true;
                             }
                         }
@@ -455,8 +472,9 @@ public class ReservationDriver {
                         // print result
                         searchFlag = false;
                         int i = 0;
-                        System.out.println(
-                                String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
+                        System.out.print(
+                                String.format("\n%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No",
+                                        "ReservationID",
                                         "AccountID",
                                         "ContactNo",
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
@@ -465,19 +483,20 @@ public class ReservationDriver {
                             if (reservations.getServeDate().format(formatter)
                                     .compareTo(searchTime.format(formatter)) == 0) {
                                 i++;
-                                System.out.println(String.format("%-3d %-115s", i, reservations.toString()));
+                                System.out.print(String.format("%-3d %-115s", i, reservations.toString()));
                                 searchFlag = true;
                             }
                         }
-                    } else if (choice == 3) {
+                    } else if (searchChoice == 3) {
                         System.out.print("Enter Search Name: ");
                         searchName = scanner.nextLine();
 
                         // print result
                         searchFlag = false;
                         int i = 0;
-                        System.out.println(
-                                String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
+                        System.out.print(
+                                String.format("\n%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No",
+                                        "ReservationID",
                                         "AccountID",
                                         "ContactNo",
                                         "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus"));
@@ -497,7 +516,14 @@ public class ReservationDriver {
 
                     System.out.println("Press <Enter> to continue.");
                     scanner.nextLine();
+                    break;
+
+                case 5:
+                    System.out.println("Exited!!");
+                    System.out.println("Press <Enter> to continue.");
                     scanner.nextLine();
+                    scanner.nextLine();
+                    break;
             }
 
         } while (choice != 5);
@@ -545,11 +571,11 @@ public class ReservationDriver {
 
     public static ListInterface<Reservation> sortReservation(ListInterface<Reservation> reservationList,
             int displayChoice) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         if (displayChoice == 1) {
             // sort by reserve date
             int indexOfSmallest = 0;
-            for (int i = 1; i < reservationList.getNumberOfEntries(); i++) {
+            for (int i = 0; i < reservationList.getNumberOfEntries() - 1; i++) {
                 for (int j = i; j < reservationList.getNumberOfEntries(); j++) {
                     if (reservationList.getEntry(j).getReserveDate().format(formatter)
                             .compareTo(
@@ -565,11 +591,11 @@ public class ReservationDriver {
         } else {
             // sort by serve date
             int indexOfSmallest = 0;
-            for (int i = 1; i < reservationList.getNumberOfEntries(); i++) {
+            for (int i = 0; i < reservationList.getNumberOfEntries() - 1; i++) {
                 for (int j = i; j < reservationList.getNumberOfEntries(); j++) {
                     if (reservationList.getEntry(j).getServeDate()
-                            .isBefore(
-                                    reservationList.getEntry(indexOfSmallest).getServeDate())) {
+                            .compareTo(
+                                    reservationList.getEntry(indexOfSmallest).getServeDate()) < 0) {
 
                         indexOfSmallest = j;
                     }
@@ -599,5 +625,12 @@ public class ReservationDriver {
         str += ("Total Number of Reservation: " + reservationList.getNumberOfEntries());
         return str;
 
+    }
+
+    public static int getLastReservationID(ListInterface<Reservation> reservationList) {
+        String lastReservationID = reservationList.getEntry(reservationList.getNumberOfEntries() - 1)
+                .getReservationID();
+        lastReservationID = lastReservationID.substring(1, 6);
+        return Integer.parseInt(lastReservationID);
     }
 }

@@ -12,7 +12,15 @@ public class Reservation implements Serializable {
     private String reservationStatus;
     private Package choosenPackage;
     private ListInterface<FoodInCart> foodInCart;
-    private static int IDcounter = 1;
+    private static int IDcounter = 0;
+
+    public Reservation(Customer account, int latestIDCounter) {
+        IDcounter = latestIDCounter + 1;
+        this.customer = account;
+        this.reservationStatus = null;
+        foodInCart = new LinkedList<FoodInCart>();
+        reservationID = generareReservationID();
+    }
 
     public Reservation(Customer account) {
         this.customer = account;
@@ -35,19 +43,20 @@ public class Reservation implements Serializable {
     }
 
     // public void sortCart(){
-    //     //4 type of food
-    //     FoodInCart firstAppertizer=null;
-    //     FoodInCart firstMain=null;
-    //     FoodInCart firstBeverage=null;
-    //     FoodInCart firstDessert=null;
-    //     for (FoodInCart food : foodInCart) {
-    //         if(firstAppertizer==null&&food.getFood().getMenuItemCategory()=="Appertizer"){
-    //             firstAppertizer=food;
-    //         }
-    //         else if(firstMain==null&&food.getFood().getMenuItemCategory()=="Main Course"){
-                
-    //         }
-    //     }
+    // //4 type of food
+    // FoodInCart firstAppertizer=null;
+    // FoodInCart firstMain=null;
+    // FoodInCart firstBeverage=null;
+    // FoodInCart firstDessert=null;
+    // for (FoodInCart food : foodInCart) {
+    // if(firstAppertizer==null&&food.getFood().getMenuItemCategory()=="Appertizer"){
+    // firstAppertizer=food;
+    // }
+    // else if(firstMain==null&&food.getFood().getMenuItemCategory()=="Main
+    // Course"){
+
+    // }
+    // }
     // }
 
     public void reserveDetails(String contactNo, String serveLocation, LocalDateTime serveTime) {
@@ -60,9 +69,9 @@ public class Reservation implements Serializable {
         // format the bill
         String str = "";
         str += customer.toString() + "\n";
-        str += choosenPackage.getPackageName()+"\n";
+        str += choosenPackage.getPackageName() + "\n";
         str += String.format("%-5s %-10s %-10s\n", "No", "Dish Name",
-             "Quantity");
+                "Quantity");
         for (int i = 0; i < foodInCart.getNumberOfEntries(); i++) {
             str += foodInCart.getEntry(i).toString();
         }
@@ -102,9 +111,10 @@ public class Reservation implements Serializable {
         return serveTime;
     }
 
-    public Package getChoosenPackage(){
+    public Package getChoosenPackage() {
         return choosenPackage;
     }
+
     private String generareReservationID() {
         String reserveID = String.format("R%05d", IDcounter);
         IDcounter++;
@@ -116,8 +126,8 @@ public class Reservation implements Serializable {
         this.reservationStatus = status;
     }
 
-    public void setPackageChoice(Package packageChoice){
-        this.choosenPackage=packageChoice;
+    public void setPackageChoice(Package packageChoice) {
+        this.choosenPackage = packageChoice;
     }
 
 }
