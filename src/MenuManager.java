@@ -361,10 +361,10 @@ public class MenuManager implements Serializable {
 
     // Naming problem
     private Package searchMenuItemInPackageByID(String inputMenuItemID, Package pckg) {
-        
+
         MenuItem menuItem;
 
-        for (int i = 0; i < pckg.getAllMenuPackage().getNumberOfEntries(); i ++) {
+        for (int i = 0; i < pckg.getAllMenuPackage().getNumberOfEntries(); i++) {
             if (pckg.getAllMenuPackage().getElementAtPos(i).getMenuItemID().equals(inputMenuItemID)) {
                 menuItem = pckg.getAllMenuPackage().getElementAtPos(i);
                 pckg.removeMenuItemFromPackage(menuItem);
@@ -606,22 +606,24 @@ public class MenuManager implements Serializable {
         System.out.println("Total package found: " + totalNumber);
     }
 
-    private void searchMenuItemByName(String menuItemName){
-    int totalNumber = 0;
+    private void searchMenuItemByName(String menuItemName) {
+        int totalNumber = 0;
 
-    for(int i = 0; i < packageSet.getNumberOfEntries(); i++){
-        for(int j = 0; j < packageSet.getElementAtPos(i).getAllMenuPackage().getNumberOfEntries(); i++){
-                if(packageSet.getElementAtPos(i).getAllMenuPackage().getElementAtPos(j).getMenuItemName().equals(menuItemName)){
+        for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
+            for (int j = 0; j < packageSet.getElementAtPos(i).getAllMenuPackage().getNumberOfEntries(); i++) {
+                if (packageSet.getElementAtPos(i).getAllMenuPackage().getElementAtPos(j).getMenuItemName()
+                        .equals(menuItemName)) {
                     System.out.println(packageSet.toString());
                 }
+            }
         }
-    }
 
     }
     // }
 
-    System.out.println("Total package found: " + totalNumber);
-    }
+    //System.out.println("Total package found: "+totalNumber);
+
+    //}
 
     private MenuItem searchSpecificMenuItemByID(String menuItemID) {
         for (MenuItem menuItem : menuItemSet) {
