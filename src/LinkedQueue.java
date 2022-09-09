@@ -6,10 +6,10 @@
 
 import java.util.Iterator;
 import java.io.Serializable;
-import java.util.List;
 
 public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
     // Class attributes
+    private int size;
     private Node firstNode, lastNode;
 
     // Private Node class
@@ -28,6 +28,7 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
     public LinkedQueue() {
         firstNode = null;
         lastNode = null;
+        size = 0;
     }
 
     // Methods
@@ -43,6 +44,7 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
             lastNode.next = newNode;
             lastNode = newNode;
         }
+        size++;
     }
 
     @Override
@@ -60,13 +62,18 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
         if (isEmpty()) {
             lastNode = null;
         }
-
+        size--;
         return output;
     }
 
     @Override
     public T getFront() {
         return firstNode.data;
+    }
+    
+    @Override 
+    public int size() {
+        return size;
     }
 
     @Override
@@ -80,6 +87,7 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
     public void clear() {
         firstNode = null;
         lastNode = null;
+        size = 0;
     }
 
     // Iterator class

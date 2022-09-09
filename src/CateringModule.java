@@ -7,25 +7,25 @@
 
 import java.util.Scanner;
 public class CateringModule {
+    private CateringManager manager = new CateringManager();
+    private Scanner scanner = new Scanner(System.in);
     
-    static Scanner scanner = new Scanner(System.in);
-    
-    public static void main(String[] args) {
-        
-        FileHandler file = new FileHandler("cateringQueue.dat");
-        CateringQueue catering = (CateringQueue) file.read();
-
+    public void runModule() {
         int menuChoice = 0;
-        
-        while (menuChoice != 5) {
+        while (menuChoice != 8) {
             // Show options menu
-            System.out.println("Choose an option: ");
-            System.out.println("\t1) Order dish");
-            System.out.println("\t2) Serve the next dish");
-            System.out.println("\t3) Show all served dishes");
-            System.out.println("\t4) Show all unserved dishes in queue");
-            System.out.println("\t5) Quit to main menu");
+            System.out.println("    --- Catering Module ---    ");
             System.out.println("==============================");
+            System.out.println("  1) Add dish to waiting queue");
+            System.out.println("  2) Assign next dish in queue to a kitchen");
+            System.out.println("  3) Serve a dish from a kitchen");
+            System.out.println("  4) Manage kitchen details");
+            System.out.println("  5) Display waiting queue");
+            System.out.println("  6) Display list of kitchens");
+            System.out.println("  7) Search for a dish in queue");
+            System.out.println("  8) Quit to main menu");
+            System.out.println("==============================");
+            System.out.print("Choose an option: ");
             
             // Get choice of input
             try {
@@ -37,71 +37,65 @@ public class CateringModule {
             
             // Run function based on selected option
             switch(menuChoice) {
-                // Order dish, i.e. Add dish to ordering queue
+                // Add dish to waiting queue
                 case 1:
-                    // >> Ini waiting EngLip
-                    // Add dish from a selected reservation
-                    // OR
-                    // Add ALL dishes from a selected reservation
-                    Dish newDish = null;
-                    catering.addDish(newDish);
+                    manager.addDishToWaitingQueue();
                     enterToContinue();
                     break;
-                    
-                // Serve the next dish
+                // Assign next dish in queue to a kitchen
                 case 2:
-                    Dish nextDish = catering.peekTopDish();
-                    System.out.println("Are you sure you want to serve the following dish?");
-                    System.out.println(nextDish);
-                    System.out.print("Please enter Y/N: ");
-                    String option = scanner.nextLine();
-                    if (option.length() == 0 || (option.length() == 1 && Character.toLowerCase(option.charAt(0)) == 'y')) {
-                        catering.serveTopDish();
-                        System.out.println("The dish is served. ");
-                    }
-                    else {
-                        System.out.println("Operation cancelled. ");
-                    }
+                    manager.assignNextDishToKitchen();
+                    enterToContinue();
                     break;
-                    
-                // Show all the served dishes
+                // Serve a dish from a kitchen
                 case 3:
-                    catering.showServedDishes();
+                    manager.serveDishFromKitchen();
                     enterToContinue();
                     break;
-                    
-                // Show all the unserved dishes (All the dishes in queue)
+                // Manage Kitchen details (Add, edit, delete)
                 case 4:
-                    catering.showDishesInQueue();
+                    manager.manageKitchenDetails();
+                    break;
+                // Display waiting queue
+                case 5:
+                    manager.displayWaitingQueue();
                     enterToContinue();
                     break;
-                   
-                // Quit to main menu
-                case 5:
+                // Display list of kitchens
+                case 6:
+                    manager.displayKitchens();
+                    enterToContinue();
                     break;
-                    
-                // Error handling
+                // Search for a dish in queue (Both waiting queue and kitchen's cooking queue)
+                case 7:
+                    manager.searchDishInQueue();
+                    break;
+                // Quit to main menu
+                case 8:
+                    break;
                 default:
                     System.out.println("Invalid input, please re-enter. ");
                     enterToContinue();
                     break;
             }
             
-            // Save data to file
-            if (menuChoice == 1 || menuChoice == 2) {
-                file.write(catering);
-            }
-            
-            System.out.println("\n\n");
+            manager.saveToFile();
         }
         
         // Quit catering module
         System.out.println("Quitting to main menu...");
+        scanner.close();
     }
     
-    
-    private static void enterToContinue() {
+    // Prompt the user to press enter to continue
+    private void enterToContinue() {
         System.out.print("---< Press Enter to Continue >---");
         scanner.nextLine();
+        System.out.println();
+    }
+    
+    // Main method
+    public static void main(String[] args) {
+        new CateringModule().runModule();
     }
 }

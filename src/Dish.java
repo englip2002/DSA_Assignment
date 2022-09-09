@@ -6,41 +6,40 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.Duration;
 
 public class Dish implements Serializable {
     // Class attributes
-    private static int nextId = 0001;
-    private int id;                     // ID
-    private MenuItem food;                  // The food type of this dish
-    private int serveQuantity;          // Serve quantity of this dish
-    private LocalDateTime orderTime;    // The time that this dish was added to queue
-    private LocalDateTime serveTime;    // The time that this dish is served out to the buffet
-    private boolean foodFinished;       // To state if the food on the dish is finished or not
-    private String status;              // notStarted / inQueue / served
+    private static int nextId = 1;      // Next ID to be assigned to the next created Dish
+    private String id;                  // Unique ID of this Dish
+    private MenuItem food;              // The food type of this dish
+    private LocalDateTime orderTime;    // The time that this dish was added to the watiing queue
+    private LocalDateTime cookingTime;  // The time that this dish was added to a kitchen's cooking queue
+    private String status;              // Waiting / Cooking / Served
+    
     private static DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     
     // Constructor
-    public Dish(MenuItem food) {
-        this.food = food;
-        this.id = nextId;
+    public Dish(MenuItem menuItem) {
+        this.food = menuItem;
+        this.id = "D" + String.format("%03d", nextId);
         nextId++;
-        this.status = "notStarted";
+        this.status = "Waiting";
+        this.orderTime = LocalDateTime.now();
     }
     
-    
     // Methods
-    public void queueDish() {
-        status = "inQueue";
-        orderTime = LocalDateTime.now();
+    public void cookDish() {
+        status = "Cooking";
+        cookingTime = LocalDateTime.now();
     }
     
     public void serveDish() {
-        serveTime = LocalDateTime.now();
-        status = "served";
+        status = "Served";
     }
     
     // Getters
-    public int getId() {
+    public String getId() {
         return id;
     }
     
@@ -48,24 +47,37 @@ public class Dish implements Serializable {
         return food;
     }
     
-    public int getServeQuantity() {
-        return serveQuantity;
+    
+    public LocalDateTime getOrderTime() {
+        return orderTime;
     }
     
-    public LocalDateTime getServeTime() {
-        return serveTime;
+    public LocalDateTime getCookingTime() {
+        return cookingTime;
+    }
+    
+    public String getDurationSinceOrder() {
+        Duration duration = Duration.between(orderTime, LocalDateTime.now());
+        long secondsRemainder = duration.toSeconds() % 60;
+        return duration.toMinutes() + " minutes " + secondsRemainder + " seconds";
+    }
+    
+    
+    public String getDurationSinceCooking() {
+        if (inCookingQueue() || isServed()) {
+            Duration duration = Duration.between(cookingTime, LocalDateTime.now());
+            long secondsRemainder = duration.toSeconds() % 60;
+            return duration.toMinutes() + " minutes " + secondsRemainder + " seconds";
+        }
+        return "-";
+    }
+    
+    public boolean inCookingQueue() {
+        return status.equals("Cooking");
     }
     
     public boolean isServed() {
-        return status.equals("served") || isCompleted();
-    }
-    
-    public boolean isCompleted() {
-        return status == "completed";
-    }
-    
-    public boolean isFoodFinished() {
-        return foodFinished;
+        return status.equals("Served");
     }
     
     public String getStatus() {
@@ -76,22 +88,28 @@ public class Dish implements Serializable {
     @Override
     public String toString() {
         String orderTimeStr = "-";
-        String serveTimeStr = "-";
+        String cookingTimeStr = "-";
         if (orderTime != null)
             orderTimeStr = orderTime.format(timeFormat);
-        if (serveTime != null)
-            serveTimeStr = serveTime.format(timeFormat);
+        if (cookingTime != null)
+            cookingTimeStr = cookingTime.format(timeFormat);
         
-        String foodFinishedStr = "Finished";
-        if (!foodFinished)
-            foodFinishedStr = "Not Finished";
-        
-        return " " + String.format("%04d", id) + "\t| " + 
-                String.format(" %-20s ", food) + "\t|" + 
-                String.format(" %-8s ", serveQuantity) + "|" + 
+        return " " + String.format("%4s", id) + "|" + 
+                String.format(" %-20s ", food.getMenuItemName()) + "|" + 
                 String.format(" %-19s ", orderTimeStr) + "|" + 
-                String.format(" %-19s ", serveTimeStr) + "|" + 
-                String.format(" %-13s ", foodFinishedStr) + "|" + 
+                String.format(" %-19s ", cookingTimeStr) + "|" + 
+                String.format(" %-22s ", getDurationSinceOrder()) + "|" + 
+                String.format(" %-22s ", getDurationSinceCooking()) + "|" + 
                 String.format(" %-10s ", status) + "|";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        return this.id.equals(((Dish) o).getId());
+    }
+    
+    
 }
