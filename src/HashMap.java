@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * A public class that implements the ADT Map / Dictionary by using hashing and
  * separate chaining to resolve collisions.The dictionary is not sorted and has
- * distinct search keys.DEFAULT_SIZE (TABLE SIZE) = 101 == Prime Number
+ * distinct search keys.DEFAULT_SIZE (TABLE SIZE) = 11 == Prime Number
  * MAX_LOAD_FACTOR (LAMBDA) = 0.9 < 1.0
  *
  * @param <K> Key Object.
@@ -15,7 +15,7 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
 
     private Node<K, V>[] hashTable;
     private int numberOfEntries;
-    private static final int DEFAULT_SIZE = 101;
+    private static final int DEFAULT_SIZE = 11;
     private static final double MAX_LOAD_FACTOR = 0.9;
 
     public HashMap() {
