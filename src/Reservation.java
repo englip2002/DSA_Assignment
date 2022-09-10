@@ -73,9 +73,9 @@ public class Reservation implements Serializable {
         str += String.format("%-5s %-10s %-10s\n", "No", "Dish Name",
                 "Quantity");
         for (int i = 0; i < foodInCart.getNumberOfEntries(); i++) {
-            str += foodInCart.getEntry(i).toString();
+            str += String.format("%-5d %-20s", (i+1), foodInCart.getEntry(i).toString());
         }
-        str += String.format("Total: %36.2f", choosenPackage.getPackagePrice());
+        str += String.format("Total: %18.2f", choosenPackage.getPackagePrice());
         return str;
     }
 
