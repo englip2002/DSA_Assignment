@@ -1,7 +1,10 @@
 import java.io.Serializable;
 import java.util.Iterator;
 
-//Tan Eng Lip
+/**
+ *
+ * @author Tan Eng Lip
+ */
 
 public class LinkedList<T> implements ListInterface<T>, Serializable {
 

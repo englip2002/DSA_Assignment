@@ -31,7 +31,7 @@ public class MainClient {
                     menuManager.menuModule();
                     break;
                 case 3:
-                    // Reservation Module
+                    ReservationDriver.ReservationModule();
                     break;
                 case 4:
                     // Catering Module

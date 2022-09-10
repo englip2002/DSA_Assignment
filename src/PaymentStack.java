@@ -1,5 +1,3 @@
-package defaultPackage;
-
 /**
  *
  * @author User
