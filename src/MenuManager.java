@@ -6,6 +6,9 @@
  */
 
 import java.util.Scanner;
+
+import javax.lang.model.util.ElementScanner14;
+
 import java.io.Serializable;
 
 public class MenuManager implements Serializable {
@@ -37,19 +40,20 @@ public class MenuManager implements Serializable {
         packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
         packageSet.add(new Package("Package E", 98.00, 7, "2 Appertizer, 3 Main Course, 2 Beverage"));
         packageSet.add(new Package("Package F", 10.50, 1, "1 Main Course"));
-        
+
         menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
         menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
         menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
         menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
         menuItemSet.add(new MenuItem("Beverage", "Ice Lemon Tea", "Tea with few slices of lemon."));
-        menuItemSet.add(new MenuItem("Dessert", "Grilled chicken Chop", "Chicken chop with grilled and 2 flavor of sauce (Mushroom and black pepper)."));
+        menuItemSet.add(new MenuItem("Main Course", "Grilled chicken Chop",
+                "Chicken chop with grilled and 2 flavor of sauce (Mushroom and black pepper)."));
 
         packageSet.getElementAtPos(0).addMenuItemToPackage(menuItemSet.getElementAtPos(0));
         packageSet.getElementAtPos(0).addMenuItemToPackage(menuItemSet.getElementAtPos(2));
         packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(3));
         packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(1));
-        packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(5));
+        packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(2));
         packageSet.getElementAtPos(4).addMenuItemToPackage(menuItemSet.getElementAtPos(4));
         packageSet.getElementAtPos(3).addMenuItemToPackage(menuItemSet.getElementAtPos(0));
         packageSet.getElementAtPos(3).addMenuItemToPackage(menuItemSet.getElementAtPos(3));
@@ -495,7 +499,7 @@ public class MenuManager implements Serializable {
             displayMenuItems();
             System.out.println("\n");
 
-            System.out.println("Please enter the menu item ID that you want to modify:");
+            System.out.print("Please enter the menu item ID that you want to modify:");
             String inputMenuItemID = scanner.nextLine();
 
             MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
@@ -512,7 +516,7 @@ public class MenuManager implements Serializable {
                     menuItem.setMenuItemName(modifiedName);
                     break;
                 case 2:
-                    System.out.println("Enter new category name: ");
+                    System.out.print("Enter new category name: ");
                     String modifiedCategory = scanner.nextLine();
                     menuItem.setMenuItemCategory(modifiedCategory);
                     break;
@@ -526,7 +530,7 @@ public class MenuManager implements Serializable {
                     String modifyName = scanner.nextLine();
                     menuItem.setMenuItemName(modifyName);
 
-                    System.out.println("Enter new category name: ");
+                    System.out.print("Enter new category name: ");
                     String modifyCategory = scanner.nextLine();
                     menuItem.setMenuItemCategory(modifyCategory);
 
@@ -611,7 +615,7 @@ public class MenuManager implements Serializable {
         int choice;
         do {
             choice = scanner.nextInt();
-        } while (choice < 1 || choice > 3);
+        } while (choice < 1 || choice > 4);
 
         switch (choice) {
             case 1:
@@ -651,6 +655,39 @@ public class MenuManager implements Serializable {
                 System.out.print("Enter menu item name: ");
                 menuItemName = scanner.nextLine();
                 searchMenuItemByNameInPackage(menuItemName);
+                break;
+            case 4:
+                System.out.println("\n");
+                do {
+                    System.out.print("Enetr the price range (Minimum): RM ");
+                    minInputPrice = scanner.nextDouble();
+
+                    do {
+                        System.out.print("Enetr the price range (Maximum): RM ");
+                        maxInputPrice = scanner.nextDouble();
+                        if (minInputPrice > maxInputPrice) {
+                            System.out.println("Maximum price range must bigger than the minimum price range!");
+                        }
+                    } while (minInputPrice > maxInputPrice);
+                    if (maxInputPrice <= 0 && minInputPrice <= 0) {
+                        System.out.println("Price must more than RM 0 ! Please enter agian. ");
+                    }
+                } while (maxInputPrice <= 0 && minInputPrice <= 0);
+
+                System.out.print("Enter the menu item limit (Minimum): ");
+                int minMenuItemLimit = scanner.nextInt();
+
+                System.out.print("Enter the menu item limit (Maximum): ");
+                int maxMenuItemLimit = scanner.nextInt();
+
+                scanner.nextLine();
+                System.out.print("Enter the menu item category: ");
+                char inputMenuItemCategory = scanner.nextLine().charAt(0);
+
+                filterPackage(maxInputPrice, minInputPrice, maxMenuItemLimit, minMenuItemLimit, inputMenuItemCategory);
+                System.out.println("\n");
+
+                break;
 
             default:
                 System.out.println("Invalid input!");
@@ -666,9 +703,10 @@ public class MenuManager implements Serializable {
         System.out.println("\t===================");
 
         System.out.println("1. Search By Package Name");
-        System.out.println("2. Search By Package Price");
+        System.out.println("2. Search By Package Price Range");
         System.out.println("3. Search By Menu Item Name");
-        System.out.print("Enter your choice (1 - 3): ");
+        System.out.println("4. Filter Suitable Package");
+        System.out.print("Enter your choice (1 - 4): ");
     }
 
     private Package searchSpecificPackageByID(String packageID) {
@@ -752,4 +790,39 @@ public class MenuManager implements Serializable {
         System.out.println("Menu Item do not exist!");
         return null;
     }
+
+    public void filterPackage(double maxInputPrice, double minInputPrice, int maxMenuItemLimit, int minMenuItemLimit,
+            char menuItemCategory) {
+
+        int totalNumber = 0;
+        boolean searchFlag = false;
+
+        for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
+            if (packageSet.getElementAtPos(i).getAllPackageMenuItems() != null) {
+                if (packageSet.getElementAtPos(i).getPackagePrice() <= maxInputPrice
+                        && packageSet.getElementAtPos(i).getPackagePrice() >= minInputPrice) {
+                    if (packageSet.getElementAtPos(i).getMenuItemLimit() <= maxMenuItemLimit
+                            && packageSet.getElementAtPos(i).getMenuItemLimit() >= minMenuItemLimit) {
+                        for (int j = 0; j < packageSet.getElementAtPos(i).getAllPackageMenuItems()
+                                .getNumberOfEntries(); j++) {
+                            if (packageSet.getElementAtPos(i).getAllPackageMenuItems().getElementAtPos(j)
+                                    .getMenuItemCategory().charAt(0) == menuItemCategory) {
+                                searchFlag = true;
+                                totalNumber++;
+                            }
+                        }
+                    } else
+                        searchFlag = false;
+                } else
+                    searchFlag = false;
+            } else
+                searchFlag = false;
+            if (searchFlag) {
+                System.out.println(packageSet.getElementAtPos(i).toString());
+            }
+        }
+        System.out.println("Total package found: " + totalNumber);
+        System.out.println("\n");
+    }
+
 }
