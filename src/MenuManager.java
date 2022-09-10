@@ -35,13 +35,24 @@ public class MenuManager implements Serializable {
         packageSet.add(new Package("Package B", 58.60, 4, "1 Appertizer, 1 Main Course, 1 Beverage, 1 Dessert"));
         packageSet.add(new Package("Package C", 108.00, 10, "3 Appertizer, 2 Main Course, 2 Beverage, 2 Dessert"));
         packageSet.add(new Package("Package D", 120.50, 15, "3 Appertizer, 4 Main Course, 3 Beverage, 5 Dessert"));
+        packageSet.add(new Package("Package E", 98.00, 7, "2 Appertizer, 3 Main Course, 2 Beverage"));
+        packageSet.add(new Package("Package F", 10.50, 1, "1 Main Course"));
+        
         menuItemSet.add(new MenuItem("Appertizer", "French Fries", "Hand cut wedges of Yukan Cold potatoes."));
         menuItemSet.add(new MenuItem("Main Course", "Spaghetti Marinara", "Spaghetti with seafood and tomato sauce."));
         menuItemSet.add(new MenuItem("Beverage", "Long Black", "2 shots of espresso and hot water."));
         menuItemSet.add(new MenuItem("Dessert", "Lime Pie", "Targy custard with graham crocker crust."));
+        menuItemSet.add(new MenuItem("Beverage", "Ice Lemon Tea", "Tea with few slices of lemon."));
+        menuItemSet.add(new MenuItem("Dessert", "Grilled chicken Chop", "Chicken chop with grilled and 2 flavor of sauce (Mushroom and black pepper)."));
 
         packageSet.getElementAtPos(0).addMenuItemToPackage(menuItemSet.getElementAtPos(0));
+        packageSet.getElementAtPos(0).addMenuItemToPackage(menuItemSet.getElementAtPos(2));
+        packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(3));
+        packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(1));
+        packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(5));
+        packageSet.getElementAtPos(4).addMenuItemToPackage(menuItemSet.getElementAtPos(4));
         packageSet.getElementAtPos(3).addMenuItemToPackage(menuItemSet.getElementAtPos(0));
+        packageSet.getElementAtPos(3).addMenuItemToPackage(menuItemSet.getElementAtPos(3));
 
         // write into file
         menuFile.write(packageSet);
