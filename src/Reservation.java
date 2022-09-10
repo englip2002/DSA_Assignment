@@ -42,23 +42,6 @@ public class Reservation implements Serializable {
         return str;
     }
 
-    // public void sortCart(){
-    // //4 type of food
-    // FoodInCart firstAppertizer=null;
-    // FoodInCart firstMain=null;
-    // FoodInCart firstBeverage=null;
-    // FoodInCart firstDessert=null;
-    // for (FoodInCart food : foodInCart) {
-    // if(firstAppertizer==null&&food.getFood().getMenuItemCategory()=="Appertizer"){
-    // firstAppertizer=food;
-    // }
-    // else if(firstMain==null&&food.getFood().getMenuItemCategory()=="Main
-    // Course"){
-
-    // }
-    // }
-    // }
-
     public void reserveDetails(String contactNo, String serveLocation, LocalDateTime serveTime) {
         this.contactNo = contactNo;
         this.serveLocation = serveLocation;
@@ -73,9 +56,9 @@ public class Reservation implements Serializable {
         str += String.format("%-5s %-10s %-10s\n", "No", "Dish Name",
                 "Quantity");
         for (int i = 0; i < foodInCart.getNumberOfEntries(); i++) {
-            str += foodInCart.getEntry(i).toString();
+            str += String.format("%-5d %-20s", (i + 1), foodInCart.getEntry(i).toString());
         }
-        str += String.format("Total: %36.2f", choosenPackage.getPackagePrice());
+        str += String.format("Total: %18.2f", choosenPackage.getPackagePrice());
         return str;
     }
 

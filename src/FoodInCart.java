@@ -1,3 +1,7 @@
+/**
+ *
+ * @author Tan Eng Lip
+ */
 import java.io.Serializable;
 
 public class FoodInCart implements Serializable{
