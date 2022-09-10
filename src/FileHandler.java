@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,7 +13,7 @@ import java.io.ObjectOutputStream;
 public class FileHandler<T> {
     private String filename;
     
-    FileHandler(String filename) {
+    public FileHandler(String filename) {
         this.filename = filename;
     }
 
@@ -52,6 +51,58 @@ public class FileHandler<T> {
             ex.printStackTrace();
         }
         return null;
+    }
+    
+
+    public void write(T object, boolean printError) {
+        try {
+            File file = new File(filename);
+            ObjectOutputStream ooStream = new ObjectOutputStream(new FileOutputStream(file));
+            ooStream.writeObject(object);
+            ooStream.close();
+        } catch (FileNotFoundException ex) {
+            if (printError) {
+                System.out.println("File not found");
+                ex.printStackTrace();
+            }
+        } catch (IOException ex) {
+            if (printError) {   
+                System.out.println("Cannot save to file");
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    public T read(boolean printError) {
+        T output;
+        try {
+            File file = new File(filename);
+            ObjectInputStream oiStream = new ObjectInputStream(new FileInputStream(file));
+            output = (T) (oiStream.readObject());
+            oiStream.close();
+            return output;
+        } catch (FileNotFoundException ex) {
+            if (printError) {   
+                System.out.println("File not found");
+                ex.printStackTrace();
+            }
+        } catch (IOException ex) {
+            if (printError) {   
+                System.out.println("Cannot read from file");
+                ex.printStackTrace();
+            }
+        } catch (ClassNotFoundException ex) {
+            if (printError) {   
+                System.out.println("Class not found");
+                ex.printStackTrace();
+            }
+        }
+        return null;
+        
+    }
+    
+    public boolean fileExists() {
+        return new File(filename).isFile();
     }
     
 }
