@@ -19,9 +19,9 @@ public class ReservationDriver {
         FileHandler reservationFile = new FileHandler("Reservations.dat");
         ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
 
-        //to get the last id count from file
+        // to get the last id count from file
         if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
-            reservation = new Reservation(customer);
+            reservation = new Reservation(customer, 0);
         } else {
             reservation = new Reservation(customer, getLastReservationID(reservationList));
         }
@@ -103,7 +103,7 @@ public class ReservationDriver {
         // menu input
         int packageChoice = -1;
         int menuItemChoice = -1;
-        int menuItemQuantity;
+        int menuItemQuantity = 0;
         int totalMenuItemChoosen = 0;
         int cartRemovePosition;
 
@@ -184,9 +184,8 @@ public class ReservationDriver {
                             || packageChoice > packageSet.getNumberOfEntries());
 
                     // input data into reservation
-                    reservation.reserveDetails(contactNo, serveLocation, serveTime);
-                    // set package in reservation
-                    reservation.setPackageChoice(packageSet.getElementAtPos(packageChoice - 1));
+                    reservation.reserveDetails(contactNo, serveLocation, serveTime,
+                            packageSet.getElementAtPos(packageChoice - 1));
                     break;
 
                 case 2:
@@ -204,6 +203,7 @@ public class ReservationDriver {
 
                             System.out.print("Enter your food choice:");
                             menuItemChoice = scanner.nextInt();
+                            scanner.nextLine();
 
                             if (menuItemChoice > reservation.getChoosenPackage().getAllPackageMenuItems()
                                     .getNumberOfEntries()
@@ -214,19 +214,24 @@ public class ReservationDriver {
                                 .getAllPackageMenuItems().getNumberOfEntries() || menuItemChoice < 1);
 
                         // enter quantity
-                        System.out.print("Please Enter Quantity:");
-                        menuItemQuantity = scanner.nextInt();
-                        totalMenuItemChoosen += menuItemQuantity;
-
-                        while (totalMenuItemChoosen > reservation.getChoosenPackage().getMenuItemLimit()) {
-                            System.out.println(
-                                    "Total quantity (" + totalMenuItemChoosen + ") exceeded limit! ("
-                                            + reservation.getChoosenPackage().getMenuItemLimit() + ")");
+                        do {
                             totalMenuItemChoosen -= menuItemQuantity;
-                            System.out.print("Please re-enter Quantity:");
+                            System.out.print("Please Enter Quantity:");
                             menuItemQuantity = scanner.nextInt();
+                            scanner.nextLine();
                             totalMenuItemChoosen += menuItemQuantity;
-                        }
+
+                            if (totalMenuItemChoosen > reservation.getChoosenPackage().getMenuItemLimit()) {
+                                System.out.println(
+                                        "Total quantity (" + totalMenuItemChoosen + ") exceeded limit! ("
+                                                + reservation.getChoosenPackage().getMenuItemLimit() + ")");
+
+                            } else if (menuItemQuantity < 1) {
+                                System.out.println("Invalid Quantity!!");
+                                totalMenuItemChoosen -= menuItemQuantity;
+                            }
+                        } while (totalMenuItemChoosen > reservation.getChoosenPackage().getMenuItemLimit()
+                                || menuItemQuantity < 1);
 
                         // store into cart
                         MenuItem temp = packageSet.getElementAtPos(packageChoice - 1)
@@ -242,7 +247,6 @@ public class ReservationDriver {
                         System.out.println("The total quantity of menu item has reached the limit ("
                                 + reservation.getChoosenPackage().getMenuItemLimit() + ")");
                         pressEnterToContinue(scanner);
-
                     }
 
                     break;
@@ -253,39 +257,32 @@ public class ReservationDriver {
 
                     do {
                         // user enter choices to remove
-                        System.out.print("Enter the number you wish to remove(-1 to exit): ");
+                        System.out.print("Enter the number you wish to remove: ");
                         cartRemovePosition = scanner.nextInt();
                         scanner.nextLine();
 
-                        if (cartRemovePosition == -1) {
-                            System.out.println("Exited!");
-                            pressEnterToContinue(scanner);
-
-                        } else if (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
+                        if (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
                                 || cartRemovePosition < 1) {
                             System.out.println("Invalid Input!");
                             pressEnterToContinue(scanner);
 
-                        } else {
-                            // update the totalMenuItemChoosen
-                            totalMenuItemChoosen -= reservation.getFoodInCart()
-                                    .getEntry(cartRemovePosition - 1).getQuantity();
-                            // remove fron list
-                            reservation.getFoodInCart().remove(cartRemovePosition - 1);
-                            System.out.println("Removed Successfully");
-                            pressEnterToContinue(scanner);
-
                         }
+                        // update the totalMenuItemChoosen
+                        totalMenuItemChoosen -= reservation.getFoodInCart()
+                                .getEntry(cartRemovePosition - 1).getQuantity();
+                        // remove fron list
+                        reservation.getFoodInCart().remove(cartRemovePosition - 1);
+                        System.out.println("Removed Successfully");
+                        pressEnterToContinue(scanner);
 
                         // validate remove choice
                     } while (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
-                            || (cartRemovePosition < 1 && cartRemovePosition != -1));
+                            || cartRemovePosition < 1);
                     break;
                 case 4:
                     // view cart
                     System.out.print(viewCart(reservation));
                     pressEnterToContinue(scanner);
-
                     break;
 
                 case 5:
@@ -308,7 +305,7 @@ public class ReservationDriver {
                         reservationFile.write(reservationList);
                     }
                     // clear memory
-                    reservation = new Reservation(reservation.getCustomer());
+                    reservation.reset();
                     break;
                 case 6:
                     System.out.println("\nExited!");
@@ -321,7 +318,7 @@ public class ReservationDriver {
 
     public static void removeReservation(Scanner scanner, FileHandler reservationFile,
             ListInterface<Reservation> reservationList) {
-        int removeChoice = -1;
+        int removeChoice;
         if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
             System.out.println("No Reservation Stored!");
             pressEnterToContinue(scanner);
@@ -334,18 +331,17 @@ public class ReservationDriver {
                 scanner.nextLine();
 
                 if (removeChoice > reservationList.getNumberOfEntries()
-                || removeChoice < 1) {
+                        || removeChoice < 1) {
                     System.out.println("Invalid Choice!");
-                } else {
-                    reservationList.remove(removeChoice - 1);
-                    reservationFile.write(reservationList);
-                    System.out.println("Removed Successfully!");
-                    pressEnterToContinue(scanner);
-
                 }
 
             } while (removeChoice > reservationList.getNumberOfEntries()
                     || removeChoice < 1);
+
+            reservationList.remove(removeChoice - 1);
+            reservationFile.write(reservationList);
+            System.out.println("Removed Successfully!");
+            pressEnterToContinue(scanner);
         }
     }
 
@@ -424,7 +420,7 @@ public class ReservationDriver {
             for (Reservation reservations : reservationList) {
                 if (reservations.getCustomer().getCustomerId().compareToIgnoreCase(searchAccID) == 0) {
                     i++;
-                    System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                    System.out.print(String.format("%-3d %s", i, reservations.toString()));
                     searchFlag = true;
                 }
             }
@@ -435,7 +431,7 @@ public class ReservationDriver {
                 if (reservations.getServeDate().format(formatter)
                         .compareTo(serveDate.format(formatter)) == 0) {
                     i++;
-                    System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                    System.out.print(String.format("%-3d %s", i, reservations.toString()));
                     searchFlag = true;
                 }
             }
@@ -447,7 +443,7 @@ public class ReservationDriver {
                         .compareTo(serveDate.format(formatter)) == 0
                         && reservations.getCustomer().getCustomerId().compareToIgnoreCase(searchAccID) == 0) {
                     i++;
-                    System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                    System.out.print(String.format("%-3d %s", i, reservations.toString()));
                     searchFlag = true;
                 }
             }
@@ -458,7 +454,7 @@ public class ReservationDriver {
                 if (reservations.getReserveDate().format(formatter)
                         .compareTo(reserveDate.format(formatter)) == 0) {
                     i++;
-                    System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                    System.out.print(String.format("%-3d %s", i, reservations.toString()));
                     searchFlag = true;
                 }
             }
@@ -470,7 +466,7 @@ public class ReservationDriver {
                         .compareTo(reserveDate.format(formatter)) == 0
                         && reservations.getCustomer().getCustomerId().compareToIgnoreCase(searchAccID) == 0) {
                     i++;
-                    System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                    System.out.print(String.format("%-3d %s", i, reservations.toString()));
                     searchFlag = true;
                 }
             }
@@ -484,7 +480,7 @@ public class ReservationDriver {
                         && reservations.getServeDate().format(formatter)
                                 .compareTo(serveDate.format(formatter)) == 0) {
                     i++;
-                    System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                    System.out.print(String.format("%-3d %s", i, reservations.toString()));
                     searchFlag = true;
                 }
             }
@@ -499,7 +495,7 @@ public class ReservationDriver {
                                 .compareTo(serveDate.format(formatter)) == 0
                         && reservations.getCustomer().getCustomerId().compareToIgnoreCase(searchAccID) == 0) {
                     i++;
-                    System.out.println(String.format("%-3d %s", i, reservations.toString()));
+                    System.out.print(String.format("%-3d %s", i, reservations.toString()));
                     searchFlag = true;
                 }
             }
@@ -519,24 +515,24 @@ public class ReservationDriver {
         String dessertStr = "";
         str += "\nItems In Cart\n";
         str += "================\n";
-        str += String.format("%-3s %-20s %-10s\n", "No", "Dish Name",
+        str += String.format("%-30s %-10s\n", "Dish Name",
                 "Quantity");
         // sort by food type
         for (int i = 0; i < reservation.getFoodInCart().getNumberOfEntries(); i++) {
             if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Appertizer") == 0) {
-                appertizeStr += String.format("%-3d %-30s\n",
-                        (i + 1), reservation.getFoodInCart().getEntry(i).toString());
+                appertizeStr += String.format("%-40s\n", reservation.getFoodInCart().getEntry(i).toString());
             } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Main Course") == 0) {
-                mainStr += String.format("%-3d %-30s\n", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
+                mainStr += String.format("%-40s\n", reservation.getFoodInCart().getEntry(i).toString());
             } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Beverage") == 0) {
-                beverageStr += String.format("%-3d %-30s\n",
-                        (i + 1), reservation.getFoodInCart().getEntry(i).toString());
-            } else {
-                dessertStr += String.format("%-3d %-30s\n",
-                        (i + 1), reservation.getFoodInCart().getEntry(i).toString());
+                beverageStr += String.format("%-40s\n",
+                        reservation.getFoodInCart().getEntry(i).toString());
+            } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
+                    .compareToIgnoreCase("Dessert") == 0) {
+                dessertStr += String.format("%-40s\n",
+                        reservation.getFoodInCart().getEntry(i).toString());
             }
         }
         str += "\nAppertizer\n" + "-----------------\n" + appertizeStr + "\nMain Course\n" + "-----------------\n"
@@ -590,15 +586,15 @@ public class ReservationDriver {
 
     private static String printReservationList(ListInterface<Reservation> reservationList) {
         String str = "";
-        str += String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s\n", "No", "ReservationID",
+        str += String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s %-10s\n", "No", "ReservationID",
                 "AccountID",
                 "ContactNo",
-                "ReserveTime", "ServeTime", "ServeLocation", "ReservationStatus");
+                "ReserveTime", "ServeTime", "ServeLocation", "Package", "ReservationStatus");
 
         int i = 0;
         for (Reservation reserve : reservationList) {
             i++;
-            str += String.format("%-3s %-115s", i, reserve.toString());
+            str += String.format("%-3s %-125s", i, reserve.toString());
         }
         str += ("Total Number of Reservation: " + reservationList.getNumberOfEntries());
         return str;
