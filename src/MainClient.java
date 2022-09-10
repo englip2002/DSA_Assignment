@@ -38,6 +38,7 @@ public class MainClient {
                     break;
                 case 5:
                     // Payment Module
+                    PaymentDriver.clientPayment();                    
                     break;
                 case -1:
                     // Exit
