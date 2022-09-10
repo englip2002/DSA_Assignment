@@ -5,7 +5,7 @@
 public class PaymentStack {
     private Payment p;
     private Stack<Payment> stackP = new Stack<>();
-    private final FileHandler files = new FileHandler("payment.dat");
+    private FileHandler files = new FileHandler("payment.dat");
     public PaymentStack(){
            
         
