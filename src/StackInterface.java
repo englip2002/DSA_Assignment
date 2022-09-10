@@ -4,7 +4,7 @@
  */
 /**
  *
- * @author User
+ * @author Foo Seanron
  * @param <T>
  */
 public interface StackInterface<T> {

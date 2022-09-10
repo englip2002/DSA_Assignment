@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 /**
  *
- * @author User
+ * @author Foo Seanron
  * @param <T>
  */
 
