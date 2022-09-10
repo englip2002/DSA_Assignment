@@ -2,9 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package defaultPackage;
+
+
+import java.io.Serializable;
 import static java.lang.Math.*;
 
-import java.util.Scanner;
+
 
 /**
  *- displayRecentPayment()	//(Staff) check recent payment details 
@@ -13,34 +17,37 @@ import java.util.Scanner;
     //system
  * @author User
  */
-public class Payment {
+public class Payment implements Serializable{
     //attributes
     private double subTotal, total, pay, tax, change;
     private final double TAXFINAL = 0.22;
     private final Stack<String> stackPBackUp = new Stack<>();
     
-    Scanner sc = new Scanner(System.in);
+    
     
     //constructor
-    public Payment(double amountRecieved, String foodName[], double foodPrice[], int quantity[]){
-        String temp;
-        for (int i = 0; i < foodPrice.length; i++) {
-            subTotal += foodPrice[i] * quantity[i];
-        }   
-        pay = amountRecieved;
-        
-        for (int i = 0; i < foodPrice.length; i++) {
-            temp = String.format(" %15.15s | %7.7s | %2.2s",foodName[i], foodPrice[i], quantity[i]);  
-            stackPBackUp.push(temp);
-        }   
+    public Payment(double amountRecieved, Stack<String[]> st){
+        String[] arrTemp;
+        setPay(amountRecieved);
+        while(st.isEmpty() == false){
+            arrTemp = st.pop();
+            stackPBackUp.push(String.format("%20.20s | %6.6s | %2.2s",arrTemp[0], arrTemp[1], arrTemp[2])); 
+            subTotal += Double.parseDouble(arrTemp[1]) * Double.parseDouble(arrTemp[2]);
+        }  
         calculate();
     
     }
     
     
     //utility methods
-    private final double calculate(){
+    private void setPay(double pay){
+        this.pay = pay;
+    }
+    private double calculate(){
         tax = subTotal * TAXFINAL;
+        if (tax  > 0) {
+            
+        }
         total = tax + subTotal;
         if (pay >= total) {
             if (pay % 100 > 49) {
@@ -59,6 +66,19 @@ public class Payment {
     
     
     //public methods
+    public double getProfit(){
+        return total;
+    }
+    public boolean isEqualFoods(String str){
+        while(stackPBackUp.hasNext()){
+            String arr = stackPBackUp.next();
+            if (arr.contains(str)) {
+                return true;
+            }
+        }
+        return false;
+        
+    }
     public void getReceipt(){
         int i = 0;
         System.out.println("-------ABC Catering-------");
@@ -82,12 +102,12 @@ public class Payment {
         
         System.out.printf(" Change-----------RM %5.2f \n",change);
     }
+    
+    @Override
     public String toString(){
         String str="";
-        while(stackPBackUp.hasNext()){
-            System.out.println(stackPBackUp.next());
-        }
-        str += subTotal + tax + total + pay + change;
+        
+        str += String.format(" | %7.2f | %7.2f | %7.2f | %7.2f | %7.2f |", subTotal,tax,total,pay,change);
         return str;
     }
 }
