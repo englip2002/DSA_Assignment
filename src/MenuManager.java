@@ -64,7 +64,8 @@ public class MenuManager implements Serializable {
             System.out.println("7. Add Menu Item into Package");
             System.out.println("8. Remove Menu Item from Package");
             System.out.println("9. Modify Package");
-            System.out.println("10. Search Package");
+            System.out.println("10. Modify Menu Item");
+            System.out.println("11. Search Package");
             System.out.print("Enter your choice(-1 exit): ");
             choice = scanner.nextInt();
             scanner.nextLine();
@@ -97,6 +98,9 @@ public class MenuManager implements Serializable {
                     modifyPackage();
                     break;
                 case 10:
+                    modifyMenuItem();
+                    break;
+                case 11:
                     searchPackage();
                     break;
                 case -1:
@@ -141,27 +145,31 @@ public class MenuManager implements Serializable {
             System.out.print("Please enter package description: ");
             String inputPackageDescription = scanner.nextLine();
 
-            Package pckg = new Package(inputPackageName, inputPackagePrice, menuItemLimit, inputPackageDescription);
-            char choice;
-            do {
-                System.out.print("Do you want to add menu item(s) inside the package (Y: yes N: no)? ");
-                choice = scanner.nextLine().charAt(0);
+            if (checkPackageName(inputPackageName)) {
+                System.out.println("Failed to add! This Pacakge had exist!");
+            } else {
+                Package pckg = new Package(inputPackageName, inputPackagePrice, menuItemLimit, inputPackageDescription);
+                char choice;
+                do {
+                    System.out.print("Do you want to add menu item(s) inside the package (Y: yes N: no)? ");
+                    choice = scanner.nextLine().charAt(0);
 
-                switch (Character.toUpperCase(choice)) {
-                    case 'Y':
-                        pckg = addMenuItemToPackage(pckg);
-                        packageSet.add(pckg);
-                        break;
-                    case 'N':
-                        packageSet.add(pckg);
-                        break;
-                    default:
-                        System.out.println("Invalid input!!");
-                        break;
-                }
-            } while (Character.toUpperCase(choice) != 'N');
-            menuFile.write(packageSet);
-            System.out.println("You had added successfully!!");
+                    switch (Character.toUpperCase(choice)) {
+                        case 'Y':
+                            pckg = addMenuItemToPackage(pckg);
+                            packageSet.add(pckg);
+                            break;
+                        case 'N':
+                            packageSet.add(pckg);
+                            break;
+                        default:
+                            System.out.println("Invalid input!!");
+                            break;
+                    }
+                } while (Character.toUpperCase(choice) != 'N');
+                menuFile.write(packageSet);
+                System.out.println("You had added successfully!!");
+            }
 
             do {
                 System.out.print("\nDo you want to continue add new package (Y = yes N = no): ");
@@ -228,9 +236,14 @@ public class MenuManager implements Serializable {
             System.out.print("Please enter menu item descriptions: ");
             String inputMenuItemDescription = scanner.nextLine();
 
-            // Create new package information and add into the packageSet
-            menuItemSet.add(new MenuItem(inputMenuItemCategory, inputMenuItemName, inputMenuItemDescription));
-            System.out.println("You had added successfully!");
+            if (checkMenuItemName(inputMenuItemName)) {
+                System.out.println("Failed to add! This menu item had exist!");
+            } else {
+                // Create new package information and add into the packageSet
+                menuItemSet.add(new MenuItem(inputMenuItemCategory, inputMenuItemName, inputMenuItemDescription));
+                System.out.println("You had added successfully!");
+            }
+
             do {
                 System.out.print("\nDo you want to continue add menu item(Y = yes N = no)? ");
                 continueChoice = scanner.nextLine().charAt(0);
@@ -392,7 +405,7 @@ public class MenuManager implements Serializable {
 
             Package pckg = searchSpecificPackageByID(inputPackageID);
 
-            displayModifyTable();
+            displayModifyPackageTable();
             int inputModifyChoice = scanner.nextInt();
 
             scanner.nextLine();
@@ -462,7 +475,67 @@ public class MenuManager implements Serializable {
 
     }
 
-    private void displayModifyTable() {
+    public void modifyMenuItem() {
+
+        char continueChoice;
+
+        do {
+            System.out.println("\n");
+            displayMenuItems();
+            System.out.println("\n");
+
+            System.out.println("Please enter the menu item ID that you want to modify:");
+            String inputMenuItemID = scanner.nextLine();
+
+            MenuItem menuItem = searchSpecificMenuItemByID(inputMenuItemID);
+
+            displayModifyMenuItemTable();
+            int inputModifyChoice = scanner.nextInt();
+
+            scanner.nextLine();
+
+            switch (inputModifyChoice) {
+                case 1:
+                    System.out.print("Enter new menu item name: ");
+                    String modifiedName = scanner.nextLine();
+                    menuItem.setMenuItemName(modifiedName);
+                    break;
+                case 2:
+                    System.out.println("Enter new category name: ");
+                    String modifiedCategory = scanner.nextLine();
+                    menuItem.setMenuItemCategory(modifiedCategory);
+                    break;
+                case 3:
+                    System.out.print("Enter new menu item description: ");
+                    String modifiedDescrip = scanner.nextLine();
+                    menuItem.setMenuItemDescription(modifiedDescrip);
+                    break;
+                case 4:
+                    System.out.print("Enter new menu item name: ");
+                    String modifyName = scanner.nextLine();
+                    menuItem.setMenuItemName(modifyName);
+
+                    System.out.println("Enter new category name: ");
+                    String modifyCategory = scanner.nextLine();
+                    menuItem.setMenuItemCategory(modifyCategory);
+
+                    System.out.print("Enter new menu item description: ");
+                    String modifyDescrip = scanner.nextLine();
+                    menuItem.setMenuItemDescription(modifyDescrip);
+                    break;
+            }
+            do {
+                System.out.print("\nDo you want to continue modify menu item(Y = yes N = no)? ");
+                continueChoice = scanner.nextLine().charAt(0);
+                if (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N') {
+                    System.out.println("You had key in invalid input. Please key in again!");
+                }
+            } while (Character.toUpperCase(continueChoice) != 'Y' && Character.toUpperCase(continueChoice) != 'N');
+        } while (Character.toUpperCase(continueChoice) != 'N');
+
+    }
+
+    private void displayModifyPackageTable() {
         System.out.println("\t  MODIFY PACKAGE: ");
         System.out.println("\t===================");
 
@@ -471,6 +544,17 @@ public class MenuManager implements Serializable {
         System.out.println("3. Modify Pacakge Description");
         System.out.println("4. Modify Menu Item Limit");
         System.out.println("5. Modify All");
+        System.out.print("Enter your choice: ");
+    }
+
+    private void displayModifyMenuItemTable() {
+        System.out.println("\t  MODIFY MENU ITEM: ");
+        System.out.println("\t=======================");
+
+        System.out.println("1. Modify Menu Item Name");
+        System.out.println("2. Modify Menu Item Category");
+        System.out.println("3. Modify Menu Item Description");
+        System.out.println("4. Modify All");
         System.out.print("Enter your choice: ");
     }
 
@@ -555,7 +639,7 @@ public class MenuManager implements Serializable {
                 scanner.nextLine();
                 System.out.print("Enter menu item name: ");
                 menuItemName = scanner.nextLine();
-                searchMenuItemByName(menuItemName);
+                searchMenuItemByNameInPackage(menuItemName);
 
             default:
                 System.out.println("Invalid input!");
@@ -595,6 +679,24 @@ public class MenuManager implements Serializable {
         return null;
     }
 
+    private boolean checkMenuItemName(String menuItemName) {
+        for (MenuItem menuItem : menuItemSet) {
+            if (menuItem.getMenuItemName().equalsIgnoreCase(menuItemName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkPackageName(String packageName) {
+        for (Package pckg : packageSet) {
+            if (pckg.getPackageName().equalsIgnoreCase(packageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void searchPackageByPrice(double maxInputPrice, double minInputPrice) {
 
         int totalNumber = 0;
@@ -609,7 +711,7 @@ public class MenuManager implements Serializable {
         System.out.println("Total package found: " + totalNumber);
     }
 
-    private void searchMenuItemByName(String menuItemName) {
+    private void searchMenuItemByNameInPackage(String menuItemName) {
         int totalNumber = 0;
 
         for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
