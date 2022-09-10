@@ -19,6 +19,7 @@ public class ReservationDriver {
         FileHandler reservationFile = new FileHandler("Reservations.dat");
         ListInterface<Reservation> reservationList = (ListInterface) reservationFile.read();
 
+        //to get the last id count from file
         if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
             reservation = new Reservation(customer);
         } else {
