@@ -314,7 +314,7 @@ public class MenuManager implements Serializable {
 
             if (menuItemSet.contains(menuItem)) {
                 if (pckg.getAllPackageMenuItems().contains(menuItem)) {
-                    System.out.println("The menu item had added!");
+                    System.out.println("Cannot add again because this menu item had inside the package!");
                     // System.out.println("Please select again the menu item: ");
                 } else {
                     pckg.addMenuItemToPackage(menuItem);

@@ -7,12 +7,12 @@ import java.util.Scanner;
 
 public class ReservationDriver {
     public static void main(String[] args) {
-        Customer customer = new Customer("A0001", "Tan", "EngLip", "Male", LocalDate.of(2002, 11, 22));
-
-        ReservationModule(customer);
+        ReservationModule();
     }
 
-    public static void ReservationModule(Customer customer) {
+    public static void ReservationModule() {
+        //dummy customer
+        Customer customer = new Customer("A0001", "Tan", "EngLip", "Male", LocalDate.of(2002, 11, 22));
         // read file when starting
         // reservation
         Reservation reservation;
@@ -376,6 +376,7 @@ public class ReservationDriver {
                 case 4:
                     searchFlag = false;
                     // Search by date, Name
+                    // change to search by 3 parameter different combination different result
                     System.out.println("\nSearch");
                     System.out.println("===========");
                     System.out.println("1. By Reserve Date");
