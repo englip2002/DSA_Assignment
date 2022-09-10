@@ -288,7 +288,7 @@ public class MenuManager implements Serializable {
 
             MenuItem temp = searchSpecificMenuItemByID(inputRemoveMenuItemID);
 
-            if (temp == null) {
+            if (temp != null) {
                 menuItemSet.remove(temp);
                 System.out.println("You had remove successfully!");
             } else {
