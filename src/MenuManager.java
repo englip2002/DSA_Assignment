@@ -7,8 +7,6 @@
 
 import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner14;
-
 import java.io.Serializable;
 
 public class MenuManager implements Serializable {
