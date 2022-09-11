@@ -390,18 +390,94 @@ public class MenuManager implements Serializable {
 
     }
 
-    private Package searchMenuItemInPackageByID(String inputMenuItemID, Package pckg) {
+    public void searchPackage() {
 
-        MenuItem menuItem;
+        double minInputPrice, maxInputPrice;
+        String packageName, menuItemName;
+        Package pckg;
 
-        for (int i = 0; i < pckg.getAllPackageMenuItems().getNumberOfEntries(); i++) {
-            if (pckg.getAllPackageMenuItems().getElementAtPos(i).getMenuItemID().equals(inputMenuItemID)) {
-                menuItem = pckg.getAllPackageMenuItems().getElementAtPos(i);
-                pckg.removeMenuItemFromPackage(menuItem);
-                return pckg;
-            }
+        displaySearchTable();
+        int choice;
+        do {
+            choice = scanner.nextInt();
+        } while (choice < 1 || choice > 4);
+
+        switch (choice) {
+            case 1:
+                scanner.nextLine();
+                System.out.print("Enter Package Name: ");
+                packageName = scanner.nextLine();
+                pckg = searchPackageByName(packageName);
+                System.out.println("\n");
+                if (pckg != null) {
+                    System.out.println("Package had founded!!\n");
+                    System.out.println(pckg.toString());
+                } else {
+                    System.out.println("Cannot found package!");
+                }
+                break;
+            case 2:
+                do {
+                    System.out.print("Enetr the price range (Minimum): RM ");
+                    minInputPrice = scanner.nextDouble();
+
+                    do {
+                        System.out.print("Enetr the price range (Maximum): RM ");
+                        maxInputPrice = scanner.nextDouble();
+                        if (minInputPrice > maxInputPrice) {
+                            System.out.println("Maximum price range must bigger than the minimum price range!");
+                        }
+                    } while (minInputPrice > maxInputPrice);
+                    if (maxInputPrice <= 0 && minInputPrice <= 0) {
+                        System.out.println("Price must more than RM 0 ! Please enter agian. ");
+                    }
+                } while (maxInputPrice <= 0 && minInputPrice <= 0);
+                System.out.println("\n");
+                searchPackageByPrice(maxInputPrice, minInputPrice);
+                break;
+            case 3:
+                scanner.nextLine();
+                System.out.print("Enter menu item name: ");
+                menuItemName = scanner.nextLine();
+                searchMenuItemByNameInPackage(menuItemName);
+                break;
+            case 4:
+                System.out.println("\n");
+                do {
+                    System.out.print("Enter the price range (Minimum): RM ");
+                    minInputPrice = scanner.nextDouble();
+
+                    do {
+                        System.out.print("Enter the price range (Maximum): RM ");
+                        maxInputPrice = scanner.nextDouble();
+                        if (minInputPrice > maxInputPrice) {
+                            System.out.println("Maximum price range must bigger than the minimum price range!");
+                        }
+                    } while (minInputPrice > maxInputPrice);
+                    if (maxInputPrice <= 0 && minInputPrice <= 0) {
+                        System.out.println("Price must more than RM 0 ! Please enter agian. ");
+                    }
+                } while (maxInputPrice <= 0 && minInputPrice <= 0);
+
+                System.out.print("Enter the menu item limit (Minimum): ");
+                int minMenuItemLimit = scanner.nextInt();
+
+                System.out.print("Enter the menu item limit (Maximum): ");
+                int maxMenuItemLimit = scanner.nextInt();
+
+                scanner.nextLine();
+                System.out.print("Enter the menu item category: ");
+                char inputMenuItemCategory = scanner.nextLine().charAt(0);
+
+                filterPackage(maxInputPrice, minInputPrice, maxMenuItemLimit, minMenuItemLimit, inputMenuItemCategory);
+                System.out.println("\n");
+
+                break;
+
+            default:
+                System.out.println("Invalid input!");
+
         }
-        return null;
 
     }
 
@@ -550,6 +626,21 @@ public class MenuManager implements Serializable {
 
     }
 
+    private Package searchMenuItemInPackageByID(String inputMenuItemID, Package pckg) {
+
+        MenuItem menuItem;
+
+        for (int i = 0; i < pckg.getAllPackageMenuItems().getNumberOfEntries(); i++) {
+            if (pckg.getAllPackageMenuItems().getElementAtPos(i).getMenuItemID().equals(inputMenuItemID)) {
+                menuItem = pckg.getAllPackageMenuItems().getElementAtPos(i);
+                pckg.removeMenuItemFromPackage(menuItem);
+                return pckg;
+            }
+        }
+        return null;
+
+    }
+
     private void displayModifyPackageTable() {
         System.out.println("\t  MODIFY PACKAGE: ");
         System.out.println("\t===================");
@@ -602,98 +693,6 @@ public class MenuManager implements Serializable {
         } else {
             System.out.println("No Package exist!");
         }
-    }
-
-    // havent finish
-    public void searchPackage() {
-
-        double minInputPrice, maxInputPrice;
-        String packageName, menuItemName;
-        Package pckg;
-
-        displaySearchTable();
-        int choice;
-        do {
-            choice = scanner.nextInt();
-        } while (choice < 1 || choice > 4);
-
-        switch (choice) {
-            case 1:
-                scanner.nextLine();
-                System.out.print("Enter Package Name: ");
-                packageName = scanner.nextLine();
-                pckg = searchPackageByName(packageName);
-                System.out.println("\n");
-                if (pckg != null) {
-                    System.out.println("Package had founded!!\n");
-                    System.out.println(pckg.toString());
-                } else {
-                    System.out.println("Cannot found package!");
-                }
-                break;
-            case 2:
-                do {
-                    System.out.print("Enetr the price range (Minimum): RM ");
-                    minInputPrice = scanner.nextDouble();
-
-                    do {
-                        System.out.print("Enetr the price range (Maximum): RM ");
-                        maxInputPrice = scanner.nextDouble();
-                        if (minInputPrice > maxInputPrice) {
-                            System.out.println("Maximum price range must bigger than the minimum price range!");
-                        }
-                    } while (minInputPrice > maxInputPrice);
-                    if (maxInputPrice <= 0 && minInputPrice <= 0) {
-                        System.out.println("Price must more than RM 0 ! Please enter agian. ");
-                    }
-                } while (maxInputPrice <= 0 && minInputPrice <= 0);
-                System.out.println("\n");
-                searchPackageByPrice(maxInputPrice, minInputPrice);
-                break;
-            case 3:
-                scanner.nextLine();
-                System.out.print("Enter menu item name: ");
-                menuItemName = scanner.nextLine();
-                searchMenuItemByNameInPackage(menuItemName);
-                break;
-            case 4:
-                System.out.println("\n");
-                do {
-                    System.out.print("Enetr the price range (Minimum): RM ");
-                    minInputPrice = scanner.nextDouble();
-
-                    do {
-                        System.out.print("Enetr the price range (Maximum): RM ");
-                        maxInputPrice = scanner.nextDouble();
-                        if (minInputPrice > maxInputPrice) {
-                            System.out.println("Maximum price range must bigger than the minimum price range!");
-                        }
-                    } while (minInputPrice > maxInputPrice);
-                    if (maxInputPrice <= 0 && minInputPrice <= 0) {
-                        System.out.println("Price must more than RM 0 ! Please enter agian. ");
-                    }
-                } while (maxInputPrice <= 0 && minInputPrice <= 0);
-
-                System.out.print("Enter the menu item limit (Minimum): ");
-                int minMenuItemLimit = scanner.nextInt();
-
-                System.out.print("Enter the menu item limit (Maximum): ");
-                int maxMenuItemLimit = scanner.nextInt();
-
-                scanner.nextLine();
-                System.out.print("Enter the menu item category: ");
-                char inputMenuItemCategory = scanner.nextLine().charAt(0);
-
-                filterPackage(maxInputPrice, minInputPrice, maxMenuItemLimit, minMenuItemLimit, inputMenuItemCategory);
-                System.out.println("\n");
-
-                break;
-
-            default:
-                System.out.println("Invalid input!");
-
-        }
-
     }
 
     private void displaySearchTable() {
@@ -791,7 +790,7 @@ public class MenuManager implements Serializable {
         return null;
     }
 
-    public void filterPackage(double maxInputPrice, double minInputPrice, int maxMenuItemLimit, int minMenuItemLimit,
+    private void filterPackage(double maxInputPrice, double minInputPrice, int maxMenuItemLimit, int minMenuItemLimit,
             char menuItemCategory) {
 
         int totalNumber = 0;
