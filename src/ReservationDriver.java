@@ -92,8 +92,8 @@ public class ReservationDriver {
     }
 
     public static void makeReservation(Scanner scanner, FileHandler reservationFile,
-        ListInterface<Reservation> reservationList,
-        SetInterface<Package> packageSet, Reservation reservation) {
+            ListInterface<Reservation> reservationList,
+            SetInterface<Package> packageSet, Reservation reservation) {
         boolean dateValidity;
 
         // reservation input
@@ -402,7 +402,7 @@ public class ReservationDriver {
             scanner.nextLine();
         } while (searchCartChoice < 1 || searchCartChoice > reservationList.getNumberOfEntries());
 
-        System.out.println(viewCart(reservationList.getEntry(searchCartChoice-1)));
+        System.out.println(viewCart(reservationList.getEntry(searchCartChoice - 1)));
         pressEnterToContinue(scanner);
     }
 
@@ -530,7 +530,8 @@ public class ReservationDriver {
         String mainStr = "";
         String beverageStr = "";
         String dessertStr = "";
-        str += "\nItems In Cart\n";
+        str += "\n" + reservation.getChoosenPackage().getPackageName() + "\n";
+        str += "Items In Cart\n";
         str += "================\n";
         str += String.format("%-30s %-10s\n", "Dish Name",
                 "Quantity");
