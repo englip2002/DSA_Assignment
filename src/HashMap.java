@@ -261,7 +261,7 @@ public class HashMap<K, V> implements MapInterface<K, V>, Serializable {
     }
 
     /**
-     * A public method that inherited from String class to produce a string with
+     * A public method that inherited from Object class to produce a string with
      * every pair of dictionary entries.
      *
      * @return A String object with the format of { key1=value1, key2=value2,

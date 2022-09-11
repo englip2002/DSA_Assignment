@@ -20,11 +20,11 @@ public class TableManager {
         tableList.put("TB00001", new Table("TB00001", "Package B: Chinese Food", 8, LocalDate.of(2022, 8, 31)));
         tableList.put("TB00002", new Table("TB00002", "Package C: Indian Food", 5, LocalDate.of(2022, 9, 3)));
         tableList.put("TB00003", new Table("TB00003", "Package D: Malay Food", 5, LocalDate.of(2022, 9, 4)));
-        tableList.put("TB00004", new Table("TB00004", "Package E: Thai Food", 6, LocalDate.of(2022, 9, 1)));
+        tableList.put("TB00004", new Table("TB00004", "Package E: Thai Food", 6, null));
         customerList.put("CT00000", new Customer("CT00000", "Amelia", "Watson", "Female", LocalDate.of(2000, 1, 6)));
         customerList.put("CT00001", new Customer("CT00001", "Ching", "Chong", "Male", LocalDate.of(1998, 12, 31)));
         customerList.put("CT00002", new Customer("CT00002", "Abdulah", "Hasan", "Male", LocalDate.of(2005, 6, 5)));
-        customerList.put("CT00003", new Customer("CT00003", "Yukimura", "", "Sanada", LocalDate.of(1990, 4, 1)));
+        customerList.put("CT00003", new Customer("CT00003", "Yukimura", "Sanada", "Male", LocalDate.of(1990, 4, 1)));
         customerList.put("CT00004", new Customer("CT00004", "Takahashi", "Rinka", "Female", LocalDate.of(20010, 7, 24)));
         // Insert Table 0's Customer List
         tableList.get("TB00000").getTableCustomers().put("CT00000", customerList.get("CT00000"));
@@ -102,7 +102,7 @@ public class TableManager {
 
         tableList = (MapInterface<String, Table>) tablesFile.read();
 
-        if (tableList.size() != 0) {
+        if (!tableList.isEmpty()) {
             int sumOfCustomer = 0;
             Table[] t = new Table[tableList.size()];
             System.arraycopy(tableList.values(), 0, t, 0, tableList.size());
@@ -222,7 +222,9 @@ public class TableManager {
 
                     Table t = new Table(String.format("TB%05d", tableList.size()), packageServed, numberOfSeats, dor);
 
-                    t = inputTableCustomers(t);
+                    if (t.isReserved()) {
+                        t = inputTableCustomers(t);
+                    }
 
                     char confirmChoice;
 
@@ -305,8 +307,59 @@ public class TableManager {
                                 numberOfSeats = inputNumberOfSeats(tableCustomers.size());
                             }
 
+                            boolean mustEditTableCustomer = false;
+
                             if (selection == 3 || selection == 5) {
-                                dor = inputReservedDate();
+                                char reservedDateChoice;
+                                LocalDate tempDor;
+
+                                do {
+                                    reservedDateChoice = 'Y';
+                                    tempDor = inputReservedDate();
+
+                                    if (tempDor == null) {
+                                        if (dor != null) {
+                                            System.out.print("The table is not reserved and previous customers will be removed. Confirm to proceed? (Y = yes, N = no) > ");
+                                            reservedDateChoice = sc.next().charAt(0);
+                                            sc.nextLine();
+
+                                            switch (Character.toUpperCase(reservedDateChoice)) {
+                                                case 'Y':
+                                                    tableCustomers = new HashMap<>();
+                                                    break;
+                                                case 'N':
+                                                    System.out.println("Pervious customer list is retained. Please specify a reservation date.");
+                                                    break;
+                                                default:
+                                                    System.out.println("Invalid choice! Please try again.");
+                                                    break;
+                                            }
+                                        }
+                                    } else {
+                                        if (dor == null) {
+                                            System.out.print("Reservation date is specified and will proceed to add customer to table. Confirm to proceed? (Y = yes, N = no) > ");
+                                            reservedDateChoice = sc.next().charAt(0);
+                                            sc.nextLine();
+
+                                            switch (Character.toUpperCase(reservedDateChoice)) {
+                                                case 'Y':
+                                                    if (selection != 5) {
+                                                        selection = 4;
+                                                        mustEditTableCustomer = true;
+                                                    }
+                                                    break;
+                                                case 'N':
+                                                    System.out.println("Discard changes on reservation date.");
+                                                    break;
+                                                default:
+                                                    System.out.println("Invalid choice! Please try again.");
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                } while (Character.toUpperCase(reservedDateChoice) != 'Y');
+
+                                dor = tempDor;
                             }
 
                             if (selection == 4 || selection == 5) {
@@ -314,24 +367,40 @@ public class TableManager {
 
                                 char editChoice;
 
-                                do {
-                                    System.out.print("Use a new reserved customer list? (Y = yes, N = no) > ");
-                                    editChoice = sc.next().charAt(0);
-                                    sc.nextLine();
+                                if (t.isReserved()) {
+                                    do {
+                                        if (!mustEditTableCustomer) {
+                                            System.out.print("Use a new reserved customer list? (Y = yes, N = no) > ");
+                                            editChoice = sc.next().charAt(0);
+                                            sc.nextLine();
+                                        } else {
+                                            editChoice = 'Y';
+                                        }
 
-                                    switch (Character.toUpperCase(editChoice)) {
-                                        case 'Y':
-                                            t = inputTableCustomers(t);
-                                            tableCustomers = t.getTableCustomers();
-                                            break;
-                                        case 'N':
-                                            System.out.println("Pervious customer list is retained.");
-                                            break;
-                                        default:
-                                            System.out.println("Invalid choice! Please try again.");
-                                            break;
-                                    }
-                                } while (Character.toUpperCase(editChoice) != 'Y' && Character.toUpperCase(editChoice) != 'N');
+                                        switch (Character.toUpperCase(editChoice)) {
+                                            case 'Y':
+                                                do {
+                                                    t = inputTableCustomers(t);
+                                                    tableCustomers = t.getTableCustomers();
+
+                                                    if (mustEditTableCustomer && tableCustomers.isEmpty()) {
+                                                        System.out.println("You must add customer to table because reservation date was specified.");
+                                                    }
+                                                } while (mustEditTableCustomer && tableCustomers.isEmpty());
+                                                break;
+
+                                            case 'N':
+                                                System.out.println("Pervious customer list is retained.");
+                                                break;
+                                            default:
+                                                System.out.println("Invalid choice! Please try again.");
+                                                break;
+                                        }
+
+                                    } while (Character.toUpperCase(editChoice) != 'Y' && Character.toUpperCase(editChoice) != 'N');
+                                } else {
+                                    System.out.println("The table is not reserved. Please specify a reservation date.");
+                                }
                             }
 
                             isValid = true;
@@ -442,7 +511,7 @@ public class TableManager {
 
         tableList = (MapInterface<String, Table>) tablesFile.read();
 
-        if (tableList.size() != 0) {
+        if (!tableList.isEmpty()) {
             Table[] t = new Table[tableList.size()];
             System.arraycopy(tableList.values(), 0, t, 0, tableList.size());
             int[] barValues = new int[10];
@@ -517,7 +586,7 @@ public class TableManager {
 
         tableList = (MapInterface<String, Table>) tablesFile.read();
 
-        if (tableList.size() != 0) {
+        if (!tableList.isEmpty()) {
             Table[] t = new Table[tableList.size()];
             System.arraycopy(tableList.values(), 0, t, 0, tableList.size());
 
@@ -537,7 +606,7 @@ public class TableManager {
         System.out.println("\nCustomer List");
         System.out.println("=============");
 
-        if (customerList.size() != 0) {
+        if (!customerList.isEmpty()) {
             Customer[] c = new Customer[customerList.size()];
             System.arraycopy(customerList.values(), 0, c, 0, customerList.size());
 
@@ -615,7 +684,7 @@ public class TableManager {
     private LocalDate inputReservedDate() {
 
         char choice;
-        LocalDate dor = LocalDate.now();
+        LocalDate dor = null;
 
         do {
             System.out.print("Specify a reservation date? > (Y = yes, N = no) > ");

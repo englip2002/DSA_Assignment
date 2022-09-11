@@ -31,6 +31,7 @@ public class MainClient {
                     menuManager.menuModule();
                     break;
                 case 3:
+                    // Reservation Module
                     ReservationDriver.ReservationModule();
                     break;
                 case 4:
@@ -38,7 +39,7 @@ public class MainClient {
                     break;
                 case 5:
                     // Payment Module
-                    PaymentDriver.clientPayment();                    
+                    PaymentDriver.clientPayment();
                     break;
                 case -1:
                     // Exit
