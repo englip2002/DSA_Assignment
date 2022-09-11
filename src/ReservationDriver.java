@@ -238,7 +238,7 @@ public class ReservationDriver {
                                 || menuItemQuantity < 1);
 
                         // store into cart
-                        MenuItem temp = packageSet.getElementAtPos(packageChoice - 1)
+                        MenuItem temp = reservation.getChoosenPackage()
                                 .getAllPackageMenuItems()
                                 .getElementAtPos(menuItemChoice - 1);
                         reservation.getFoodInCart().add(new FoodInCart(temp, menuItemQuantity));
@@ -290,31 +290,41 @@ public class ReservationDriver {
                     break;
                 case 4:
                     // view cart
-                    System.out.print(viewCart(reservation));
-                    pressEnterToContinue(scanner);
-                    break;
+                    if (reservation.getFoodInCart().getNumberOfEntries() == 0) {
+                        System.out.println("\nNo item in cart!");
+                        pressEnterToContinue(scanner);
+                    } else {
+                        System.out.print(viewCart(reservation));
+                        pressEnterToContinue(scanner);
+                        break;
+                    }
 
                 case 5:
                     // checkout
                     // confirm (print bill)
-                    System.out.println("\nBills");
-                    System.out.println("===========");
-                    System.out.println(reservation.generateBill());
-                    pressEnterToContinue(scanner);
-
-                    reservation.checkOut();
-                    // add into array and write into file, else discard
-                    if (reservationList == null) {
-                        ListInterface<Reservation> temp = new LinkedList<Reservation>();
-                        temp.add(reservation);
-                        reservationFile.write(temp);
-
+                    if (reservation.getChoosenPackage() == null) {
+                        System.out.println("Please enter reservation details!");
+                        pressEnterToContinue(scanner);
                     } else {
-                        reservationList.add(reservation);
-                        reservationFile.write(reservationList);
+                        System.out.println("\nBills");
+                        System.out.println("===========");
+                        System.out.println(reservation.generateBill());
+                        pressEnterToContinue(scanner);
+
+                        reservation.checkOut();
+                        // add into array and write into file, else discard
+                        if (reservationList == null) {
+                            ListInterface<Reservation> temp = new LinkedList<Reservation>();
+                            temp.add(reservation);
+                            reservationFile.write(temp);
+
+                        } else {
+                            reservationList.add(reservation);
+                            reservationFile.write(reservationList);
+                        }
+                        // clear memory
+                        reservation.reset();
                     }
-                    // clear memory
-                    reservation.reset();
                     break;
                 case 6:
                     System.out.println("\nExited!");
@@ -609,7 +619,7 @@ public class ReservationDriver {
 
     private static String printReservationList(ListInterface<Reservation> reservationList) {
         String str = "";
-        str += String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s %-10s\n", "No", "ReservationID",
+        str += String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-15s %-15s %-10s\n", "No", "ReservationID",
                 "AccountID",
                 "ContactNo",
                 "ReserveTime", "ServeTime", "ServeLocation", "Package", "ReservationStatus");
