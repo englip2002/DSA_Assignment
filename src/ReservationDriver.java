@@ -92,8 +92,8 @@ public class ReservationDriver {
     }
 
     public static void makeReservation(Scanner scanner, FileHandler reservationFile,
-        ListInterface<Reservation> reservationList,
-        SetInterface<Package> packageSet, Reservation reservation) {
+            ListInterface<Reservation> reservationList,
+            SetInterface<Package> packageSet, Reservation reservation) {
         boolean dateValidity;
 
         // reservation input
@@ -257,31 +257,36 @@ public class ReservationDriver {
                 case 3:
                     // remove cart
                     // print item in cart
-                    System.out.println(viewCart(reservation));
 
-                    do {
-                        // user enter choices to remove
-                        System.out.print("Enter the number you wish to remove: ");
-                        cartRemovePosition = scanner.nextInt();
-                        scanner.nextLine();
+                    if (reservation.getFoodInCart().getNumberOfEntries() == 0) {
+                        System.out.println("\nNo item in cart!");
+                        pressEnterToContinue(scanner);
+                    } else {
+                        System.out.println(viewCart(reservation));
+                        do {
+                            // user enter choices to remove
+                            System.out.print("Enter the number you wish to remove: ");
+                            cartRemovePosition = scanner.nextInt();
+                            scanner.nextLine();
 
-                        if (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
-                                || cartRemovePosition < 1) {
-                            System.out.println("Invalid Input!");
+                            if (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
+                                    || cartRemovePosition < 1) {
+                                System.out.println("Invalid Input!");
+                                pressEnterToContinue(scanner);
+
+                            }
+                            // update the totalMenuItemChoosen
+                            totalMenuItemChoosen -= reservation.getFoodInCart()
+                                    .getEntry(cartRemovePosition - 1).getQuantity();
+                            // remove fron list
+                            reservation.getFoodInCart().remove(cartRemovePosition - 1);
+                            System.out.println("Removed Successfully");
                             pressEnterToContinue(scanner);
 
-                        }
-                        // update the totalMenuItemChoosen
-                        totalMenuItemChoosen -= reservation.getFoodInCart()
-                                .getEntry(cartRemovePosition - 1).getQuantity();
-                        // remove fron list
-                        reservation.getFoodInCart().remove(cartRemovePosition - 1);
-                        System.out.println("Removed Successfully");
-                        pressEnterToContinue(scanner);
-
-                        // validate remove choice
-                    } while (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
-                            || cartRemovePosition < 1);
+                            // validate remove choice
+                        } while (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
+                                || cartRemovePosition < 1);
+                    }
                     break;
                 case 4:
                     // view cart
@@ -402,7 +407,7 @@ public class ReservationDriver {
             scanner.nextLine();
         } while (searchCartChoice < 1 || searchCartChoice > reservationList.getNumberOfEntries());
 
-        System.out.println(viewCart(reservationList.getEntry(searchCartChoice-1)));
+        System.out.println(viewCart(reservationList.getEntry(searchCartChoice - 1)));
         pressEnterToContinue(scanner);
     }
 
@@ -530,7 +535,8 @@ public class ReservationDriver {
         String mainStr = "";
         String beverageStr = "";
         String dessertStr = "";
-        str += "\nItems In Cart\n";
+        str += "\n" + reservation.getChoosenPackage().getPackageName() + "\n";
+        str += "Items In Cart\n";
         str += "================\n";
         str += String.format("%-30s %-10s\n", "Dish Name",
                 "Quantity");
