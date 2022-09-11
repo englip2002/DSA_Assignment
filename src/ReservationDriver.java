@@ -563,24 +563,24 @@ public class ReservationDriver {
         str += "\n" + reservation.getChoosenPackage().getPackageName() + "\n";
         str += "Items In Cart\n";
         str += "================\n";
-        str += String.format("%-3s %-26s %-10s\n", "No", "Dish Name",
+        str += String.format("%-3s %-30s %-10s\n", "No", "Dish Name",
                 "Quantity");
         // sort by food type
         for (int i = 0; i < reservation.getFoodInCart().getNumberOfEntries(); i++) {
             if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Appertizer") == 0) {
-                appertizeStr += String.format("%-3d %-36s", (i + 1),
+                appertizeStr += String.format("%-3d %-40s", (i + 1),
                         reservation.getFoodInCart().getEntry(i).toString());
             } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Main Course") == 0) {
-                mainStr += String.format("%-3d %-36s", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
+                mainStr += String.format("%-3d %-40s", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
             } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Beverage") == 0) {
-                beverageStr += String.format("%-3d %-36s", (i + 1),
+                beverageStr += String.format("%-3d %-40s", (i + 1),
                         reservation.getFoodInCart().getEntry(i).toString());
             } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Dessert") == 0) {
-                dessertStr += String.format("%-3d %-36s", (i + 1),
+                dessertStr += String.format("%-3d %-40s", (i + 1),
                         reservation.getFoodInCart().getEntry(i).toString());
             }
         }
