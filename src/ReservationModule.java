@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class ReservationModule {
-    
+
     public static void runModule() {
         // dummy customer
         Customer customer = new Customer("A0001", "Tan", "EngLip", "Male", LocalDate.of(2002, 11, 22));
@@ -85,7 +85,7 @@ public class ReservationModule {
         reservationFile.write(reservationList);
     }
 
-    public static void makeReservation(Scanner scanner, FileHandler reservationFile,
+    private static void makeReservation(Scanner scanner, FileHandler reservationFile,
             ListInterface<Reservation> reservationList,
             SetInterface<Package> packageSet, Reservation reservation) {
 
@@ -133,7 +133,6 @@ public class ReservationModule {
                     } else {
                         System.out.print(viewCart(reservation));
                         pressEnterToContinue(scanner);
-
                     }
                     break;
 
