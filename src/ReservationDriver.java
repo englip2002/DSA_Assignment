@@ -53,7 +53,7 @@ public class ReservationDriver {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
                 scanner.nextLine();
-            } while (choice < 1 || choice > 6);
+            } while (choice < 1 && choice > 6);
 
             switch (choice) {
                 case 1:
@@ -85,7 +85,6 @@ public class ReservationDriver {
         } while (choice != 6);
 
         // input to file when module end
-        scanner.close();
         reservationFile.write(reservationList);
     }
 
@@ -137,7 +136,7 @@ public class ReservationDriver {
                     } else {
                         System.out.print(viewCart(reservation));
                         pressEnterToContinue(scanner);
-                        
+
                     }
                     break;
 
