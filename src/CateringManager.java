@@ -185,12 +185,16 @@ public class CateringManager {
             System.out.println("There are no kitchens recorded in the system!");
             return;
         }
+        else if (areAllCookingQueuesEmpty()) {
+            System.out.println("There are no cooking dishes to be served at the moment!");
+            return;
+        }
 
         // Prompt to choose a kitchen to serve its next dish
         boolean invalidInput = true;
         Kitchen chosenKitchen;
         do {
-            
+
             int chosenIndex = searchKitchenById("Enter the ID of the kitchen to serve its next dish: ");
             chosenKitchen = kitchensList.getEntry(chosenIndex);
 
@@ -199,8 +203,7 @@ public class CateringManager {
                 System.out.println("The cooking queue of this kitchen is empty!");
                 System.out.println("\t< Please re-enter. >");
                 enterToContinue();
-            }
-            else {
+            } else {
                 invalidInput = false;
             }
         } while (invalidInput);
@@ -697,6 +700,20 @@ public class CateringManager {
      */
     private int searchKitchenById(String question) {
         return searchKitchenById(question, false);
+    }
+
+    /**
+     * Check if all of the kitchens' cooking queues are empty.
+     * 
+     * @return true if all of the cooking queues are empty, false if at least one is
+     *         not empty
+     */
+    private boolean areAllCookingQueuesEmpty() {
+        for (Kitchen k : kitchensList) {
+            if (!k.isCookingQueueEmpty())
+                return false;
+        }
+        return true;
     }
 
     /**
