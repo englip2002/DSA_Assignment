@@ -55,7 +55,7 @@ public class Dish implements Serializable {
      * A formatter used to standardize the date and time format of
      * {@code orderDateTime} and {@code cookingDateTime}.
      */
-    private static DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private static DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     /**
      * Creates a new {@code Dish} with the given food / menuItem. The dish's ID is
@@ -195,9 +195,9 @@ public class Dish implements Serializable {
         String orderTimeStr = "-";
         String cookingTimeStr = "-";
         if (orderDateTime != null)
-            orderTimeStr = orderDateTime.format(timeFormat);
+            orderTimeStr = orderDateTime.format(dateTimeFormat);
         if (cookingDateTime != null)
-            cookingTimeStr = cookingDateTime.format(timeFormat);
+            cookingTimeStr = cookingDateTime.format(dateTimeFormat);
 
         return " " + String.format("%4s", id) + "|" +
                 String.format(" %-20s ", food.getMenuItemName()) + "|" +
