@@ -9,7 +9,6 @@ public class Table implements Serializable {
     private String packageServed;
     private int numberOfSeats;
     private LocalDate reservedDate;
-    private boolean isReserved;
     private MapInterface<String, Customer> tableCustomers;
 
     public Table(String tableId, String packageServed, int numberOfSeats, LocalDate reservedDate) {
@@ -17,7 +16,6 @@ public class Table implements Serializable {
         this.packageServed = packageServed;
         this.numberOfSeats = numberOfSeats;
         this.reservedDate = reservedDate;
-        this.isReserved = reservedDate != null;
         this.tableCustomers = new HashMap<>();
     }
 
@@ -26,7 +24,6 @@ public class Table implements Serializable {
         this.packageServed = packageServed;
         this.numberOfSeats = numberOfSeats;
         this.reservedDate = reservedDate;
-        this.isReserved = reservedDate != null;
         this.tableCustomers = tableCustomers;
     }
 
@@ -47,7 +44,7 @@ public class Table implements Serializable {
     }
 
     public boolean isReserved() {
-        return isReserved;
+        return reservedDate != null;
     }
 
     public MapInterface<String, Customer> getTableCustomers() {
@@ -82,7 +79,7 @@ public class Table implements Serializable {
 
     public String tableInfo() {
         String tableDetails = "Table ID: " + tableId + "\nPackage Served: " + packageServed + "\nNumber of Seat: " + numberOfSeats + "\nReserved Date: " + reservedDate + "\nReserved: ";
-        if (isReserved) {
+        if (isReserved()) {
             tableDetails += "Yes";
         } else {
             tableDetails += "No";
