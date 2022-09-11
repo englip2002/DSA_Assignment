@@ -32,7 +32,7 @@ public class MainClient {
                     break;
                 case 3:
                     // Reservation Module
-                    ReservationDriver.ReservationModule();
+                    ReservationModule.runModule();
                     break;
                 case 4:
                     // Catering Module
