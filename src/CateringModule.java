@@ -9,17 +9,17 @@ import java.util.Scanner;
  */
 public class CateringModule {
     /**
-     * The catering manager that will control and manage all operations between the
-     * user inputs and the system operations. 
-     */
-    private CateringManager manager = new CateringManager();
-    
-    /**
      * Scanner object to retrieve user input. 
      */
-    private Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
-    public void runModule() {
+    public static void runModule() {
+        /**
+         * The catering manager that will control and manage all operations between the
+         * user inputs and the system operations. 
+         */
+        CateringManager manager = new CateringManager();
+
         int menuChoice = 0;
         while (menuChoice != 8) {
             // Show options menu
@@ -103,17 +103,9 @@ public class CateringModule {
     /**
      * Prompts the user to press enter to continue.
      */
-    private void enterToContinue() {
+    private static void enterToContinue() {
         System.out.print("---< Press Enter to Continue >---");
         scanner.nextLine();
         System.out.println("");
-    }
-
-    /**
-     * Main method
-     * @param args
-     */
-    public static void main(String[] args) {
-        new CateringModule().runModule();
     }
 }
