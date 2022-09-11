@@ -103,18 +103,18 @@ public class TableManager {
         tableList = (MapInterface<String, Table>) tablesFile.read();
 
         if (!tableList.isEmpty()) {
-            int sumOfCustomer = 0;
+            int sumOfSeatsReserved = 0;
             Table[] t = new Table[tableList.size()];
             System.arraycopy(tableList.values(), 0, t, 0, tableList.size());
 
             for (Table each : t) {
                 System.out.println(each.tableInfo());
                 System.out.println("********************\n");
-                sumOfCustomer += each.getTableCustomers().size();
+                sumOfSeatsReserved += each.getTableCustomers().size();
             }
 
-            System.out.println("Number of Tables: " + t.length);
-            System.out.println("Number of Customers' Reservations: " + sumOfCustomer + "\n");
+            System.out.println("Total Number of Tables: " + t.length);
+            System.out.println("Total Number of Seats Reserved: " + sumOfSeatsReserved + "\n");
         } else {
             System.out.println("No Table Detail.");
         }
@@ -222,9 +222,11 @@ public class TableManager {
 
                     Table t = new Table(String.format("TB%05d", tableList.size()), packageServed, numberOfSeats, dor);
 
-                    if (t.isReserved()) {
-                        t = inputTableCustomers(t);
-                    }
+                    do {
+                        if (t.isReserved()) {
+                            t = inputTableCustomers(t);
+                        }
+                    } while (t.getTableCustomers().isEmpty());
 
                     char confirmChoice;
 
@@ -367,40 +369,28 @@ public class TableManager {
 
                                 char editChoice;
 
-                                if (t.isReserved()) {
-                                    do {
-                                        if (!mustEditTableCustomer) {
-                                            System.out.print("Use a new reserved customer list? (Y = yes, N = no) > ");
-                                            editChoice = sc.next().charAt(0);
-                                            sc.nextLine();
-                                        } else {
-                                            editChoice = 'Y';
-                                        }
+                                do {
+                                    if (!mustEditTableCustomer) {
+                                        System.out.print("Use a new reserved customer list? (Y = yes, N = no) > ");
+                                        editChoice = sc.next().charAt(0);
+                                        sc.nextLine();
+                                    } else {
+                                        editChoice = 'Y';
+                                    }
 
-                                        switch (Character.toUpperCase(editChoice)) {
-                                            case 'Y':
-                                                do {
-                                                    t = inputTableCustomers(t);
-                                                    tableCustomers = t.getTableCustomers();
-
-                                                    if (mustEditTableCustomer && tableCustomers.isEmpty()) {
-                                                        System.out.println("You must add customer to table because reservation date was specified.");
-                                                    }
-                                                } while (mustEditTableCustomer && tableCustomers.isEmpty());
-                                                break;
-
-                                            case 'N':
-                                                System.out.println("Pervious customer list is retained.");
-                                                break;
-                                            default:
-                                                System.out.println("Invalid choice! Please try again.");
-                                                break;
-                                        }
-
-                                    } while (Character.toUpperCase(editChoice) != 'Y' && Character.toUpperCase(editChoice) != 'N');
-                                } else {
-                                    System.out.println("The table is not reserved. Please specify a reservation date.");
-                                }
+                                    switch (Character.toUpperCase(editChoice)) {
+                                        case 'Y':
+                                            t = inputTableCustomers(t);
+                                            tableCustomers = t.getTableCustomers();
+                                            break;
+                                        case 'N':
+                                            System.out.println("Pervious customer list is retained.");
+                                            break;
+                                        default:
+                                            System.out.println("Invalid choice! Please try again.");
+                                            break;
+                                    }
+                                } while (Character.toUpperCase(editChoice) != 'Y' && Character.toUpperCase(editChoice) != 'N');
                             }
 
                             isValid = true;
@@ -715,38 +705,45 @@ public class TableManager {
 
     private Table inputTableCustomers(Table t) {
 
-        String customerId;
-        char choice;
+        if (t.isReserved()) {
+            String customerId;
+            char choice;
 
-        do {
-            System.out.print("Add a customer to the table? > (Y = yes, N = no) > ");
-            choice = sc.next().charAt(0);
-            sc.nextLine();
+            do {
+                System.out.print("Add a customer to the table? > (Y = yes, N = no) > ");
+                choice = sc.next().charAt(0);
+                sc.nextLine();
 
-            switch (Character.toUpperCase(choice)) {
-                case 'Y':
-                    displayCustomerList();
-                    System.out.print("Enter customer id: ");
-                    customerId = sc.nextLine();
+                switch (Character.toUpperCase(choice)) {
+                    case 'Y':
+                        displayCustomerList();
+                        System.out.print("Enter customer id: ");
+                        customerId = sc.nextLine();
 
-                    if (customerList.containsKey(customerId)) {
-                        if (!t.getTableCustomers().containsKey(customerId)) {
-                            t.addCustomer(customerList.get(customerId));
-                            System.out.println("Customer: " + customerList.get(customerId).getFullName() + " (" + customerId + ") is added.");
+                        if (customerList.containsKey(customerId)) {
+                            if (!t.getTableCustomers().containsKey(customerId)) {
+                                t.addCustomer(customerList.get(customerId));
+                                System.out.println("Customer: " + customerList.get(customerId).getFullName() + " (" + customerId + ") is added.");
+                            } else {
+                                System.out.println("Customer id already exist! Please try again.");
+                            }
                         } else {
-                            System.out.println("Customer id already exist! Please try again.");
+                            System.out.println("Invalid customer id! Please try again.");
                         }
-                    } else {
-                        System.out.println("Invalid customer id! Please try again.");
-                    }
-                    break;
-                case 'N':
-                    break;
-                default:
-                    System.out.println("Invalid choice! Please try again.");
-                    break;
-            }
-        } while (Character.toUpperCase(choice) != 'N' && t.getNumberOfSeats() > t.getTableCustomers().size());
+                        break;
+                    case 'N':
+                        if (t.getTableCustomers().isEmpty()) {
+                            System.out.println("You must add at least 1 customer to table because reservation date was specified.");
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid choice! Please try again.");
+                        break;
+                }
+            } while ((Character.toUpperCase(choice) != 'N' && t.getNumberOfSeats() > t.getTableCustomers().size()) || t.getTableCustomers().isEmpty());
+        } else {
+            System.out.println("The table is not reserved. Please specify a reservation date.");
+        }
 
         return t;
     }
