@@ -1,7 +1,7 @@
 ========================
 (1) Table Module
 ========================
-a.	Reason to choose ADT Map and the implementation of Hash Map
+a. Reason to choose ADT Map and the implementation of Hash Map
     - Its nature which stored key and associated value as an entry.
     - Can be used for entity classes that consist of a unique/distinct key/id, where 
       the Table class consists of table Id and the Customer class consists of customer 
@@ -10,7 +10,7 @@ a.	Reason to choose ADT Map and the implementation of Hash Map
     - Since the duplication of these keys is not allowed, ADT Map is quite suitable to 
       become the collection ADT of these entity classes besides ADT List or ADT Set.
 
-b.	Display Tables Details
+b. Display Tables Details
     - Retrieve table list from Tables.dat and display each table details including 
       table id, package served, number of seats, reserved date and table customers.
     - The table will not be reserved and no table customers if does not have reserved 
@@ -18,19 +18,19 @@ b.	Display Tables Details
     - Display the total number of tables in table list and the total number of seats 
       reserved.
 
-c.	Add New Customer
+c. Add New Customer
     - Input customer details such as first name, last name, gender and date of birth 
       to create a new customer which will be provide an auto generated customer id as 
       a unique identifier.
     - Display the new created customer.
 
-d.	Create New Table
+d. Create New Table
     - Input table details such as package served, number of seats, reserved date.
     - If reserved date has been specified, the system will force to input at least 1 
       table customer, otherwise skip the input for table customer.
     - Display the new created table.
 
-e.	Edit Table Details
+e. Edit Table Details
     - Edit options:
         i.	    Package Served.
         ii.	    Number of Seats – Cannot less than 1 or more than 10 seats. If 
@@ -45,11 +45,11 @@ e.	Edit Table Details
         v.	    All of the above – Edit for all fields.
     - Display the comparisons of before editing and after editing.
 
-f.	Delete Table
+f. Delete Table
     - Remove a table by selected table id from the table list.
     - Display the removed table details.
 
-g.	Visualize Seat Occupying Rate
+g. Visualize Seat Occupying Rate
     - Illustrate the seats occupying rates in a bar graph that shows the distributions 
       of tables based on their seats occupying rates.
     - Seat Occupying Rate = Number of Table Customers / Number of Seats * 100%
@@ -164,7 +164,7 @@ Available Options in the Reservation Module menu:
 	   - Let user to enter reservation details for further process.
 	   - Need to be entered first, if not cannot access other function.
 	2. Enter food into cart
-	   - Allow user to enter food based on the package chosen in option 1.
+	   - Allow user to enter food based on the package chosen in option 1.1.
 	   - The total food will not exceed the limit set in every package.
 	3. Remove food from cart
 	   - Allow user to remove the food from cart if exist.
