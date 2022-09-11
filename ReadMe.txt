@@ -75,9 +75,9 @@ Available Options in the Reservation Module menu:
    - Allows user to make reservation.
 	1. Enter reservation details
 	   - Let user to enter reservation details for further process.
-	   - Need to be extered first, if not cannot access other function.
+	   - Need to be entered first, if not cannot access other function.
 	2. Enter food into cart
-	   - Allow user to enter food based on the package choosen in option 1.
+	   - Allow user to enter food based on the package chosen in option 1.
 	   - The total food will not exceed the limit set in every package.
 	3. Remove food from cart
 	   - Allow user to remove the food from cart if exist.
