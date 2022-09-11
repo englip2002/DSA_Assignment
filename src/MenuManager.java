@@ -52,6 +52,8 @@ public class MenuManager implements Serializable {
         packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(3));
         packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(1));
         packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(2));
+        packageSet.getElementAtPos(2).addMenuItemToPackage(menuItemSet.getElementAtPos(5));
+        packageSet.getElementAtPos(2).addMenuItemToPackage(menuItemSet.getElementAtPos(1));
         packageSet.getElementAtPos(4).addMenuItemToPackage(menuItemSet.getElementAtPos(4));
         packageSet.getElementAtPos(3).addMenuItemToPackage(menuItemSet.getElementAtPos(0));
         packageSet.getElementAtPos(3).addMenuItemToPackage(menuItemSet.getElementAtPos(3));
