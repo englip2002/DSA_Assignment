@@ -36,6 +36,7 @@ public class MainClient {
                     break;
                 case 4:
                     // Catering Module
+                    CateringModule.runModule();
                     break;
                 case 5:
                     // Payment Module

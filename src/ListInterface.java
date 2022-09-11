@@ -1,4 +1,6 @@
-//Tan Eng Lip
+/**
+ * @author Tan Eng Lip
+ */
 public interface ListInterface<T> extends Iterable<T> {
 
     /**

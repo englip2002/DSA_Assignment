@@ -1,10 +1,9 @@
-import java.io.Serializable;
-import java.util.Iterator;
-
 /**
- *
  * @author Tan Eng Lip
  */
+
+import java.io.Serializable;
+import java.util.Iterator;
 
 public class LinkedList<T> implements ListInterface<T>, Serializable {
 
