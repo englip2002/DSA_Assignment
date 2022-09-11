@@ -28,8 +28,8 @@ public class MenuManager implements Serializable {
         menuItemFile = new FileHandler<>("MenuItem.dat");
 
         // for read from constructor
-        packageSet = new ArraySet<Package>();
-        menuItemSet = new ArraySet<MenuItem>();
+        packageSet = new ArraySet<>();
+        menuItemSet = new ArraySet<>();
         scanner = new Scanner(System.in);
 
         packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
