@@ -320,7 +320,7 @@ public class ReservationDriver {
         } while (reservationProcessChoice != 5 && reservationProcessChoice != 6);
     }
 
-    public static void removeReservation(Scanner scanner, FileHandler reservationFile,
+    private static void removeReservation(Scanner scanner, FileHandler reservationFile,
             ListInterface<Reservation> reservationList) {
         int removeChoice;
         if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
@@ -349,7 +349,7 @@ public class ReservationDriver {
         }
     }
 
-    public static void viewReservationHistory(Scanner scanner, ListInterface<Reservation> reservationList) {
+    private static void viewReservationHistory(Scanner scanner, ListInterface<Reservation> reservationList) {
         int displayChoice = 0;
 
         if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
@@ -393,7 +393,7 @@ public class ReservationDriver {
         }
     }
 
-    public static void viewReservationCart(Scanner scanner, ListInterface<Reservation> reservationList) {
+    private static void viewReservationCart(Scanner scanner, ListInterface<Reservation> reservationList) {
         int searchCartChoice;
         System.out.println(printReservationList(reservationList));
         do {
@@ -406,7 +406,7 @@ public class ReservationDriver {
         pressEnterToContinue(scanner);
     }
 
-    public static void searchReservation(Scanner scanner, ListInterface<Reservation> reservationList) {
+    private static void searchReservation(Scanner scanner, ListInterface<Reservation> reservationList) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         boolean searchFlag = false;
         String searchReserveDate;
@@ -524,7 +524,7 @@ public class ReservationDriver {
         pressEnterToContinue(scanner);
     }
 
-    public static String viewCart(Reservation reservation) {
+    private static String viewCart(Reservation reservation) {
         String str = "";
         String appertizeStr = "";
         String mainStr = "";
