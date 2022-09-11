@@ -316,3 +316,9 @@ Available Options in the Catering Module menu:
 ========================
 (5) Payment Module
 ========================
+ 1) add new Record 			- Add new Payment rrecord into the file
+ 2) view all record(most recent) 	- Shows all payment record in a table form starting from the earliest
+ 3) view all record(least recent) 	- Shows all payment record in a table form starting from the latest
+ 4) delete records 			- Deletes the most recent payment record from the file
+ 5) view receipt 			- Prints all receipt of the payment record in the file
+ 6) filter receipt 			- Insert a double ammount and then a name of food, then the receipt of payments with a profit exceeding the double and the with 					  the food stated will be shown
