@@ -28,8 +28,8 @@ public class MenuManager implements Serializable {
         menuItemFile = new FileHandler<>("MenuItem.dat");
 
         // for read from constructor
-        packageSet = new ArraySet<Package>();
-        menuItemSet = new ArraySet<MenuItem>();
+        packageSet = new ArraySet<>();
+        menuItemSet = new ArraySet<>();
         scanner = new Scanner(System.in);
 
         packageSet.add(new Package("Package A", 38.00, 3, "1 Appertizer, 1 Main Course, 1 Beverage"));
@@ -52,6 +52,8 @@ public class MenuManager implements Serializable {
         packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(3));
         packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(1));
         packageSet.getElementAtPos(1).addMenuItemToPackage(menuItemSet.getElementAtPos(2));
+        packageSet.getElementAtPos(2).addMenuItemToPackage(menuItemSet.getElementAtPos(5));
+        packageSet.getElementAtPos(2).addMenuItemToPackage(menuItemSet.getElementAtPos(1));
         packageSet.getElementAtPos(4).addMenuItemToPackage(menuItemSet.getElementAtPos(4));
         packageSet.getElementAtPos(3).addMenuItemToPackage(menuItemSet.getElementAtPos(0));
         packageSet.getElementAtPos(3).addMenuItemToPackage(menuItemSet.getElementAtPos(3));

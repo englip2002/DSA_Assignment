@@ -1,3 +1,8 @@
+
+/**
+ * @author Tan Eng Lip
+ */
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -30,13 +35,6 @@ public class ReservationDriver {
         FileHandler packageFile = new FileHandler("Menu.dat");
         SetInterface<Package> packageSet = (SetInterface) packageFile.read();
 
-        // temporary package
-        // SetInterface<Package> packageSet = new ArraySet<Package>();
-        // Package package1 = new Package("package1", 125, 5, "cheap");
-        // MenuItem cornSoup = new MenuItem("Appertizer", "Corn Soup", "Deli");
-        // package1.addMenuItemToPackage(cornSoup);
-        // packageSet.add(package1);
-
         int choice = 0;
         Scanner scanner = new Scanner(System.in);
         do {
@@ -47,14 +45,15 @@ public class ReservationDriver {
             System.out.println("========================");
             System.out.println("1. Make Reservation for current account");
             System.out.println("2. View all reservation history");
-            System.out.println("3. Remove Reservation");
-            System.out.println("4. Search reservation");
-            System.out.println("5. Exit");
+            System.out.println("3. View cart in reservation.");
+            System.out.println("4. Remove Reservation");
+            System.out.println("5. Search reservation");
+            System.out.println("6. Exit");
             do {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
                 scanner.nextLine();
-            } while (choice < 1 || choice > 5);
+            } while (choice < 1 || choice > 6);
 
             switch (choice) {
                 case 1:
@@ -66,21 +65,24 @@ public class ReservationDriver {
                     viewReservationHistory(scanner, reservationList);
                     break;
                 case 3:
+                    viewReservationCart(scanner, reservationList);
+                    break;
+                case 4:
                     // remove reservation history
                     removeReservation(scanner, reservationFile, reservationList);
                     break;
-                case 4:
+                case 5:
                     // Search by date, Name
                     searchReservation(scanner, reservationList);
                     break;
 
-                case 5:
+                case 6:
                     System.out.println("Exited!!");
                     pressEnterToContinue(scanner);
                     break;
             }
 
-        } while (choice != 5);
+        } while (choice != 6);
 
         // input to file when module end
         scanner.close();
@@ -90,22 +92,12 @@ public class ReservationDriver {
     public static void makeReservation(Scanner scanner, FileHandler reservationFile,
             ListInterface<Reservation> reservationList,
             SetInterface<Package> packageSet, Reservation reservation) {
-        boolean dateValidity;
-
-        // reservation input
-        String contactNo, serveLocation;
-        String serveDateString, serveTimeString;
-        LocalDateTime serveTime = null;
 
         // reservation process
         int reservationProcessChoice;
 
         // menu input
-        int packageChoice = -1;
-        int menuItemChoice = -1;
-        int menuItemQuantity = 0;
         int totalMenuItemChoosen = 0;
-        int cartRemovePosition;
 
         do {
             System.out.println("\nReservation Process");
@@ -128,184 +120,53 @@ public class ReservationDriver {
 
             switch (reservationProcessChoice) {
                 case 1:
-                    do {
-                        System.out.print("Please enter your contact No (XXX-XXXXXXX): ");
-                        contactNo = scanner.nextLine();
-                    } while (contactNo.length() != 11);
-
-                    System.out.print("Please enter your serve location: ");
-                    serveLocation = scanner.nextLine();
-
-                    do {
-                        dateValidity = true;
-                        try {
-                            System.out.print("Enter serve date (YYYY-MM-DD): ");
-                            serveDateString = scanner.next();
-
-                            System.out.print("Enter serve time (HH:MM): ");
-                            serveTimeString = scanner.next();
-
-                            // formatting the entered and store in serveDateandTime
-                            serveTime = LocalDateTime.of(LocalDate.parse(serveDateString),
-                                    LocalTime.parse(serveTimeString));
-
-                        } catch (DateTimeParseException e) {
-                            dateValidity = false;
-                        }
-
-                        // print error message
-                        if (dateValidity == false)
-                            System.out.println("Invalid Date Format! Please Re-enter.\n");
-
-                    } while (dateValidity == false);
-
-                    // enter food package choice
-                    do {
-                        System.out.println("\nEnter Package: ");
-                        // print category choice
-                        System.out.print(String.format("%-3s %-15s %-10s\n", "No", "PackageName",
-                                "Price(RM)"));
-                        for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
-                            System.out.print(String.format("%-3d %-15s %-10.2f\n", (i + 1),
-                                    packageSet.getElementAtPos(i).getPackageName(),
-                                    packageSet.getElementAtPos(i).getPackagePrice()));
-                        }
-                        System.out.print("Enter package choice: ");
-                        packageChoice = scanner.nextInt();
-                        scanner.nextLine();
-
-                        if (packageChoice < 1
-                                || packageChoice > packageSet.getNumberOfEntries()) {
-                            System.out.println("Invalid Choice!");
-
-                        }
-                        // validation for package choice
-                    } while (packageChoice < 1
-                            || packageChoice > packageSet.getNumberOfEntries());
-
-                    // input data into reservation
-                    reservation.reserveDetails(contactNo, serveLocation, serveTime,
-                            packageSet.getElementAtPos(packageChoice - 1));
+                    enterReservationDetails(scanner, packageSet, reservation);
                     break;
 
                 case 2:
-                    // check if the quantity exceed the limit
-                    if (reservation.getChoosenPackage() == null) {
-                        System.out.println("\nPlease choose package in reservation detail section!");
-                        pressEnterToContinue(scanner);
-
-                    } else if (totalMenuItemChoosen < reservation.getChoosenPackage().getMenuItemLimit()) {
-                        // enter menu item choice
-                        do {
-                            // print foods from package and enter food choice
-                            System.out
-                                    .print("\n" + reservation.getChoosenPackage().printMenuItemInPackage());
-
-                            System.out.print("Enter your food choice:");
-                            menuItemChoice = scanner.nextInt();
-                            scanner.nextLine();
-
-                            if (menuItemChoice > reservation.getChoosenPackage().getAllPackageMenuItems()
-                                    .getNumberOfEntries()
-                                    || menuItemChoice < 1) {
-                                System.out.println("invalid Choice!");
-                            }
-                        } while (menuItemChoice > reservation.getChoosenPackage()
-                                .getAllPackageMenuItems().getNumberOfEntries() || menuItemChoice < 1);
-
-                        // enter quantity
-                        do {
-                            totalMenuItemChoosen -= menuItemQuantity;
-                            System.out.print("Please Enter Quantity:");
-                            menuItemQuantity = scanner.nextInt();
-                            scanner.nextLine();
-                            totalMenuItemChoosen += menuItemQuantity;
-
-                            if (totalMenuItemChoosen > reservation.getChoosenPackage().getMenuItemLimit()) {
-                                System.out.println(
-                                        "Total quantity (" + totalMenuItemChoosen + ") exceeded limit! ("
-                                                + reservation.getChoosenPackage().getMenuItemLimit() + ")");
-
-                            } else if (menuItemQuantity < 1) {
-                                System.out.println("Invalid Quantity!!");
-                                totalMenuItemChoosen -= menuItemQuantity;
-                            }
-                        } while (totalMenuItemChoosen > reservation.getChoosenPackage().getMenuItemLimit()
-                                || menuItemQuantity < 1);
-
-                        // store into cart
-                        MenuItem temp = packageSet.getElementAtPos(packageChoice - 1)
-                                .getAllPackageMenuItems()
-                                .getElementAtPos(menuItemChoice - 1);
-                        reservation.getFoodInCart().add(new FoodInCart(temp, menuItemQuantity));
-
-                        // display cart
-                        System.out.println(viewCart(reservation));
-                        pressEnterToContinue(scanner);
-
-                    } else {
-                        System.out.println("The total quantity of menu item has reached the limit ("
-                                + reservation.getChoosenPackage().getMenuItemLimit() + ")");
-                        pressEnterToContinue(scanner);
-                    }
-
+                    totalMenuItemChoosen = enterMenuItem(scanner, reservation, totalMenuItemChoosen);
                     break;
                 case 3:
-                    // remove cart
-                    // print item in cart
-                    System.out.println(viewCart(reservation));
-
-                    do {
-                        // user enter choices to remove
-                        System.out.print("Enter the number you wish to remove: ");
-                        cartRemovePosition = scanner.nextInt();
-                        scanner.nextLine();
-
-                        if (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
-                                || cartRemovePosition < 1) {
-                            System.out.println("Invalid Input!");
-                            pressEnterToContinue(scanner);
-
-                        }
-                        // update the totalMenuItemChoosen
-                        totalMenuItemChoosen -= reservation.getFoodInCart()
-                                .getEntry(cartRemovePosition - 1).getQuantity();
-                        // remove fron list
-                        reservation.getFoodInCart().remove(cartRemovePosition - 1);
-                        System.out.println("Removed Successfully");
-                        pressEnterToContinue(scanner);
-
-                        // validate remove choice
-                    } while (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
-                            || cartRemovePosition < 1);
+                    totalMenuItemChoosen = removeMenuItem(scanner, reservation, totalMenuItemChoosen);
                     break;
                 case 4:
                     // view cart
-                    System.out.print(viewCart(reservation));
-                    pressEnterToContinue(scanner);
+                    if (reservation.getFoodInCart().getNumberOfEntries() == 0) {
+                        System.out.println("\nNo item in cart!");
+                        pressEnterToContinue(scanner);
+                    } else {
+                        System.out.print(viewCart(reservation));
+                        pressEnterToContinue(scanner);
+                        
+                    }
                     break;
 
                 case 5:
                     // checkout
                     // confirm (print bill)
-                    System.out.println("\nBills");
-                    System.out.println("===========");
-                    System.out.println(reservation.generateBill());
-                    pressEnterToContinue(scanner);
-
-                    reservation.checkOut();
-                    // add into array and write into file, else discard
-                    if (reservationList == null) {
-                        ListInterface<Reservation> temp = new LinkedList<Reservation>();
-                        temp.add(reservation);
-                        reservationFile.write(temp);
-
+                    if (reservation.getChoosenPackage() == null) {
+                        System.out.println("Please enter reservation details!");
+                        pressEnterToContinue(scanner);
                     } else {
-                        reservationList.add(reservation);
-                        reservationFile.write(reservationList);
+                        System.out.println("\nBills");
+                        System.out.println("===========");
+                        System.out.println(reservation.generateBill());
+                        pressEnterToContinue(scanner);
+
+                        reservation.checkOut();
+                        // add into array and write into file, else discard
+                        if (reservationList == null) {
+                            ListInterface<Reservation> temp = new LinkedList<Reservation>();
+                            temp.add(reservation);
+                            reservationFile.write(temp);
+
+                        } else {
+                            reservationList.add(reservation);
+                            reservationFile.write(reservationList);
+                        }
+                        // clear memory
+                        reservation.reset();
                     }
-                    // clear memory
-                    reservation.reset();
                     break;
                 case 6:
                     System.out.println("\nExited!");
@@ -316,7 +177,180 @@ public class ReservationDriver {
         } while (reservationProcessChoice != 5 && reservationProcessChoice != 6);
     }
 
-    public static void removeReservation(Scanner scanner, FileHandler reservationFile,
+    private static void enterReservationDetails(Scanner scanner, SetInterface<Package> packageSet,
+            Reservation reservation) {
+        boolean dateValidity;
+
+        // reservation input
+        String contactNo, serveLocation;
+        String serveDateString, serveTimeString;
+        LocalDateTime serveTime = null;
+        int packageChoice = -1;
+
+        do {
+            System.out.print("Please enter your contact No (XXX-XXXXXXX): ");
+            contactNo = scanner.nextLine();
+        } while (contactNo.length() != 11);
+
+        System.out.print("Please enter your serve location: ");
+        serveLocation = scanner.nextLine();
+
+        do {
+            dateValidity = true;
+            try {
+                System.out.print("Enter serve date (YYYY-MM-DD): ");
+                serveDateString = scanner.next();
+
+                System.out.print("Enter serve time (HH:MM): ");
+                serveTimeString = scanner.next();
+
+                // formatting the entered and store in serveDateandTime
+                serveTime = LocalDateTime.of(LocalDate.parse(serveDateString),
+                        LocalTime.parse(serveTimeString));
+
+            } catch (DateTimeParseException e) {
+                dateValidity = false;
+            }
+
+            // print error message
+            if (dateValidity == false)
+                System.out.println("Invalid Date Format! Please Re-enter.\n");
+
+        } while (dateValidity == false);
+
+        // enter food package choice
+        do {
+            System.out.println("\nEnter Package: ");
+            // print category choice
+            System.out.print(String.format("%-3s %-15s %-10s\n", "No", "PackageName",
+                    "Price(RM)"));
+            for (int i = 0; i < packageSet.getNumberOfEntries(); i++) {
+                System.out.print(String.format("%-3d %-15s %-10.2f\n", (i + 1),
+                        packageSet.getElementAtPos(i).getPackageName(),
+                        packageSet.getElementAtPos(i).getPackagePrice()));
+            }
+            System.out.print("Enter package choice: ");
+            packageChoice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (packageChoice < 1
+                    || packageChoice > packageSet.getNumberOfEntries()) {
+                System.out.println("Invalid Choice!");
+
+            }
+            // validation for package choice
+        } while (packageChoice < 1
+                || packageChoice > packageSet.getNumberOfEntries());
+
+        // input data into reservation
+        reservation.reserveDetails(contactNo, serveLocation, serveTime,
+                packageSet.getElementAtPos(packageChoice - 1));
+    }
+
+    private static int enterMenuItem(Scanner scanner, Reservation reservation, int totalMenuItemChoosen) {
+        int menuItemChoice = -1;
+        int menuItemQuantity = 0;
+
+        // check if the quantity exceed the limit
+        if (reservation.getChoosenPackage() == null) {
+            System.out.println("\nPlease choose package in reservation detail section!");
+            pressEnterToContinue(scanner);
+
+        } else if (totalMenuItemChoosen < reservation.getChoosenPackage().getMenuItemLimit()) {
+            // enter menu item choice
+            do {
+                // print foods from package and enter food choice
+                System.out
+                        .print("\n" + reservation.getChoosenPackage().printMenuItemInPackage());
+
+                System.out.print("Enter your food choice:");
+                menuItemChoice = scanner.nextInt();
+                scanner.nextLine();
+
+                if (menuItemChoice > reservation.getChoosenPackage().getAllPackageMenuItems()
+                        .getNumberOfEntries()
+                        || menuItemChoice < 1) {
+                    System.out.println("invalid Choice!");
+                }
+            } while (menuItemChoice > reservation.getChoosenPackage()
+                    .getAllPackageMenuItems().getNumberOfEntries() || menuItemChoice < 1);
+
+            // enter quantity
+            do {
+                totalMenuItemChoosen -= menuItemQuantity;
+                System.out.print("Please Enter Quantity:");
+                menuItemQuantity = scanner.nextInt();
+                scanner.nextLine();
+                totalMenuItemChoosen += menuItemQuantity;
+
+                if (totalMenuItemChoosen > reservation.getChoosenPackage().getMenuItemLimit()) {
+                    System.out.println(
+                            "Total quantity (" + totalMenuItemChoosen + ") exceeded limit! ("
+                                    + reservation.getChoosenPackage().getMenuItemLimit() + ")");
+
+                } else if (menuItemQuantity < 1) {
+                    System.out.println("Invalid Quantity!!");
+                    totalMenuItemChoosen -= menuItemQuantity;
+                }
+            } while (totalMenuItemChoosen > reservation.getChoosenPackage().getMenuItemLimit()
+                    || menuItemQuantity < 1);
+
+            // store into cart
+            MenuItem temp = reservation.getChoosenPackage()
+                    .getAllPackageMenuItems()
+                    .getElementAtPos(menuItemChoice - 1);
+            reservation.getFoodInCart().add(new FoodInCart(temp, menuItemQuantity));
+
+            // display cart
+            System.out.println(viewCart(reservation));
+            pressEnterToContinue(scanner);
+
+        } else {
+            System.out.println("The total quantity of menu item has reached the limit ("
+                    + reservation.getChoosenPackage().getMenuItemLimit() + ")");
+            pressEnterToContinue(scanner);
+        }
+
+        return totalMenuItemChoosen;
+    }
+
+    private static int removeMenuItem(Scanner scanner, Reservation reservation, int totalMenuItemChoosen) {
+        int cartRemovePosition;
+
+        if (reservation.getFoodInCart().getNumberOfEntries() == 0) {
+            System.out.println("\nNo item in cart!");
+            pressEnterToContinue(scanner);
+        } else {
+            System.out.println(viewCart(reservation));
+            do {
+                // user enter choices to remove
+                System.out.print("Enter the name you wish to remove: ");
+                cartRemovePosition = scanner.nextInt();
+                scanner.nextLine();
+
+                if (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
+                        || cartRemovePosition < 1) {
+                    System.out.println("Invalid Input!");
+                    pressEnterToContinue(scanner);
+
+                }
+                // validate remove choice
+            } while (cartRemovePosition > reservation.getFoodInCart().getNumberOfEntries()
+                    || cartRemovePosition < 1);
+
+            // update the totalMenuItemChoosen
+            totalMenuItemChoosen -= reservation.getFoodInCart()
+                    .getEntry(cartRemovePosition - 1).getQuantity();
+            // remove fron list
+            reservation.getFoodInCart().remove(cartRemovePosition - 1);
+            System.out.println("Removed Successfully");
+            pressEnterToContinue(scanner);
+
+        }
+        return totalMenuItemChoosen;
+    }
+
+    private static void removeReservation(Scanner scanner, FileHandler reservationFile,
             ListInterface<Reservation> reservationList) {
         int removeChoice;
         if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
@@ -345,7 +379,7 @@ public class ReservationDriver {
         }
     }
 
-    public static void viewReservationHistory(Scanner scanner, ListInterface<Reservation> reservationList) {
+    private static void viewReservationHistory(Scanner scanner, ListInterface<Reservation> reservationList) {
         int displayChoice = 0;
 
         if (reservationList == null || reservationList.getNumberOfEntries() == 0) {
@@ -389,7 +423,20 @@ public class ReservationDriver {
         }
     }
 
-    public static void searchReservation(Scanner scanner, ListInterface<Reservation> reservationList) {
+    private static void viewReservationCart(Scanner scanner, ListInterface<Reservation> reservationList) {
+        int searchCartChoice;
+        System.out.println(printReservationList(reservationList));
+        do {
+            System.out.print("Enter your choice: ");
+            searchCartChoice = scanner.nextInt();
+            scanner.nextLine();
+        } while (searchCartChoice < 1 || searchCartChoice > reservationList.getNumberOfEntries());
+
+        System.out.println(viewCart(reservationList.getEntry(searchCartChoice - 1)));
+        pressEnterToContinue(scanner);
+    }
+
+    private static void searchReservation(Scanner scanner, ListInterface<Reservation> reservationList) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         boolean searchFlag = false;
         String searchReserveDate;
@@ -507,31 +554,33 @@ public class ReservationDriver {
         pressEnterToContinue(scanner);
     }
 
-    public static String viewCart(Reservation reservation) {
+    private static String viewCart(Reservation reservation) {
         String str = "";
         String appertizeStr = "";
         String mainStr = "";
         String beverageStr = "";
         String dessertStr = "";
-        str += "\nItems In Cart\n";
+        str += "\n" + reservation.getChoosenPackage().getPackageName() + "\n";
+        str += "Items In Cart\n";
         str += "================\n";
-        str += String.format("%-30s %-10s\n", "Dish Name",
+        str += String.format("%-3s %-26s %-10s\n", "No", "Dish Name",
                 "Quantity");
         // sort by food type
         for (int i = 0; i < reservation.getFoodInCart().getNumberOfEntries(); i++) {
             if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Appertizer") == 0) {
-                appertizeStr += String.format("%-40s\n", reservation.getFoodInCart().getEntry(i).toString());
+                appertizeStr += String.format("%-3d %-36s", (i + 1),
+                        reservation.getFoodInCart().getEntry(i).toString());
             } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Main Course") == 0) {
-                mainStr += String.format("%-40s\n", reservation.getFoodInCart().getEntry(i).toString());
+                mainStr += String.format("%-3d %-36s", (i + 1), reservation.getFoodInCart().getEntry(i).toString());
             } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Beverage") == 0) {
-                beverageStr += String.format("%-40s\n",
+                beverageStr += String.format("%-3d %-36s", (i + 1),
                         reservation.getFoodInCart().getEntry(i).toString());
             } else if (reservation.getFoodInCart().getEntry(i).getFood().getMenuItemCategory()
                     .compareToIgnoreCase("Dessert") == 0) {
-                dessertStr += String.format("%-40s\n",
+                dessertStr += String.format("%-3d %-36s", (i + 1),
                         reservation.getFoodInCart().getEntry(i).toString());
             }
         }
@@ -586,7 +635,7 @@ public class ReservationDriver {
 
     private static String printReservationList(ListInterface<Reservation> reservationList) {
         String str = "";
-        str += String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-20s %-10s %-10s\n", "No", "ReservationID",
+        str += String.format("%-3s %-15s %-15s %-15s %-20s %-20s %-15s %-15s %-10s\n", "No", "ReservationID",
                 "AccountID",
                 "ContactNo",
                 "ReserveTime", "ServeTime", "ServeLocation", "Package", "ReservationStatus");

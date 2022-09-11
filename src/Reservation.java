@@ -1,3 +1,7 @@
+/**
+ * @author Tan Eng Lip
+ */
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -87,6 +91,12 @@ public class Reservation implements Serializable {
 
     }
 
+    //utility method
+    private String generareReservationID() {
+        String reserveID = String.format("R%05d", IDcounter);
+        return reserveID;
+    }
+
     // getter
     public ListInterface<FoodInCart> getFoodInCart() {
         return foodInCart;
@@ -112,10 +122,6 @@ public class Reservation implements Serializable {
         return choosenPackage;
     }
 
-    private String generareReservationID() {
-        String reserveID = String.format("R%05d", IDcounter);
-        return reserveID;
-    }
 
     // setter
     public void setReservationStatus(String status) {
