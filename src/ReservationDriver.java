@@ -47,14 +47,15 @@ public class ReservationDriver {
             System.out.println("========================");
             System.out.println("1. Make Reservation for current account");
             System.out.println("2. View all reservation history");
-            System.out.println("3. Remove Reservation");
-            System.out.println("4. Search reservation");
-            System.out.println("5. Exit");
+            System.out.println("3. View cart in reservation.");
+            System.out.println("4. Remove Reservation");
+            System.out.println("5. Search reservation");
+            System.out.println("6. Exit");
             do {
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
                 scanner.nextLine();
-            } while (choice < 1 || choice > 5);
+            } while (choice < 1 || choice > 6);
 
             switch (choice) {
                 case 1:
@@ -66,21 +67,24 @@ public class ReservationDriver {
                     viewReservationHistory(scanner, reservationList);
                     break;
                 case 3:
+                    viewReservationCart(scanner, reservationList);
+                    break;
+                case 4:
                     // remove reservation history
                     removeReservation(scanner, reservationFile, reservationList);
                     break;
-                case 4:
+                case 5:
                     // Search by date, Name
                     searchReservation(scanner, reservationList);
                     break;
 
-                case 5:
+                case 6:
                     System.out.println("Exited!!");
                     pressEnterToContinue(scanner);
                     break;
             }
 
-        } while (choice != 5);
+        } while (choice != 6);
 
         // input to file when module end
         scanner.close();
@@ -88,8 +92,8 @@ public class ReservationDriver {
     }
 
     public static void makeReservation(Scanner scanner, FileHandler reservationFile,
-            ListInterface<Reservation> reservationList,
-            SetInterface<Package> packageSet, Reservation reservation) {
+        ListInterface<Reservation> reservationList,
+        SetInterface<Package> packageSet, Reservation reservation) {
         boolean dateValidity;
 
         // reservation input
@@ -387,6 +391,19 @@ public class ReservationDriver {
                 }
             } while (displayChoice != 4 && (displayChoice < 1 || displayChoice > 4));
         }
+    }
+
+    public static void viewReservationCart(Scanner scanner, ListInterface<Reservation> reservationList) {
+        int searchCartChoice;
+        System.out.println(printReservationList(reservationList));
+        do {
+            System.out.print("Enter your choice: ");
+            searchCartChoice = scanner.nextInt();
+            scanner.nextLine();
+        } while (searchCartChoice < 1 || searchCartChoice > reservationList.getNumberOfEntries());
+
+        System.out.println(viewCart(reservationList.getEntry(searchCartChoice-1)));
+        pressEnterToContinue(scanner);
     }
 
     public static void searchReservation(Scanner scanner, ListInterface<Reservation> reservationList) {
