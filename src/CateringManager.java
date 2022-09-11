@@ -105,6 +105,8 @@ public class CateringManager {
             System.out.print("Select a dish to add to waiting queue: ");
             try {
                 choice = Integer.parseInt(scanner.nextLine());
+                if (choice <= 0 || choice > menuItemSet.getNumberOfEntries())
+                    choice = 0;
             } catch (Exception e) {
                 choice = 0;
             }
@@ -436,6 +438,7 @@ public class CateringManager {
         // Return to menu if the kitchen list is empty
         if (kitchensList.isEmpty()) {
             System.out.println("There are no kitchens recorded in the system!");
+            enterToContinue();
             return;
         }
         while (true) {

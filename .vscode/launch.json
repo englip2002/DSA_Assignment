@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch MainClient",
+            "request": "launch",
+            "mainClass": "MainClient",
+            "projectName": "DSA_Assignment_a6a7bc4f"
+        },
+        {
+            "type": "java",
             "name": "Launch CateringModule",
             "request": "launch",
             "mainClass": "CateringModule",

@@ -97,7 +97,6 @@ public class CateringModule {
 
         // Quit catering module
         System.out.println("Quitting to main menu...");
-        scanner.close();
     }
 
     /**
