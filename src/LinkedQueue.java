@@ -1,37 +1,85 @@
-
-/**
- *
- * @author Thong So Xue
- */
-
 import java.util.Iterator;
 import java.io.Serializable;
 
+/**
+ * A Queue implemented with doubly linked methods using linked Nodes. This means
+ * that the LinkedQueue will hold two references to all of the entries in the
+ * queue, namely {@code firstNode} and {@code lastNode}. The {@code firstNode}
+ * will hold a reference to the Node or entry at the front of the queue, while
+ * the {@code lastNode} will hold a reference to the Node or entry at the back
+ * of the queue. All objects added to the LinkedQueue will be encapsulated
+ * inside a Node, before being added to the back or rear of the LinkedQueue.
+ * 
+ * Each Node holds a reference {@code data} to the data it is storing, and a
+ * {@code next} reference that points to the next Node in the queue. As such,
+ * the last Node in the LinkedQueue will have a {@code next} reference of
+ * null, as there are no more entries after the last Node.
+ * 
+ * @author Thong So Xue
+ * @param <T> the type of elements held in this queue
+ */
 public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
-    // Class attributes
+    /**
+     * The number of entries in the queue.
+     */
     private int size;
-    private Node firstNode, lastNode;
 
-    // Private Node class
+    /**
+     * The first Node of the queue, representing the front of the queue. If the
+     * queue is empty, firstNode will be equal to null.
+     */
+    private Node firstNode;
+
+    /**
+     * The last Node of the queue, representing the back of the queue. If the queue
+     * is empty, lastNode will be equal to null.
+     */
+    private Node lastNode;
+
+    /**
+     * The Node class that will be added into the LinkedQueue, while holding the
+     * data it represents in the queue, and a pointer to the next Node in the queue.
+     */
     private class Node implements Serializable {
+        /**
+         * The data it holds / represents.
+         */
         private T data;
+
+        /**
+         * A reference pointing to the next Node in the queue.
+         */
         private Node next;
 
-        // Node constructor
+        /**
+         * Creates a {@code Node} which holds the data it was given, and a next pointer
+         * of null as it will be the last Node of the queue.
+         * 
+         * @param newEntry the object to be added as a new entry into the queue
+         */
         public Node(T newEntry) {
             this.data = newEntry;
             this.next = null;
         }
     }
 
-    // Constructors
+    /**
+     * Creates a {@code LinkedQueue} with zero number of entries.
+     */
     public LinkedQueue() {
         firstNode = null;
         lastNode = null;
         size = 0;
     }
 
-    // Methods
+    /**
+     * Adds a new entry to the back of the queue. The newly added entry will be
+     * encapsulated in a {@code Node}, and then added to the back of the queue,
+     * becoming the new {@code lastNode} of the queue. The size of the queue is
+     * increased by 1.
+     * 
+     * @param newEntry the object to be added as a new entry.
+     */
     @Override
     public void enqueue(T newEntry) {
         Node newNode = new Node(newEntry);
@@ -47,12 +95,19 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
         size++;
     }
 
+    /**
+     * Removes and retrieves the data held by {@code firstNode} at the front of the
+     * queue. The second entry in the queue now becomes the new {@code firstNode} of
+     * the queue. The size of the queue is increased by 1
+     * 
+     * @return the entry that was removed from the front of the queue, or
+     *         {@code null} if the queue is empty.
+     */
     @Override
-    @SuppressWarnings("unchecked")
     public T dequeue() {
         // Return error if there are no elements to dequeue
         if (isEmpty()) {
-            return (T) "The LinkedQueue is empty, no data to dequeue. ";
+            return null;
         }
 
         // Keep reference of the data to be returned
@@ -67,16 +122,36 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
         return output;
     }
 
+    /**
+     * Retrieves the data held by {@code firstNode}. The queue remains unchanged.
+     * 
+     * @return the data held by the Node at the front of the queue, or {@code null}
+     *         if the queue is empty.
+     */
     @Override
     public T getFront() {
+        if (isEmpty()) {
+            return null;
+        }
         return firstNode.data;
     }
-    
-    @Override 
+
+    /**
+     * Retrieves the number of entries in the queue.
+     * 
+     * @return an integer value representing the number of entries in the queue.
+     */
+    @Override
     public int size() {
         return size;
     }
 
+    /**
+     * Checks if the queue is empty, which means the number of entries in the queue
+     * is zero.
+     * 
+     * @return true if the queue is empty, false if not.
+     */
     @Override
     public boolean isEmpty() {
         // Only check if firstNode is null because
@@ -84,6 +159,9 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
         return firstNode == null;
     }
 
+    /**
+     * Removes all entries in the queue.
+     */
     @Override
     public void clear() {
         firstNode = null;
@@ -91,19 +169,40 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
         size = 0;
     }
 
-    // Iterator class
+    /**
+     * Private iterator class used to iterate through all the entries in the
+     * LinkedQueue.
+     */
     private class LinkedQueueIterator implements Iterator<T> {
+        /**
+         * Node that represents the current position or Node of the iteration.
+         */
         private Node iterNode;
 
+        /**
+         * Creates an iterator for this LinkedQueue, and initializes the current
+         * iteration position to the {@code firstNode} in the {@code LinkedQueue}
+         */
         public LinkedQueueIterator() {
             iterNode = firstNode;
         }
 
+        /**
+         * Checks if there exists a Node next to the current Node in the iteration.
+         * 
+         * @return true if there is a next Node in queue, false if not.
+         */
         @Override
         public boolean hasNext() {
             return iterNode != null;
         }
 
+        /**
+         * Returns the data held by the current Node in the iteration, and moves the
+         * current Node to the next Node in queue.
+         * 
+         * @return the data held by the current Node in the iteration.
+         */
         @Override
         public T next() {
             if (hasNext()) {
@@ -116,7 +215,12 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
         }
     }
 
-    // Iterator
+    /**
+     * Returns an iterator object used to iterate the {@code LinkedQueue}. Used
+     * automatically by foreach operations.
+     * 
+     * @return an iterator object used to iterate the {@code LinkedQueue}
+     */
     @Override
     public Iterator<T> iterator() {
         return new LinkedQueueIterator();

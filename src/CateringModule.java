@@ -1,15 +1,24 @@
-
+import java.util.Scanner;
 
 /**
- *
+ * Main client file that runs the {@link CateringModule catering module}. This
+ * module will be the controller between the user and the {@link CateringManager
+ * catering manager}.
+ * 
  * @author Thong So Xue
  */
-
-import java.util.Scanner;
 public class CateringModule {
+    /**
+     * The catering manager that will control and manage all operations between the
+     * user inputs and the system operations. 
+     */
     private CateringManager manager = new CateringManager();
-    private Scanner scanner = new Scanner(System.in);
     
+    /**
+     * Scanner object to retrieve user input. 
+     */
+    private Scanner scanner = new Scanner(System.in);
+
     public void runModule() {
         int menuChoice = 0;
         while (menuChoice != 8) {
@@ -26,19 +35,18 @@ public class CateringModule {
             System.out.println("  8) Quit to main menu");
             System.out.println("==============================");
             System.out.print("Choose an option: ");
-            
+
             // Get choice of input
             try {
                 menuChoice = Integer.parseInt(scanner.nextLine());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 menuChoice = 0;
             }
-            
+
             System.out.println();
-            
+
             // Run function based on selected option
-            switch(menuChoice) {
+            switch (menuChoice) {
                 // Add dish to waiting queue
                 case 1:
                     manager.addDishToWaitingQueue();
@@ -80,26 +88,31 @@ public class CateringModule {
                     enterToContinue();
                     break;
             }
-            
+
             if (menuChoice != 0) {
                 // Save data to file
                 manager.saveToFile();
             }
         }
-        
+
         // Quit catering module
         System.out.println("Quitting to main menu...");
         scanner.close();
     }
-    
-    // Prompt the user to press enter to continue
+
+    /**
+     * Prompts the user to press enter to continue.
+     */
     private void enterToContinue() {
         System.out.print("---< Press Enter to Continue >---");
         scanner.nextLine();
         System.out.println("");
     }
-    
-    // Main method
+
+    /**
+     * Main method
+     * @param args
+     */
     public static void main(String[] args) {
         new CateringModule().runModule();
     }
