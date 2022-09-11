@@ -78,6 +78,12 @@ public class CateringManager {
     private FileHandler<Integer> nextDishIdFile = new FileHandler<Integer>("catering_nextDishId.dat");
 
     /**
+     * File handler used to store and retrieve the ID to be assigned to the next
+     * created {@link Kitchen kitchen}.
+     */
+    private FileHandler<Integer> nextKitchenIdFile = new FileHandler<Integer>("catering_nextKitchenId.dat");
+
+    /**
      * Creates an instance of the client class to perform various kitchen affair
      * operations.
      */
@@ -181,8 +187,23 @@ public class CateringManager {
         }
 
         // Prompt to choose a kitchen to serve its next dish
-        int chosenIndex = searchKitchenById("Enter the ID of the kitchen to serve its next dish: ");
-        Kitchen chosenKitchen = kitchensList.getEntry(chosenIndex);
+        boolean invalidInput = true;
+        Kitchen chosenKitchen;
+        do {
+            
+            int chosenIndex = searchKitchenById("Enter the ID of the kitchen to serve its next dish: ");
+            chosenKitchen = kitchensList.getEntry(chosenIndex);
+
+            // Check if the cooking queue is empty
+            if (chosenKitchen.getAmountOfDishes() == 0) {
+                System.out.println("The cooking queue of this kitchen is empty!");
+                System.out.println("\t< Please re-enter. >");
+                enterToContinue();
+            }
+            else {
+                invalidInput = false;
+            }
+        } while (invalidInput);
 
         // Display the next dish to be served
         dishesQueueTableHeading();
@@ -615,6 +636,10 @@ public class CateringManager {
             tempNextId = 1;
         Dish.setNextId(tempNextId);
 
+        Integer tempNextKid = (Integer) nextKitchenIdFile.read(false);
+        if (tempNextKid == null)
+            tempNextKid = 1;
+        Kitchen.setNextId(tempNextKid);
     }
 
     /**
@@ -625,6 +650,7 @@ public class CateringManager {
         waitingQueueFile.write(waitingQueue);
         kitchensFile.write(kitchensList);
         nextDishIdFile.write(Dish.getNextId());
+        nextKitchenIdFile.write(Kitchen.getNextId());
     }
 
     // =======================================

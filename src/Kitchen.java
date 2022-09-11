@@ -206,4 +206,22 @@ public class Kitchen implements Serializable {
     public Dish getNextDish() {
         return cookingQueue.getFront();
     }
+
+    /**
+     * Modifies the ID to be assigned to the next created {@code Kitchen}.
+     * 
+     * @param id the new ID to be assigned to the next created {@code Kitchen}.
+     */
+    public static void setNextId(int id) {
+        Kitchen.nextId = id;
+    }
+
+    /**
+     * Retrieves the ID to be assigned to the next create {@code Kitchen}.
+     * 
+     * @return the ID to be assigned to the next create {@code Kitchen}.
+     */
+    public static int getNextId() {
+        return Kitchen.nextId;
+    }
 }
