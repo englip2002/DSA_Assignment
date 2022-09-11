@@ -68,7 +68,44 @@ g.	Visualize Seat Occupying Rate
 ========================
 (3) Reservation Module
 ========================
+Provides control to all activites relevent to reservation
 
+Available Options in the Reservation Module menu:
+1. Make Reservation for current account
+   - Allows user to make reservation.
+	1. Enter reservation details
+	   - Let user to enter reservation details for further process.
+	   - Need to be extered first, if not cannot access other function.
+	2. Enter food into cart
+	   - Allow user to enter food based on the package choosen in option 1.
+	   - The total food will not exceed the limit set in every package.
+	3. Remove food from cart
+	   - Allow user to remove the food from cart if exist.
+ 	4. View Cart
+	   - Allow user to view the food item in cart.
+	5. CheckOut
+	   - Generate bill and complete the reservation process.
+	6. Exit
+	   - Save the progress and back to previous stage.
+2. View all reservation history
+   - Allow user to view all the reservation history.
+	1. Reservation Date
+	   - The reservation history sort by reservation date.
+      2. Serve Date
+	   - The reservation history sort by serve date.
+	3. Default
+	   - The reservation history sort by default (sequence of input).
+	4. Exit
+	   - Back to previous stage.
+3. View cart in reservation.
+   - Allow user to choose reservation and view the food item in cart.
+4. Remove Reservation
+   - Allow user to remove reservation from reservation history.
+5. Search reservation
+   - Allow user to search reservation dynamically based on the input entered by user.
+6. Exit
+   - Back to previous stage.
+   
 ========================
 (4) Catering Module
 ========================
