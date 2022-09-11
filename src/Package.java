@@ -151,7 +151,7 @@ public class Package implements Serializable {
                 printMenuItemInPackage();
     }
 
-    public String printMenuItemInPackage() {
+    private String printMenuItemInPackage() {
         String str = "";
         str += String.format("%-3s %-10s %-20s %-30s\n", "No",
                 "Dish ID", "Dish Name", "Dish Description");

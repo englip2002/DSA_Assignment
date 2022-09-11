@@ -4,19 +4,14 @@
  * @author Thong So Xue
  */
 
-public class Kitchen implements Comparable<Kitchen> {
+import java.io.Serializable;
+
+public class Kitchen implements Comparable<Kitchen>, Serializable {
     private static int nextId = 1;
     private String id;
     private String name;
     private int maxCapacity;
     private QueueInterface<Dish> cookingQueue;
-    
-    public Kitchen(String id, String name, int maxCapacity) {
-        cookingQueue = new LinkedQueue<Dish>();
-        this.id = id;
-        this.name = name;
-        this.maxCapacity = maxCapacity;
-    }
     
     public Kitchen(String name, int maxCapacity) {
         cookingQueue = new LinkedQueue<Dish>();

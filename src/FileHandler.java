@@ -32,6 +32,7 @@ public class FileHandler<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public T read() {
         T output;
         try {
@@ -73,6 +74,7 @@ public class FileHandler<T> {
         }
     }
     
+    @SuppressWarnings("unchecked")
     public T read(boolean printError) {
         T output;
         try {
