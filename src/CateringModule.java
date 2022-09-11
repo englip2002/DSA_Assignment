@@ -35,6 +35,8 @@ public class CateringModule {
                 menuChoice = 0;
             }
             
+            System.out.println();
+            
             // Run function based on selected option
             switch(menuChoice) {
                 // Add dish to waiting queue
@@ -63,12 +65,12 @@ public class CateringModule {
                     break;
                 // Display list of kitchens
                 case 6:
-                    manager.displayKitchens();
-                    enterToContinue();
+                    manager.displayKitchensAndCookingQueues();
+                    System.out.println("");
                     break;
                 // Search for a dish in queue (Both waiting queue and kitchen's cooking queue)
                 case 7:
-                    manager.searchDishInQueue();
+                    manager.promptSearchDish();
                     break;
                 // Quit to main menu
                 case 8:
@@ -79,7 +81,10 @@ public class CateringModule {
                     break;
             }
             
-            manager.saveToFile();
+            if (menuChoice != 0) {
+                // Save data to file
+                manager.saveToFile();
+            }
         }
         
         // Quit catering module
@@ -91,7 +96,7 @@ public class CateringModule {
     private void enterToContinue() {
         System.out.print("---< Press Enter to Continue >---");
         scanner.nextLine();
-        System.out.println();
+        System.out.println("");
     }
     
     // Main method

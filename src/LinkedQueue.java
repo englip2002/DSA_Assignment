@@ -48,6 +48,7 @@ public class LinkedQueue<T> implements QueueInterface<T>, Serializable {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T dequeue() {
         // Return error if there are no elements to dequeue
         if (isEmpty()) {
