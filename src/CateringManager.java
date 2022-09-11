@@ -34,9 +34,9 @@ public class CateringManager {
     private Scanner scanner = new Scanner(System.in);
     
     // File handler
-    private FileHandler<QueueInterface<Dish>> waitingQueueFile = new FileHandler<QueueInterface<Dish>>("src/catering_waitingQueue.dat");
-    private FileHandler<ListInterface<Kitchen>> kitchensFile = new FileHandler<ListInterface<Kitchen>>("src/catering_kitchens.dat");
-    private FileHandler<Integer> nextDishIdFile = new FileHandler<Integer>("src/catering_nextDishId.dat");
+    private FileHandler<QueueInterface<Dish>> waitingQueueFile = new FileHandler<QueueInterface<Dish>>("catering_waitingQueue.dat");
+    private FileHandler<ListInterface<Kitchen>> kitchensFile = new FileHandler<ListInterface<Kitchen>>("catering_kitchens.dat");
+    private FileHandler<Integer> nextDishIdFile = new FileHandler<Integer>("catering_nextDishId.dat");
     
     // Constructor
     public CateringManager() {
